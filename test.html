@@ -1,0 +1,209 @@
+<div id="content">
+    <h2 id="instructor">Instructor</h2>
+    <p>Instructor: Dr. Daniel Shanahan<br />Contact: <a href="mailto:daniel.shanahan@northwestern.edu">daniel.shanahan@northwestern.edu</a></p>
+    <h2 id="overview">Overview</h2>
+    <p>Corpus studies, or distant readings of multiple musical works, are often employed as a way of better understanding issues such as the relationships between pieces, authorship, trends over time, or differences and similarities between genres. In this class, we will explore the techniques, history, and philosophy of such approaches, and will construct and analyze our own corpora. For the most part, this class will deal with notated scores, and students will be encouraged to ask their own research questions of the music that they are most interested in.</p>
+    <h2 id="learning-objectives">Learning objectives</h2>
+    <p>By the end of the quarter, you will...</p>
+    <ul>
+        <li>have an understanding of how music has been examined through distant readings of scores and recordings</li>
+        <li>be able to explore how the concepts of concordances, schemata, key-finding, clustering, and introductory machine learning approaches can be applied to music analysis</li>
+        <li>have a working introductory knowledge of the <a href="https://www.r-project.org/about.html">R programming language</a> and the <a href="https://github.com/Computational-Cognitive-Musicology-Lab/humdrumR">HumDrumR package</a>.</li>
+    </ul>
+    <h2 id="course-policies">Course Policies</h2>
+    <h3 id="academic-integrity">Academic Integrity</h3>
+    <p>Students in this course are required to comply with the policies found in the booklet, "Academic Integrity at Northwestern University: A Basic Guide". All papers submitted for credit in this course must be submitted electronically unless otherwise instructed by the professor. Your written work may be tested for plagiarized content. For details regarding academic integrity at Northwestern or to download the guide, visit <a href="https://www.northwestern.edu/provost/policies-procedures/academic-integrity/index.html">this page</a>.</p>
+    <h3 id="accesibility">Accesibility</h3>
+    <p>Northwestern University is committed to providing the most accessible learning environment as possible for students with disabilities. Should you anticipate or experience disability-related barriers in the academic setting, please contact AccessibleNU to move forward with the university's established accommodation process (email: accessiblenu\@northwestern.edu; p: 847-467-5530). If you already have established accommodations with AccessibleNU, please let me know as soon as possible, preferably within the first two weeks of the term, so we can work together to implement your disability accommodations. Disability information, including academic accommodations, is confidential under the Family Educational Rights and Privacy Act.</p>
+    <h3 id="covid-19-classroom-expectations">COVID-19 Classroom Expectations</h3>
+    <p>Students, faculty and staff must comply with University expectations regarding appropriate classroom behavior, including those outlined below and in the <a href="https://www.northwestern.edu/communitystandards/about-us/northwestern-university-student-expectations-covid-19.html">COVID-19 Expectations for Students</a>. With respect to classroom procedures, this includes:</p>
+    <p>Policies regarding masking, social distancing and other public health measures evolve as the situation changes. Students are responsible for understanding and complying with current University, state and city requirements. In some classes, masking and/or social distancing may be required as a result of an Americans with Disabilities Act (ADA) accommodation for the instructor or a student in the class even when not generally required on campus. In such cases, the instructor will notify the class.</p>
+    <p>If a student fails to comply with the <a href="https://www.northwestern.edu/communitystandards/about-us/northwestern-university-student-expectations-covid-19.html">COVID-19 Expectations for Students</a> or other University expectations related to COVID-19, the instructor may ask the student to leave the class. The instructor is asked to report the incident to the Office of Community Standards for additional follow-up.</p>
+    <h3 id="if-youre-feeling-sick">If you're feeling sick...</h3>
+    <p>Maintaining the health of the community remains our priority. If you are experiencing any symptoms of COVID <strong>do not attend class</strong>. Follow the steps outlined on the NU sites for testing, isolation and reporting a positive case. Next, contact me as soon as possible to arrange to complete coursework.</p>
+    <p>Should public health recommendations prevent in-person class from being held on a given day, I or the university will notify students.</p>
+    <h3 id="diversity-equity-and-inclusion">Diversity, Equity, and Inclusion</h3>
+    <p>This course strives to be an inclusive learning community, respecting those of differing backgrounds and beliefs. As a community, we aim to be respectful to all students in this class, regardless of race, ethnicity, socio-economic status, religion, gender identity or sexual orientation.</p>
+    <h2 id="textbooks">Textbooks</h2>
+    <p>There is no textbook for this course, and most of the materials will be available on Canvas. Many of the readings will be taken from the forthcoming <a href="https://academic.oup.com/edited-volume/41992"><em>Oxford Handbook of Music and Corpus Studies</em></a>, edited by Daniel Shanahan, Ashley Burgoyne, and Ian Quinn.</p>
+    <p>Having said that, you should sign up for a free account for <a href="https://posit.cloud/">Posit Cloud (formerly RStudio Cloud)</a>, where many of the class notebooks will be held.I would also recommend downloading <a href="https://www.r-project.org/about.html">R</a> and <a href="https://posit.co/download/rstudio-desktop/">RStudio</a> onto your personal machine, if possible.</p>
+    <p>Although not required, I would highly recommend having a look at:</p>
+    <ul>
+        <li><a href="https://r4ds.had.co.nz/">R for Data Science</a> by Garret Grolemund and Hadley Wickham</li>
+        <li><a href="https://www.humdrum.org/guide/">The Humdrum User Guide</a></li>
+        <li><a href="http://web.mit.edu/music21/">The music21 documentation</a></li>
+        <li><a href="https://academic.oup.com/edited-volume/41992"><em>The Oxford Handbook of Music and Corpus Studies</em></a></li>
+    </ul>
+    <h2 id="support-for-wellness-and-mental-health">Support for Wellness and Mental Health</h2>
+    <p>Northwestern University is committed to supporting the wellness of our students. Student Affairs has multiple resources to support student wellness and mental health. If you are feeling distressed or overwhelmed, please reach out for help. Students can access confidential resources through the Counseling and Psychological Services (CAPS), Religious and Spiritual Life (RSL) and the Center for Awareness, Response and Education (CARE). Additional information on all of the resources mentioned above can be found here:</p>
+    <p><a href="https://www.northwestern.edu/counseling/">https://www.northwestern.edu/counseling/</a><br /><a href="https://www.northwestern.edu/religious-life/">https://www.northwestern.edu/religious-life/</a><br /><a href="https://www.northwestern.edu/care/">https://www.northwestern.edu/care/</a></p>
+    <h3 id="homework">Homework</h3>
+    <p>There will be regular assignments in which you will be asked to respond to do one of the following:</p>
+    <ul>
+        <li>Critically reflect upon a reading about the history, methods, and dilemmas commonly found in corpus studies</li>
+        <li>Write code that addresses a musical question (e.g. what's the most common pitch transition in this group of pieces?)</li>
+        <li>Analyze a given collection of musical data.</li>
+    </ul>
+    <p>Typically, we will have reading reflections due on Mondays, and code-related questions relevant to those readings due on Wednesdays.</p>
+    <h3 id="midterm-project">Midterm Project</h3>
+    <p>The goal of this class is for you to both understand corpus studies as a method with a long history, and for you to be able to incorporate these methods in your own research. There will be a midterm project that is primarily used a stepping stone into your final project, and it will consist of presenting a literature review in which you situate your own research question within the existing literature and propose a study that examines this question. You may use existing data, but you might find it more relevant to you if you use your own dataset. Therefore, this would be a good time to have a bulk of your data encoded, so that you are aware of the time needed to construct your corpus.</p>
+    <h3 id="final-project">Final Project</h3>
+    <p>The final project will be focused on a research question of your choosing, and will be broken up into several a peer-reviewed first draft, a presentation, and a final paper.</p>
+    <h2 id="grading">Grading</h2>
+    <p>The final course grade will be calculated as follows:</p>
+    <table>
+        <thead>
+            <tr>
+                <th id="category" style="text-align: left;">Category</th>
+                <th id="percentage" style="text-align: left;">Percentage</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="text-align: left;">Reading Reflection Questions</td>
+                <td style="text-align: left;">20%</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">Code-focused assignments</td>
+                <td style="text-align: left;">30%</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">Midterm Literature Review</td>
+                <td style="text-align: left;">15%</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">Final Project (First Draft)</td>
+                <td style="text-align: left;">10%</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">Presentation</td>
+                <td style="text-align: left;">10%</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">Final Project (Final draft)</td>
+                <td style="text-align: left;">15%</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>The final letter grade will be determined based on the following thresholds:</p>
+    <table>
+        <thead>
+            <tr>
+                <th id="letter_grade" style="text-align: left;">Letter Grade</th>
+                <th id="final_course_grade" style="text-align: left;">Final Course Grade</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="text-align: left;">A</td>
+                <td style="text-align: left;">&gt;= 93</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">A-</td>
+                <td style="text-align: left;">90 - 92.99</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">B+</td>
+                <td style="text-align: left;">87 - 89.99</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">B</td>
+                <td style="text-align: left;">83 - 86.99</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">B-</td>
+                <td style="text-align: left;">80 - 82.99</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">C+</td>
+                <td style="text-align: left;">77 - 79.99</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">C</td>
+                <td style="text-align: left;">73 - 76.99</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">C-</td>
+                <td style="text-align: left;">70 - 72.99</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">D+</td>
+                <td style="text-align: left;">67 - 69.99</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">D</td>
+                <td style="text-align: left;">63 - 66.99</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">D-</td>
+                <td style="text-align: left;">60 - 62.99</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">F</td>
+                <td style="text-align: left;">\&lt; 60</td>
+            </tr>
+        </tbody>
+    </table>
+    <h2 id="schedule">Schedule</h2>
+    <table style="width: 97.3684%; height: 650px;">
+        <thead>
+            <tr style="height: 27px;">
+                <th id="unit" style="width: 29.1289%; height: 27px;">Unit</th>
+                <th id="week" style="text-align: left; width: 7.5644%; height: 27px;">Week</th>
+                <th id="topic" style="text-align: left; width: 42.0525%; height: 27px;">Topic</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="height: 77px;">
+                <td style="width: 29.1289%; height: 77px;"><strong>Symbolic Data</strong></td>
+                <td style="text-align: left; width: 7.5644%; height: 77px;">1</td>
+                <td style="text-align: left; width: 42.0525%; height: 77px;">Introduction; a brief history of corpus-based approaches to music; representing musical data</td>
+            </tr>
+            <tr style="height: 29px;">
+                <td style="width: 29.1289%; height: 29px;"></td>
+                <td style="text-align: left; width: 7.5644%; height: 29px;">2</td>
+                <td style="text-align: left; width: 42.0525%; height: 29px;">Melodic and Harmonic Intervals</td>
+            </tr>
+            <tr style="height: 29px;">
+                <td style="width: 29.1289%; height: 29px;"></td>
+                <td style="text-align: left; width: 7.5644%; height: 29px;">3</td>
+                <td style="text-align: left; width: 42.0525%; height: 29px;">Representing Time</td>
+            </tr>
+            <tr style="height: 29px;">
+                <td style="width: 29.1289%; height: 29px;"></td>
+                <td style="text-align: left; width: 7.5644%; height: 29px;">4</td>
+                <td style="text-align: left; width: 42.0525%; height: 29px;">Conceptual Debates: Key-Finding, Entropy, and Variability</td>
+            </tr>
+            <tr style="height: 29px;">
+                <td style="width: 29.1289%; height: 29px;"></td>
+                <td style="text-align: left; width: 7.5644%; height: 29px;">5</td>
+                <td style="text-align: left; width: 42.0525%; height: 29px;">Patterns</td>
+            </tr>
+            <tr style="height: 29px;">
+                <td style="width: 29.1289%; height: 29px;"><strong>Audio Data</strong></td>
+                <td style="text-align: left; width: 7.5644%; height: 29px;">6</td>
+                <td style="text-align: left; width: 42.0525%; height: 29px;">The Spotify API and its Features; Analyzing Pitch and Key with Spotify</td>
+            </tr>
+            <tr style="height: 29px;">
+                <td style="width: 29.1289%; height: 29px;"></td>
+                <td style="text-align: left; width: 7.5644%; height: 29px;">7</td>
+                <td style="text-align: left; width: 42.0525%; height: 29px;">Analyzing Time with Spotify</td>
+            </tr>
+            <tr style="height: 29px;">
+                <td style="width: 29.1289%; height: 29px;">Audio Data</td>
+                <td style="text-align: left; width: 7.5644%; height: 29px;">8</td>
+                <td style="text-align: left; width: 42.0525%; height: 29px;">Regression, Clustering, and Authorship</td>
+            </tr>
+            <tr style="height: 29px;">
+                <td style="width: 29.1289%; height: 29px;"></td>
+                <td style="text-align: left; width: 7.5644%; height: 29px;">9</td>
+                <td style="text-align: left; width: 42.0525%; height: 29px;">Classifying and Recommending</td>
+            </tr>
+            <tr style="height: 29px;">
+                <td style="width: 29.1289%; height: 29px;"></td>
+                <td style="text-align: left; width: 7.5644%; height: 29px;">10</td>
+                <td style="text-align: left; width: 42.0525%; height: 29px;">Potpurri</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

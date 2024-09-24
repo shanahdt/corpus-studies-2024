@@ -1,0 +1,21 @@
+---
+title: Schedule
+output: html
+---
+
+
+## Schedule
+
+  Unit                Week   Topic
+  ------------------- ------ ----------------------------------------------------------------------------------------------
+  **Symbolic Data**   1      Introduction; a brief history of corpus-based approaches to music; representing musical data
+                      2      Melodic and Harmonic Intervals
+                      3      Representing Time
+                      4      Conceptual Debates: Key-Finding, Entropy, and Variability
+                      5      Patterns
+  **Audio Data**      6      The Spotify API and its Features; Analyzing Pitch and Key with Spotify
+                      7      Analyzing Time with Spotify
+                      8      Regression, Clustering, and Authorship
+                      9      Classifying and Recommending
+                      10     Potpurri
+

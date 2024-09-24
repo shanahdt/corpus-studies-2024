@@ -1,0 +1,55 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  page-navigation: true
+  title: "Corpus Studies in Music"
+  description: "Homepage for Corpus Studies, Spring 2024 ."
+  site-url: "https://shanahdt.github.io/corpus-studies-2024/"
+  repo-url: "https://github.com/shanahdt/corpus-studies-2024"
+  repo-actions: [edit, issue]
+  # navbar:
+  #   left:
+  #     - href: index.qmd
+  #       text: Home
+  #     - href: course-syllabus.qmd
+  #       text: Syllabus
+  #     
+
+  open-graph: true
+    
+
+  sidebar:
+    style: "docked"
+    search: true
+    title: false
+    pinned: false
+    collapse-level: 0
+    contents:
+      - section: "Resources"
+        contents:
+          - course-syllabus.qmd
+          - course-schedule.qmd
+        collapse-level: 1 
+      - section: "Class Notes"
+        contents:
+          - class_notes/week_1.qmd
+        collapse-level: 1
+          
+
+  page-footer:
+    right: "This page is built with ❤️ and [Quarto](https://quarto.org/)."
+    left: "&copy; Copyright 2024, Daniel Shanahan"
+    background: "#D9E3E4"
+
+
+format:
+  html:
+    theme:
+      light: [litera, theme.scss]
+      dark: [litera, theme-dark.scss]
+    mainfont: "Atkinson Hyperlegible"
+    code-copy: true
+    code-overflow: wrap
+    toc: true

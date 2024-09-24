@@ -1,0 +1,6 @@
+---
+title: "About"
+---
+
+This is the class site for _Corpus Studies in Music_.
+

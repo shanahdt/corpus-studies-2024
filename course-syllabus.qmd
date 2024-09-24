@@ -110,9 +110,7 @@ forthcoming [*Oxford Handbook of Music and Corpus
 Studies*](https://academic.oup.com/edited-volume/41992), edited by
 Daniel Shanahan, Ashley Burgoyne, and Ian Quinn.
 
-Having said that, you should sign up for a free account for [Posit Cloud
-(formerly RStudio Cloud)](https://posit.cloud/), where many of the class
-notebooks will be held.I would also recommend downloading
+I would also recommend downloading
 [R](https://www.r-project.org/about.html) and
 [RStudio](https://posit.co/download/rstudio-desktop/) onto your personal
 machine, if possible.
@@ -180,12 +178,8 @@ The final course grade will be calculated as follows:
 
   Category                       Percentage
   ------------------------------ ------------
-  Reading Reflection Questions   20%
-  Code-focused assignments       30%
-  Midterm Literature Review      15%
-  Final Project (First Draft)    10%
-  Presentation                   10%
-  Final Project (Final draft)    15%
+  Discussions                       40%
+  Projects (x 4)                     60% (15% each)
 
 The final letter grade will be determined based on the following
 thresholds:

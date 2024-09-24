@@ -47,8 +47,8 @@ website:
 format:
   html:
     theme:
-      light: [litera, theme.scss]
-      dark: [litera, theme-dark.scss]
+      light: [sketchy, theme.scss]
+      dark: [sketchy, theme-dark.scss]
     mainfont: "Atkinson Hyperlegible"
     code-copy: true
     code-overflow: wrap

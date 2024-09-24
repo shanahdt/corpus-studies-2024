@@ -190,7 +190,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#representing-musical-information" id="toc-representing-musical-information" class="nav-link" data-scroll-target="#representing-musical-information">Representing Musical Information</a></li>
+  <li><a href="#counting-pitches" id="toc-counting-pitches" class="nav-link" data-scroll-target="#counting-pitches">Counting Pitches</a>
   <ul class="collapse">
   <li><a href="#humdrumr" id="toc-humdrumr" class="nav-link" data-scroll-target="#humdrumr">HumdrumR</a></li>
   <li><a href="#playing-with-spotify" id="toc-playing-with-spotify" class="nav-link" data-scroll-target="#playing-with-spotify">Playing with Spotify</a></li>
@@ -220,44 +222,56 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="overview" class="level1">
 <h1>Overview</h1>
-<p>In the first week, we worked through basic introductions for the class, and went through the <a href="../course-syllabus.html">syllabus</a> and the <a href="../course-schedule.html">course structure</a>.</p>
+<p>This week, we will be working through what it means to represent musical ideas through text.</p>
+<p>It’s also probably worth having another look at the <a href="../course-syllabus.html">syllabus</a> and the <a href="../course-schedule.html">course structure</a>.</p>
+<p>Going forward, it might be worth adding a few things to your computer: I would recommend downloading <a href="https://www.r-project.org/about.html">R</a> and <a href="https://posit.co/download/rstudio-desktop/">RStudio</a> onto your personal machine, as soon as you can.</p>
+</section>
+<section id="representing-musical-information" class="level1">
+<h1>Representing Musical Information</h1>
+</section>
+<section id="counting-pitches" class="level1">
+<h1>Counting Pitches</h1>
 <section id="humdrumr" class="level2">
 <h2 class="anchored" data-anchor-id="humdrumr">HumdrumR</h2>
-<p>Here, we install the necessary library. As you can see, you will need to install <code>devtools</code>, which will allow you to install packages that aren’t on CRAN from github.</p>
-<p>Then, we install the package (you can uncomment these installation lines as necessary for you).</p>
+<p>We will also be doing a lot of in-class examples in R, specifically with the <a href="https://computational-cognitive-musicology-lab.github.io/humdrumR/">HumdrumR toolkit</a>. Some of you may prefer using Python or even the command line for projects, and that’s fine, but in class we will mainly be working with R.</p>
+<p>In the code below, we install the necessary library. As you can see, you will need to install <code>devtools</code>, which will allow you to install packages that aren’t on CRAN from github.</p>
+<p>Then, we install the package (you can uncomment these installation lines as necessary for you.</p>
 <div class="cell" data-warnings="false">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">### installing everything as needed</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># library(devtools)</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># devtools::install_github("Computational-Cognitive-Musicology-Lab/humdrumR", build_vignettes = TRUE)</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># library(humdrumR)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"Computational-Cognitive-Musicology-Lab/humdrumR"</span>, <span class="at">build_vignettes =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Once that installation has worked, you can try to load the library:</p>
+<div class="cell" data-warnings="false">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(humdrumR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In the code below, you can see how we load all of the Chopin files into a <code>preludes</code> variable with the <code>readHumdrum</code> function.</p>
 <p>Then we subset it by <em>spines</em>. We are interested in various ways of calculating pitch, so we looked at <code>pc</code> (pitch class), as well as <code>solfa</code> and <code>deg</code>, which gave us solfege syllables and scale degrees, respectively.</p>
 <p>We then plot this data in a barplot. Note the <code>|&gt;</code> or “pipe” that we are using. The older tidyverse-style pipe (<code>%&gt;%</code>) will also work here.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Load in Chopin preludes, grab the left hand and see all the scale degrees.</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># preludes &lt;- readHumdrum("~/gitcloud/corpora/humdrum_scores/Chopin/Preludes/*.krn")</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># left_hand &lt;- subset(preludes, Spine == 1)</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ###solfa, deg, pc</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># table_data &lt;- with(left_hand, pc(Token,simple=TRUE)) |&gt; table() </span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># barplot(table_data)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Load in Chopin preludes, grab the left hand and see all the scale degrees.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># preludes &lt;- readHumdrum("~/gitcloud/corpora/humdrum_scores/Chopin/Preludes/*.krn")</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># left_hand &lt;- subset(preludes, Spine == 1)</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ###solfa, deg, pc</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># table_data &lt;- with(left_hand, pc(Token,simple=TRUE)) |&gt; table() </span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># barplot(table_data)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You can use a similar <code>with</code> syntax to get rhythm variables, as seen below:</p>
 <div class="cell" data-warnings="false">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## rhythminterval</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># rhythms &lt;- with(preludes[2], duration(Token))</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="do">#### group exercise:</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="do">#### using a repertoire in the Humdrum scores collection, </span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="do">#### print a table of most common musical events.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## rhythminterval</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># rhythms &lt;- with(preludes[2], duration(Token))</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="do">#### group exercise:</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="do">#### using a repertoire in the Humdrum scores collection, </span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="do">#### print a table of most common musical events.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="playing-with-spotify" class="level2">
 <h2 class="anchored" data-anchor-id="playing-with-spotify">Playing with Spotify</h2>
 <p>We can start by loading our <code>spotifyr</code> library, and <code>tidyverse</code> for good measure:</p>
 <div class="cell" data-warnings="false">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library(spotifyr)</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># library(tidyverse)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library(spotifyr)</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># library(tidyverse)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You will need your own spotify client ID and client secret. You can get them by filling out the brief online form <a href="https://developer.spotify.com/dashboard">here</a>.</p>
 <p>For the most part, in this class we will be looking at global features data (the “danceability” of a song), and track-level analysis features, such as chroma vectors.</p>

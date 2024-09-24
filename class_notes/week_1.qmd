@@ -4,19 +4,37 @@ title: "Week 1: Representing Musical Data"
 
 # Overview 
 
-In the first week, we worked through 
-basic introductions for the class, and went through the [syllabus](../course-syllabus.qmd) and the [course structure](../course-schedule.qmd).
+This week, we will be working through what it means to represent musical ideas through text. 
+
+It's also probably worth having another look at the [syllabus](../course-syllabus.qmd) and the [course structure](../course-schedule.qmd).
+
+Going forward, it might be worth adding a few things to your computer: I would recommend downloading [R](https://www.r-project.org/about.html) and [RStudio](https://posit.co/download/rstudio-desktop/) onto your personal
+machine, as soon as you can.
+
+# Representing Musical Information
+
+
+
+
+# Counting Pitches
+
 
 ## HumdrumR
+We will also be doing a lot of in-class examples in R, specifically with the [HumdrumR toolkit](https://computational-cognitive-musicology-lab.github.io/humdrumR/). Some of you may prefer using Python or even the command line for projects, and that's fine, but in class we will mainly be working with R.
 
-Here, we install the necessary library. As you can see, you will need to install `devtools`, which will allow you to install packages that aren't on CRAN from github. 
+ In the code below, we install the necessary library. As you can see, you will need to install `devtools`, which will allow you to install packages that aren't on CRAN from github. 
 
-Then, we install the package (you can uncomment these installation lines as necessary for you).
-```{r, warnings=FALSE, message=FALSE}
+Then, we install the package (you can uncomment these installation lines as necessary for you.
+```{r, warnings=FALSE, message=FALSE, eval=FALSE}
 ### installing everything as needed
-# library(devtools)
-# devtools::install_github("Computational-Cognitive-Musicology-Lab/humdrumR", build_vignettes = TRUE)
-# library(humdrumR)
+library(devtools)
+devtools::install_github("Computational-Cognitive-Musicology-Lab/humdrumR", build_vignettes = TRUE)
+
+```
+
+Once that installation has worked, you can try to load the library:
+```{r, warnings=FALSE, message=FALSE, eval=TRUE}
+library(humdrumR)
 ```
 
 In the code below, you can see how we load all of the Chopin files into a `preludes` variable with the `readHumdrum` function. 

@@ -1,0 +1,107 @@
+[
+  {
+    "objectID": "course-syllabus.html",
+    "href": "course-syllabus.html",
+    "title": "Syllabus",
+    "section": "",
+    "text": "Instructor: Dr. Daniel Shanahan\nContact: daniel.shanahan@northwestern.edu"
+  },
+  {
+    "objectID": "course-syllabus.html#instructor",
+    "href": "course-syllabus.html#instructor",
+    "title": "Syllabus",
+    "section": "",
+    "text": "Instructor: Dr. Daniel Shanahan\nContact: daniel.shanahan@northwestern.edu"
+  },
+  {
+    "objectID": "course-syllabus.html#overview",
+    "href": "course-syllabus.html#overview",
+    "title": "Syllabus",
+    "section": "Overview",
+    "text": "Overview\nCorpus studies, or distant readings of multiple musical works, are often employed as a way of better understanding issues such as the relationships between pieces, authorship, trends over time, or differences and similarities between genres. In this class, we will explore the techniques, history, and philosophy of such approaches, and will construct and analyze our own corpora. For the most part, this class will deal with notated scores, and students will be encouraged to ask their own research questions of the music that they are most interested in."
+  },
+  {
+    "objectID": "course-syllabus.html#learning-objectives",
+    "href": "course-syllabus.html#learning-objectives",
+    "title": "Syllabus",
+    "section": "Learning objectives",
+    "text": "Learning objectives\nBy the end of the quarter, you will...\n\nhave an understanding of how music has been examined through distant readings of scores and recordings\nbe able to explore how the concepts of concordances, schemata, key-finding, clustering, and introductory machine learning approaches can be applied to music analysis\nhave a working introductory knowledge of the R programming language and the HumDrumR package."
+  },
+  {
+    "objectID": "course-syllabus.html#course-policies",
+    "href": "course-syllabus.html#course-policies",
+    "title": "Syllabus",
+    "section": "Course Policies",
+    "text": "Course Policies\n\nAcademic Integrity\nStudents in this course are required to comply with the policies found in the booklet, \"Academic Integrity at Northwestern University: A Basic Guide\". All papers submitted for credit in this course must be submitted electronically unless otherwise instructed by the professor. Your written work may be tested for plagiarized content. For details regarding academic integrity at Northwestern or to download the guide, visit this page.\n\n\nAccesibility\nNorthwestern University is committed to providing the most accessible learning environment as possible for students with disabilities. Should you anticipate or experience disability-related barriers in the academic setting, please contact AccessibleNU to move forward with the university's established accommodation process (email: accessiblenu\\@northwestern.edu; p: 847-467-5530). If you already have established accommodations with AccessibleNU, please let me know as soon as possible, preferably within the first two weeks of the term, so we can work together to implement your disability accommodations. Disability information, including academic accommodations, is confidential under the Family Educational Rights and Privacy Act.\n\n\nCOVID-19 Classroom Expectations\nStudents, faculty and staff must comply with University expectations regarding appropriate classroom behavior, including those outlined below and in the COVID-19 Expectations for Students. With respect to classroom procedures, this includes:\nPolicies regarding masking, social distancing and other public health measures evolve as the situation changes. Students are responsible for understanding and complying with current University, state and city requirements. In some classes, masking and/or social distancing may be required as a result of an Americans with Disabilities Act (ADA) accommodation for the instructor or a student in the class even when not generally required on campus. In such cases, the instructor will notify the class.\nIf a student fails to comply with the COVID-19 Expectations for Students or other University expectations related to COVID-19, the instructor may ask the student to leave the class. The instructor is asked to report the incident to the Office of Community Standards for additional follow-up.\n\n\nIf you're feeling sick...\nMaintaining the health of the community remains our priority. If you are experiencing any symptoms of COVID do not attend class. Follow the steps outlined on the NU sites for testing, isolation and reporting a positive case. Next, contact me as soon as possible to arrange to complete coursework.\nShould public health recommendations prevent in-person class from being held on a given day, I or the university will notify students.\n\n\nDiversity, Equity, and Inclusion\nThis course strives to be an inclusive learning community, respecting those of differing backgrounds and beliefs. As a community, we aim to be respectful to all students in this class, regardless of race, ethnicity, socio-economic status, religion, gender identity or sexual orientation."
+  },
+  {
+    "objectID": "course-syllabus.html#textbooks",
+    "href": "course-syllabus.html#textbooks",
+    "title": "Syllabus",
+    "section": "Textbooks",
+    "text": "Textbooks\nThere is no textbook for this course, and most of the materials will be available on Canvas. Many of the readings will be taken from the forthcoming Oxford Handbook of Music and Corpus Studies, edited by Daniel Shanahan, Ashley Burgoyne, and Ian Quinn.\nI would also recommend downloading R and RStudio onto your personal machine, if possible.\nAlthough not required, I would highly recommend having a look at:\n\nR for Data Science by Garret Grolemund and Hadley Wickham\nThe Humdrum User Guide\nThe music21 documentation\nThe Oxford Handbook of Music and Corpus Studies"
+  },
+  {
+    "objectID": "course-syllabus.html#support-for-wellness-and-mental-health",
+    "href": "course-syllabus.html#support-for-wellness-and-mental-health",
+    "title": "Syllabus",
+    "section": "Support for Wellness and Mental Health",
+    "text": "Support for Wellness and Mental Health\nNorthwestern University is committed to supporting the wellness of our students. Student Affairs has multiple resources to support student wellness and mental health. If you are feeling distressed or overwhelmed, please reach out for help. Students can access confidential resources through the Counseling and Psychological Services (CAPS), Religious and Spiritual Life (RSL) and the Center for Awareness, Response and Education (CARE). Additional information on all of the resources mentioned above can be found here:\nhttps://www.northwestern.edu/counseling/\nhttps://www.northwestern.edu/religious-life/\nhttps://www.northwestern.edu/care/\n\nHomework\nThere will be regular assignments in which you will be asked to respond to do one of the following:\n\nCritically reflect upon a reading about the history, methods, and dilemmas commonly found in corpus studies\nWrite code that addresses a musical question (e.g. what's the most common pitch transition in this group of pieces?)\nAnalyze a given collection of musical data.\n\nTypically, we will have reading reflections due on Mondays, and code-related questions relevant to those readings due on Wednesdays.\n\n\nMidterm Project\nThe goal of this class is for you to both understand corpus studies as a method with a long history, and for you to be able to incorporate these methods in your own research. There will be a midterm project that is primarily used a stepping stone into your final project, and it will consist of presenting a literature review in which you situate your own research question within the existing literature and propose a study that examines this question. You may use existing data, but you might find it more relevant to you if you use your own dataset. Therefore, this would be a good time to have a bulk of your data encoded, so that you are aware of the time needed to construct your corpus.\n\n\nFinal Project\nThe final project will be focused on a research question of your choosing, and will be broken up into several a peer-reviewed first draft, a presentation, and a final paper."
+  },
+  {
+    "objectID": "course-syllabus.html#grading",
+    "href": "course-syllabus.html#grading",
+    "title": "Syllabus",
+    "section": "Grading",
+    "text": "Grading\nThe final course grade will be calculated as follows:\n\n\n\nCategory\nPercentage\n\n\n\n\nDiscussions\n40%\n\n\nProjects (x 4)\n60% (15% each)\n\n\n\nThe final letter grade will be determined based on the following thresholds:\n\n\n\nLetter Grade\nFinal Course Grade\n\n\n\n\nA\n&gt;= 93\n\n\nA-\n90 - 92.99\n\n\nB+\n87 - 89.99\n\n\nB\n83 - 86.99\n\n\nB-\n80 - 82.99\n\n\nC+\n77 - 79.99\n\n\nC\n73 - 76.99\n\n\nC-\n70 - 72.99\n\n\nD+\n67 - 69.99\n\n\nD\n63 - 66.99\n\n\nD-\n60 - 62.99\n\n\nF\n\\&lt; 60"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "This is the class site for Corpus Studies in Music."
+  },
+  {
+    "objectID": "class_notes/week_1.html",
+    "href": "class_notes/week_1.html",
+    "title": "Week 1: Representing Musical Data",
+    "section": "",
+    "text": "This week, we will be working through what it means to represent musical ideas through text.\nIt’s also probably worth having another look at the syllabus and the course structure.\nGoing forward, it might be worth adding a few things to your computer: I would recommend downloading R and RStudio onto your personal machine, as soon as you can."
+  },
+  {
+    "objectID": "class_notes/week_1.html#humdrumr",
+    "href": "class_notes/week_1.html#humdrumr",
+    "title": "Week 1: Representing Musical Data",
+    "section": "HumdrumR",
+    "text": "HumdrumR\nWe will also be doing a lot of in-class examples in R, specifically with the HumdrumR toolkit. Some of you may prefer using Python or even the command line for projects, and that’s fine, but in class we will mainly be working with R.\nIn the code below, we install the necessary library. As you can see, you will need to install devtools, which will allow you to install packages that aren’t on CRAN from github.\nThen, we install the package (you can uncomment these installation lines as necessary for you.\n\n### installing everything as needed\nlibrary(devtools)\ndevtools::install_github(\"Computational-Cognitive-Musicology-Lab/humdrumR\", build_vignettes = FALSE)\n\nOnce that installation has worked, you can try to load the library:\n\nlibrary(humdrumR)\n\nIn the code below, you can see how we load all of the Chopin files into a preludes variable with the readHumdrum function.\nThen we subset it by spines. We are interested in various ways of calculating pitch, so we looked at pc (pitch class), as well as solfa and deg, which gave us solfege syllables and scale degrees, respectively.\nWe then plot this data in a barplot. Note the |&gt; or “pipe” that we are using. The older tidyverse-style pipe (%&gt;%) will also work here.\n\n### Load in Chopin preludes, grab the left hand and see all the scale degrees.\n# preludes &lt;- readHumdrum(\"~/gitcloud/corpora/humdrum_scores/Chopin/Preludes/*.krn\")\n# left_hand &lt;- subset(preludes, Spine == 1)\n# ###solfa, deg, pc\n# table_data &lt;- with(left_hand, pc(Token,simple=TRUE)) |&gt; table() \n# barplot(table_data)\n\nYou can use a similar with syntax to get rhythm variables, as seen below:\n\n## rhythminterval\n# rhythms &lt;- with(preludes[2], duration(Token))\n\n#### group exercise:\n#### using a repertoire in the Humdrum scores collection, \n#### print a table of most common musical events."
+  },
+  {
+    "objectID": "class_notes/week_1.html#playing-with-spotify",
+    "href": "class_notes/week_1.html#playing-with-spotify",
+    "title": "Week 1: Representing Musical Data",
+    "section": "Playing with Spotify",
+    "text": "Playing with Spotify\nWe can start by loading our spotifyr library, and tidyverse for good measure:\n\n# library(spotifyr)\n# library(tidyverse)\n\nYou will need your own spotify client ID and client secret. You can get them by filling out the brief online form here.\nFor the most part, in this class we will be looking at global features data (the “danceability” of a song), and track-level analysis features, such as chroma vectors.\nHere we see how you might grab artist features for Ryan Adams and Taylor Swift, comparing the performances of each of their 1989 albums."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Corpus Studies and Music",
+    "section": "",
+    "text": "Welcome!\nWelcome to the Corpus Studies and Music class."
+  },
+  {
+    "objectID": "course-schedule.html",
+    "href": "course-schedule.html",
+    "title": "Schedule",
+    "section": "",
+    "text": "Unit\nWeek\nTopic\n\n\n\n\nSymbolic Data\n1\nIntroduction; a brief history of corpus-based approaches to music; representing musical data\n\n\n\n2\nMelodic and Harmonic Intervals\n\n\n\n3\nRepresenting Time\n\n\n\n4\nConceptual Debates: Key-Finding, Entropy, and Variability\n\n\n\n5\nPatterns\n\n\nAudio Data\n6\nThe Spotify API and its Features; Analyzing Pitch and Key with Spotify\n\n\n\n7\nAnalyzing Time with Spotify\n\n\n\n8\nRegression, Clustering, and Authorship\n\n\n\n9\nClassifying and Recommending\n\n\n\n10\nPotpurri"
+  },
+  {
+    "objectID": "course-schedule.html#schedule",
+    "href": "course-schedule.html#schedule",
+    "title": "Schedule",
+    "section": "",
+    "text": "Unit\nWeek\nTopic\n\n\n\n\nSymbolic Data\n1\nIntroduction; a brief history of corpus-based approaches to music; representing musical data\n\n\n\n2\nMelodic and Harmonic Intervals\n\n\n\n3\nRepresenting Time\n\n\n\n4\nConceptual Debates: Key-Finding, Entropy, and Variability\n\n\n\n5\nPatterns\n\n\nAudio Data\n6\nThe Spotify API and its Features; Analyzing Pitch and Key with Spotify\n\n\n\n7\nAnalyzing Time with Spotify\n\n\n\n8\nRegression, Clustering, and Authorship\n\n\n\n9\nClassifying and Recommending\n\n\n\n10\nPotpurri"
+  }
+]

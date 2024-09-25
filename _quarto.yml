@@ -41,7 +41,7 @@ website:
   page-footer:
     right: "This page is built with ❤️ and [Quarto](https://quarto.org/)."
     left: "&copy; Copyright 2024, Daniel Shanahan"
-    background: "#D9E3E4"
+    background: "white"
 
 
 format:

@@ -528,8 +528,9 @@ It might be worth exploring your encoding from the weekend, exploring a couple o
 
 # N-grams by Beat Strength
 
-The thing is, some notes are more important than others. Downbeats, for example, might be thought of as more salient than offbeats. Typically, 
-![Example of Beat Hierarchy from *A Generative Theory of Tonal Music*, this example from Cross, 1998](images/gttm-k311-beats.png)
+The thing is, some notes are more important than others. Downbeats, for example, might be thought of as more salient than offbeats.
+
+![Example of Beat Hierarchy from *A Generative Theory of Tonal Music*, this example from Cross, 1998](../images/gttm-k311-beats.png)
 
 So how would we look for downbeats, strong beats, and just beats in general?
 

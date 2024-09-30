@@ -159,6 +159,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Schedule</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../some-troubleshooting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Some Troubleshooting</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -176,6 +182,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Week 1: Representing Musical Data</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../class_notes/week_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2: Melodic and Harmonic Intervals</span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -191,103 +203,857 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<div class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/Users/danielshanahan/opt/anaconda3/bin/python3</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> converter, pitch</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>score <span class="op">=</span> converter.parse(<span class="st">'happy_birthday.krn'</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> corpus, converter, scale</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> process_kern_file(file_path):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Parse the kern file</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    score <span class="op">=</span> converter.parse(file_path)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Analyze the key</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    key <span class="op">=</span> score.analyze(<span class="st">'key'</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a scale based on the analyzed key</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    sc <span class="op">=</span> scale.MajorScale(key.tonic) <span class="cf">if</span> key.mode <span class="op">==</span> <span class="st">'major'</span> <span class="cf">else</span> scale.MinorScale(key.tonic)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get all notes from the score</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    notes <span class="op">=</span> score.flatten().notesAndRests.notes</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert pitches to scale degrees</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    scale_degrees <span class="op">=</span> [sc.getScaleDegreeFromPitch(note.pitch) <span class="cf">for</span> note <span class="kw">in</span> notes]</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> scale_degrees</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> process_corpus(directory):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    all_scale_degrees <span class="op">=</span> []</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> root, dirs, files <span class="kw">in</span> os.walk(directory):</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> files:</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">file</span>.endswith(<span class="st">'.krn'</span>):</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                file_path <span class="op">=</span> os.path.join(root, <span class="bu">file</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                scale_degrees <span class="op">=</span> process_kern_file(file_path)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                all_scale_degrees.extend(scale_degrees)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> all_scale_degrees</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract all pitches</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>all_pitches <span class="op">=</span> score.pitches</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(all_pitches)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[&lt;music21.pitch.Pitch D4&gt;, &lt;music21.pitch.Pitch D4&gt;, &lt;music21.pitch.Pitch E4&gt;, &lt;music21.pitch.Pitch D4&gt;, &lt;music21.pitch.Pitch G4&gt;, &lt;music21.pitch.Pitch F#4&gt;, &lt;music21.pitch.Pitch D4&gt;, &lt;music21.pitch.Pitch D4&gt;, &lt;music21.pitch.Pitch E4&gt;, &lt;music21.pitch.Pitch D4&gt;, &lt;music21.pitch.Pitch A4&gt;, &lt;music21.pitch.Pitch G4&gt;, &lt;music21.pitch.Pitch D4&gt;, &lt;music21.pitch.Pitch D4&gt;, &lt;music21.pitch.Pitch D5&gt;, &lt;music21.pitch.Pitch B4&gt;, &lt;music21.pitch.Pitch G4&gt;, &lt;music21.pitch.Pitch F#4&gt;, &lt;music21.pitch.Pitch E4&gt;, &lt;music21.pitch.Pitch C4&gt;, &lt;music21.pitch.Pitch C4&gt;, &lt;music21.pitch.Pitch B4&gt;, &lt;music21.pitch.Pitch G4&gt;, &lt;music21.pitch.Pitch A4&gt;, &lt;music21.pitch.Pitch G4&gt;]</code></pre>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_scale_degree_percentages(scale_degrees):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> <span class="bu">len</span>(scale_degrees)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    counts <span class="op">=</span> {}</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> degree <span class="kw">in</span> scale_degrees:</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        counts[degree] <span class="op">=</span> counts.get(degree, <span class="dv">0</span>) <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    percentages <span class="op">=</span> {degree: (count <span class="op">/</span> total) <span class="op">*</span> <span class="dv">100</span> <span class="cf">for</span> degree, count <span class="kw">in</span> counts.items()}</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> percentages</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Specify the directory containing your kern files</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>kern_directory <span class="op">=</span> <span class="st">'../data/charlie_parker/'</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Process the corpus</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>all_scale_degrees <span class="op">=</span> process_corpus(kern_directory)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate percentages</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>percentages <span class="op">=</span> calculate_scale_degree_percentages(all_scale_degrees)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Print results</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> degree, percentage <span class="kw">in</span> <span class="bu">sorted</span>(percentages.items()):</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Scale degree </span><span class="sc">{</span>degree<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>percentage<span class="sc">:.2f}</span><span class="ss">%"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>AttributeError: 'Score' object has no attribute 'flatten'</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> converter, pitch, analysis</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Parse the kern file</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>score <span class="op">=</span> converter.parse(<span class="st">'happy_birthday.krn'</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>pitch_count <span class="op">=</span> analysis.discrete.KrumhanslKessler(score)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>key <span class="op">=</span> pitch_count.getSolution(score)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Determine the key of the piece</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>pitch_count <span class="op">=</span> analysis.discrete.KrumhanslKessler(score)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>key <span class="op">=</span> pitch_count.getSolution(score)</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># grab the scale degree of everything.</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> score.flat.notes:</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  scale_degree <span class="op">=</span> key.getScaleDegreeFromPitch(n.name)</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="ss">f'</span><span class="sc">{</span>scale_degree<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>unique(scale_degree)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>5
-5
-6
-5
-1
-7
-5
-5
-6
-5
-2
-1
-5
-5
-5
-3
-1
-7
-6
-4
-4
-3
-1
-2
-1</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get unique pitches</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> converter</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Parse the kern file and extract all the pitches</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>score <span class="op">=</span> converter.parse(<span class="st">'../data/charlie_parker/*.krn'</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>all_pitches <span class="op">=</span> score.pitches</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Count occurrences of each pitch</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>pitch_counter <span class="op">=</span> Counter(<span class="bu">str</span>(p) <span class="cf">for</span> p <span class="kw">in</span> all_pitches)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Print results and sort!</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Pitch counts:"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pitch_name, count <span class="kw">in</span> pitch_counter.most_common():</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>pitch_name<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>count<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>NameError: name 'unique' is not defined</code></pre>
+<pre><code>ConverterException: File not found or no such format found for: ../data/charlie_parker/*.krn</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> converter, pitch, analysis</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Parse the kern file</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>score <span class="op">=</span> converter.parse(<span class="st">'happy_birthday.krn'</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Determine the key of the piece using Krumhansl-Kessler algorithm</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>pitch_count <span class="op">=</span> analysis.discrete.KrumhanslKessler(score)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>key <span class="op">=</span> pitch_count.getSolution(score)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize a Counter to store scale degree counts</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>scale_degree_counter <span class="op">=</span> Counter()</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Count scale degrees for each note</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> score.flat.notes:</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    scale_degree <span class="op">=</span> key.getScaleDegreeFromPitch(n.pitch)</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    scale_degree_counter[scale_degree] <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Print results</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> scale_degree, count <span class="kw">in</span> scale_degree_counter.most_common():</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Scale Degree </span><span class="sc">{</span>scale_degree<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>count<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> analysis, note, converter, humdrum</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> glob</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> filebrowser(ext<span class="op">=</span><span class="st">"../data/charlie_parker_no_chords/*.krn"</span>):</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Returns files with an extension"</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [f <span class="cf">for</span> f <span class="kw">in</span> glob.glob(ext)]</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>file_list <span class="op">=</span> filebrowser()</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>file_list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>['../data/charlie_parker_no_chords/Cosmic_Rays.krn',
+ '../data/charlie_parker_no_chords/Au_Private_(No.2).krn',
+ '../data/charlie_parker_no_chords/Thriving_From_A_Riff.krn',
+ '../data/charlie_parker_no_chords/Bloomdido.krn',
+ '../data/charlie_parker_no_chords/Celerity.krn',
+ '../data/charlie_parker_no_chords/Warming_Up_A_Riff.krn',
+ '../data/charlie_parker_no_chords/Another_Hairdo.krn',
+ '../data/charlie_parker_no_chords/Segment.krn',
+ '../data/charlie_parker_no_chords/Ko_Ko.krn',
+ '../data/charlie_parker_no_chords/Diverse.krn',
+ '../data/charlie_parker_no_chords/Leap_Frog.krn',
+ '../data/charlie_parker_no_chords/Mohawk_(No.1).krn',
+ '../data/charlie_parker_no_chords/K.C.Blues.krn',
+ '../data/charlie_parker_no_chords/Relaxing_With_Lee.krn',
+ '../data/charlie_parker_no_chords/Confirmation.krn',
+ '../data/charlie_parker_no_chords/Card_Board.krn',
+ '../data/charlie_parker_no_chords/Passport.krn',
+ '../data/charlie_parker_no_chords/My_Melody.krn',
+ '../data/charlie_parker_no_chords/Klaun_Stance.krn',
+ '../data/charlie_parker_no_chords/Bird_Gets_The_Worm.krn',
+ '../data/charlie_parker_no_chords/Perhaps.krn',
+ '../data/charlie_parker_no_chords/Moose_the_Mooche.krn',
+ '../data/charlie_parker_no_chords/Donna_Lee.krn',
+ "../data/charlie_parker_no_chords/Now's_The_Time_(No.1).krn",
+ '../data/charlie_parker_no_chords/Kim_(No.2).krn',
+ '../data/charlie_parker_no_chords/Visa.krn',
+ '../data/charlie_parker_no_chords/Shawnuff.krn',
+ '../data/charlie_parker_no_chords/Ah-Leu-Cha.krn',
+ '../data/charlie_parker_no_chords/Marmaduke.krn',
+ '../data/charlie_parker_no_chords/Chasing_The_Bird.krn',
+ "../data/charlie_parker_no_chords/Now's_The_Time_(No.2).krn",
+ '../data/charlie_parker_no_chords/Dewey_Square.krn',
+ "../data/charlie_parker_no_chords/Billie's_Bounce.krn",
+ '../data/charlie_parker_no_chords/Anthropology.krn',
+ '../data/charlie_parker_no_chords/She_Rote__No.1_.krn',
+ '../data/charlie_parker_no_chords/My_Little_Suede_Shoes.krn',
+ '../data/charlie_parker_no_chords/Chi_Chi.krn',
+ '../data/charlie_parker_no_chords/The_Bird.krn',
+ '../data/charlie_parker_no_chords/Merry-Go-Round.krn',
+ '../data/charlie_parker_no_chords/Mohawk_(No.2).krn',
+ '../data/charlie_parker_no_chords/Si_Si.krn',
+ '../data/charlie_parker_no_chords/Blue_Bird.krn',
+ '../data/charlie_parker_no_chords/Cheryl.krn',
+ '../data/charlie_parker_no_chords/Laird_Baird.krn',
+ '../data/charlie_parker_no_chords/An_Oscar_For_Treadwell.krn',
+ "../data/charlie_parker_no_chords/Parker's_Mood.krn",
+ '../data/charlie_parker_no_chords/Constellation.krn',
+ '../data/charlie_parker_no_chords/Blues_For_Alice.krn',
+ '../data/charlie_parker_no_chords/Steeplechase.krn',
+ '../data/charlie_parker_no_chords/Yardbird_Suite.krn',
+ '../data/charlie_parker_no_chords/Blues_(Fast).krn',
+ '../data/charlie_parker_no_chords/Barbados.krn',
+ '../data/charlie_parker_no_chords/Red_Cross.krn',
+ '../data/charlie_parker_no_chords/Au_Private_(No.1).krn',
+ '../data/charlie_parker_no_chords/Buzzy.krn',
+ '../data/charlie_parker_no_chords/Ballade.krn',
+ '../data/charlie_parker_no_chords/Ornithology.krn',
+ '../data/charlie_parker_no_chords/She_Rote_(No.2).krn']</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="90">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> analyze_scale_degrees(file_list):</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    all_scale_degrees <span class="op">=</span> []</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> file_list:</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        score <span class="op">=</span> converter.parse(<span class="bu">file</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        key <span class="op">=</span> score.analyze(<span class="st">'key'</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>        sc <span class="op">=</span> scale.MajorScale(key.tonic)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pitch <span class="kw">in</span> score.pitches:</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>            scale_degree <span class="op">=</span> sc.getScaleDegreeFromPitch(pitch)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>            all_scale_degrees.append(scale_degree)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    scale_degree_counter <span class="op">=</span> Counter(all_scale_degrees)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    total_count <span class="op">=</span> <span class="bu">sum</span>(scale_degree_counter.values())</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> []</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> degree, count <span class="kw">in</span> scale_degree_counter.most_common():</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>        percentage <span class="op">=</span> (count <span class="op">/</span> total_count) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>        data.append({</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Scale Degree'</span>: degree,</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Count'</span>: count,</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Percentage'</span>: <span class="ss">f"</span><span class="sc">{</span>percentage<span class="sc">:.2f}</span><span class="ss">%"</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming file_list is defined</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>result_table <span class="op">=</span> analyze_scale_degrees(file_list)</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result_table.to_string(index<span class="op">=</span><span class="va">False</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Scale Degree5: 9
-Scale Degree1: 5
-Scale Degree6: 3
-Scale Degree7: 2
-Scale Degree2: 2
-Scale Degree3: 2
-Scale Degree4: 2</code></pre>
+<pre><code> Scale Degree  Count Percentage
+          NaN   6041     23.75%
+          1.0   3788     14.89%
+          5.0   3313     13.03%
+          2.0   3013     11.85%
+          3.0   2720     10.69%
+          4.0   2713     10.67%
+          6.0   2134      8.39%
+          7.0   1713      6.73%</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="82">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> beat_and_strength(filename):</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    beat_strength <span class="op">=</span> []</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    scale_degree <span class="op">=</span> []</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Parse only the first spine of the kern file</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> <span class="bu">open</span>(filename, <span class="st">'r'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>            kern_content <span class="op">=</span> <span class="bu">file</span>.read()</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        spine_parser <span class="op">=</span> humdrum.spineParser(kern_content)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>        first_spine <span class="op">=</span> spine_parser.getSpineData(<span class="dv">0</span>)  <span class="co"># Get the first spine (index 0)</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Convert the first spine to a music21 stream</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>        melody <span class="op">=</span> converter.parse(<span class="st">'</span><span class="ch">\n</span><span class="st">'</span>.join(first_spine), <span class="bu">format</span><span class="op">=</span><span class="st">'humdrum'</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Analyze the key based on the first spine</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>        pitch_count <span class="op">=</span> analysis.discrete.KrumhanslKessler(melody)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>        key <span class="op">=</span> pitch_count.getSolution(melody)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> n <span class="kw">in</span> melody.flat.notesAndRests:</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">isinstance</span>(n, note.Note):</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>                sd <span class="op">=</span> key.getScaleDegreeFromPitch(n.pitch)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>                scale_degree.append(<span class="bu">float</span>(sd) <span class="cf">if</span> sd <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="cf">else</span> <span class="dv">0</span>)</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>                beat_strength.append(<span class="bu">float</span>(n.beatStrength))</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> <span class="bu">isinstance</span>(n, note.Rest):</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>                scale_degree.append(<span class="dv">0</span>)</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>                beat_strength.append(<span class="bu">float</span>(n.beatStrength))</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Error processing </span><span class="sc">{</span>filename<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span><span class="bu">str</span>(e)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> [[], []]</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [beat_strength, scale_degree]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="84">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> file_list:</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    beat_and_strength(<span class="bu">file</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Error processing ../data/charlie_parker_no_chords/Cosmic_Rays.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Au_Private_(No.2).krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Thriving_From_A_Riff.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Bloomdido.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Celerity.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Warming_Up_A_Riff.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Another_Hairdo.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Segment.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Ko_Ko.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Diverse.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Leap_Frog.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Mohawk_(No.1).krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/K.C.Blues.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Relaxing_With_Lee.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Confirmation.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Card_Board.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Passport.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/My_Melody.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Klaun_Stance.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Bird_Gets_The_Worm.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Perhaps.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Moose_the_Mooche.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Donna_Lee.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Now's_The_Time_(No.1).krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Kim_(No.2).krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Visa.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Shawnuff.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Ah-Leu-Cha.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Marmaduke.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Chasing_The_Bird.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Now's_The_Time_(No.2).krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Dewey_Square.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Billie's_Bounce.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Anthropology.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/She_Rote__No.1_.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/My_Little_Suede_Shoes.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Chi_Chi.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/The_Bird.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Merry-Go-Round.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Mohawk_(No.2).krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Si_Si.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Blue_Bird.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Cheryl.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Laird_Baird.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/An_Oscar_For_Treadwell.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Parker's_Mood.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Constellation.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Blues_For_Alice.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Steeplechase.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Yardbird_Suite.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Blues_(Fast).krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Barbados.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Red_Cross.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Au_Private_(No.1).krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Buzzy.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Ballade.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/Ornithology.krn: 'module' object is not callable
+Error processing ../data/charlie_parker_no_chords/She_Rote_(No.2).krn: 'module' object is not callable</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> converter, scale</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> analyze_scale_degree_bigrams(file_list):</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    all_bigrams <span class="op">=</span> []</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> file_list:</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        score <span class="op">=</span> converter.parse(<span class="bu">file</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        key <span class="op">=</span> score.analyze(<span class="st">'key'</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>        sd <span class="op">=</span> scale.MajorScale(key.tonic)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>        scale_degrees <span class="op">=</span> []</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pitch <span class="kw">in</span> score.pitches:</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>            scale_degree <span class="op">=</span> sd.getScaleDegreeFromPitch(pitch)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> scale_degree <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:  <span class="co"># Only append non-None scale degrees</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>                scale_degrees.append(scale_degree)</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create bigrams</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>        bigrams <span class="op">=</span> <span class="bu">list</span>(<span class="bu">zip</span>(scale_degrees[:<span class="op">-</span><span class="dv">1</span>], scale_degrees[<span class="dv">1</span>:]))</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>        all_bigrams.extend(bigrams)</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    bigram_counter <span class="op">=</span> Counter(all_bigrams)</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    total_count <span class="op">=</span> <span class="bu">sum</span>(bigram_counter.values())</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> []</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> bigram, count <span class="kw">in</span> bigram_counter.most_common():</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">None</span> <span class="kw">not</span> <span class="kw">in</span> bigram:  <span class="co"># Exclude bigrams containing None</span></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>            percentage <span class="op">=</span> (count <span class="op">/</span> total_count) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>            data.append({</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>                <span class="st">'Scale Degree Bigram'</span>: <span class="ss">f"</span><span class="sc">{</span>bigram[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">-</span><span class="sc">{</span>bigram[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">"</span>,</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>                <span class="st">'Count'</span>: count,</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>                <span class="st">'Percentage'</span>: <span class="ss">f"</span><span class="sc">{</span>percentage<span class="sc">:.2f}</span><span class="ss">%"</span></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>            })</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>bigram_df <span class="op">=</span> analyze_scale_degree_bigrams(file_list)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(bigram_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Scale Degree Bigram  Count Percentage
+0                  2-1   1180      6.10%
+1                  5-4   1055      5.46%
+2                  4-3    798      4.13%
+3                  1-2    750      3.88%
+4                  3-2    701      3.63%
+5                  1-6    637      3.29%
+6                  3-5    637      3.29%
+7                  1-7    634      3.28%
+8                  4-5    626      3.24%
+9                  6-5    622      3.22%
+10                 7-1    544      2.81%
+11                 3-4    537      2.78%
+12                 2-3    537      2.78%
+13                 1-5    535      2.77%
+14                 1-3    516      2.67%
+15                 6-1    511      2.64%
+16                 5-6    472      2.44%
+17                 5-5    456      2.36%
+18                 1-1    448      2.32%
+19                 7-2    447      2.31%
+20                 5-3    427      2.21%
+21                 4-2    427      2.21%
+22                 3-1    399      2.06%
+23                 2-4    378      1.95%
+24                 7-6    372      1.92%
+25                 5-1    348      1.80%
+26                 4-1    338      1.75%
+27                 6-7    304      1.57%
+28                 5-2    297      1.54%
+29                 2-7    268      1.39%
+30                 1-4    258      1.33%
+31                 2-5    247      1.28%
+32                 2-2    242      1.25%
+33                 5-7    236      1.22%
+34                 4-6    234      1.21%
+35                 4-4    228      1.18%
+36                 3-3    227      1.17%
+37                 6-4    213      1.10%
+38                 7-5    169      0.87%
+39                 6-6    168      0.87%
+40                 6-3    168      0.87%
+41                 2-6    154      0.80%
+42                 6-2    144      0.74%
+43                 3-7    118      0.61%
+44                 7-7     94      0.49%
+45                 3-6     93      0.48%
+46                 4-7     57      0.29%
+47                 7-4     43      0.22%
+48                 7-3     42      0.22%</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="98">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> converter, scale</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> analyze_scale_degrees(file_list):</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    all_scale_degrees <span class="op">=</span> []</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> file_list:</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>        score <span class="op">=</span> converter.parse(<span class="bu">file</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>        key <span class="op">=</span> score.analyze(<span class="st">'key'</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>        sd <span class="op">=</span> scale.MajorScale(key.tonic)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pitch <span class="kw">in</span> score.pitches:</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>            scale_degree <span class="op">=</span> sd.getScaleDegreeFromPitch(pitch)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> scale_degree <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:  <span class="co"># Only append non-None scale degrees</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>                all_scale_degrees.append(scale_degree)</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    scale_degree_counter <span class="op">=</span> Counter(all_scale_degrees)</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    total_count <span class="op">=</span> <span class="bu">sum</span>(scale_degree_counter.values())</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> []</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> degree, count <span class="kw">in</span> scale_degree_counter.most_common():</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>        percentage <span class="op">=</span> (count <span class="op">/</span> total_count) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>        data.append({</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Scale Degree'</span>: degree,</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Count'</span>: count,</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Percentage'</span>: <span class="ss">f"</span><span class="sc">{</span>percentage<span class="sc">:.2f}</span><span class="ss">%"</span></span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="99">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>bigram_df <span class="op">=</span> analyze_scale_degree_bigrams(file_list)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(bigram_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Scale Degree Bigram  Count Percentage
+0            None-None   1819      7.17%
+1               None-5    962      3.79%
+2                  2-1    947      3.73%
+3                  5-4    881      3.47%
+4               1-None    844      3.33%
+..                 ...    ...        ...
+59                 3-7     78      0.31%
+60                 3-6     66      0.26%
+61                 4-7     33      0.13%
+62                 7-3     21      0.08%
+63                 7-4      5      0.02%
+
+[64 rows x 3 columns]</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="102">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> converter, scale</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> analyze_scale_degree_trigrams(file_list):</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    all_trigrams <span class="op">=</span> []</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> file_list:</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>        score <span class="op">=</span> converter.parse(<span class="bu">file</span>)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>        key <span class="op">=</span> score.analyze(<span class="st">'key'</span>)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>        sd <span class="op">=</span> scale.MajorScale(key.tonic)</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>        scale_degrees <span class="op">=</span> []</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pitch <span class="kw">in</span> score.pitches:</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>            scale_degree <span class="op">=</span> sd.getScaleDegreeFromPitch(pitch)</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> scale_degree <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>                scale_degrees.append(scale_degree)</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>        <span class="co">#### this is the zip part. </span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>        trigrams <span class="op">=</span> <span class="bu">list</span>(<span class="bu">zip</span>(scale_degrees[:<span class="op">-</span><span class="dv">2</span>], scale_degrees[<span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>], scale_degrees[<span class="dv">2</span>:]))</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>        all_trigrams.extend(trigrams)</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    trigram_counter <span class="op">=</span> Counter(all_trigrams)</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>    total_count <span class="op">=</span> <span class="bu">sum</span>(trigram_counter.values())</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">## create the list.</span></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> []</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> trigram, count <span class="kw">in</span> trigram_counter.most_common():</span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">None</span> <span class="kw">not</span> <span class="kw">in</span> trigram:  </span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>            percentage <span class="op">=</span> (count <span class="op">/</span> total_count) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>            data.append({</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>                <span class="st">'Scale Degree Trigram'</span>: <span class="ss">f"</span><span class="sc">{</span>trigram[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">-</span><span class="sc">{</span>trigram[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">-</span><span class="sc">{</span>trigram[<span class="dv">2</span>]<span class="sc">}</span><span class="ss">"</span>,</span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>                <span class="st">'Count'</span>: count,</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>                <span class="st">'Percentage'</span>: <span class="ss">f"</span><span class="sc">{</span>percentage<span class="sc">:.2f}</span><span class="ss">%"</span></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>            })</span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a><span class="co">##print nice trigrams!</span></span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>trigram_df <span class="op">=</span> analyze_scale_degree_trigrams(file_list)</span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(trigram_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Scale Degree Trigram  Count Percentage
+0                  5-4-3    509      2.64%
+1                  2-1-7    461      2.39%
+2                  4-3-2    359      1.86%
+3                  3-2-1    350      1.82%
+4                  6-5-4    331      1.72%
+..                   ...    ...        ...
+337                7-3-1      1      0.01%
+338                7-7-4      1      0.01%
+339                7-4-1      1      0.01%
+340                4-7-3      1      0.01%
+341                5-7-4      1      0.01%
+
+[342 rows x 3 columns]</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> converter, scale, meter, analysis, note, converter, humdrum</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> glob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> filebrowser(ext<span class="op">=</span><span class="st">"../data/charlie_parker_no_chords/*.krn"</span>):</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Returns files with an extension"</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [f <span class="cf">for</span> f <span class="kw">in</span> glob.glob(ext)]</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>file_list <span class="op">=</span> filebrowser()</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>file_list</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>['../data/charlie_parker_no_chords/Cosmic_Rays.krn',
+ '../data/charlie_parker_no_chords/Au_Private_(No.2).krn',
+ '../data/charlie_parker_no_chords/Thriving_From_A_Riff.krn',
+ '../data/charlie_parker_no_chords/Bloomdido.krn',
+ '../data/charlie_parker_no_chords/Celerity.krn',
+ '../data/charlie_parker_no_chords/Warming_Up_A_Riff.krn',
+ '../data/charlie_parker_no_chords/Another_Hairdo.krn',
+ '../data/charlie_parker_no_chords/Segment.krn',
+ '../data/charlie_parker_no_chords/Ko_Ko.krn',
+ '../data/charlie_parker_no_chords/Diverse.krn',
+ '../data/charlie_parker_no_chords/Leap_Frog.krn',
+ '../data/charlie_parker_no_chords/Mohawk_(No.1).krn',
+ '../data/charlie_parker_no_chords/K.C.Blues.krn',
+ '../data/charlie_parker_no_chords/Relaxing_With_Lee.krn',
+ '../data/charlie_parker_no_chords/Confirmation.krn',
+ '../data/charlie_parker_no_chords/Card_Board.krn',
+ '../data/charlie_parker_no_chords/Passport.krn',
+ '../data/charlie_parker_no_chords/My_Melody.krn',
+ '../data/charlie_parker_no_chords/Klaun_Stance.krn',
+ '../data/charlie_parker_no_chords/Bird_Gets_The_Worm.krn',
+ '../data/charlie_parker_no_chords/Perhaps.krn',
+ '../data/charlie_parker_no_chords/Moose_the_Mooche.krn',
+ '../data/charlie_parker_no_chords/Donna_Lee.krn',
+ "../data/charlie_parker_no_chords/Now's_The_Time_(No.1).krn",
+ '../data/charlie_parker_no_chords/Kim_(No.2).krn',
+ '../data/charlie_parker_no_chords/Visa.krn',
+ '../data/charlie_parker_no_chords/Shawnuff.krn',
+ '../data/charlie_parker_no_chords/Ah-Leu-Cha.krn',
+ '../data/charlie_parker_no_chords/Marmaduke.krn',
+ '../data/charlie_parker_no_chords/Chasing_The_Bird.krn',
+ "../data/charlie_parker_no_chords/Now's_The_Time_(No.2).krn",
+ '../data/charlie_parker_no_chords/Dewey_Square.krn',
+ "../data/charlie_parker_no_chords/Billie's_Bounce.krn",
+ '../data/charlie_parker_no_chords/Anthropology.krn',
+ '../data/charlie_parker_no_chords/She_Rote__No.1_.krn',
+ '../data/charlie_parker_no_chords/My_Little_Suede_Shoes.krn',
+ '../data/charlie_parker_no_chords/Chi_Chi.krn',
+ '../data/charlie_parker_no_chords/The_Bird.krn',
+ '../data/charlie_parker_no_chords/Merry-Go-Round.krn',
+ '../data/charlie_parker_no_chords/Mohawk_(No.2).krn',
+ '../data/charlie_parker_no_chords/Si_Si.krn',
+ '../data/charlie_parker_no_chords/Blue_Bird.krn',
+ '../data/charlie_parker_no_chords/Cheryl.krn',
+ '../data/charlie_parker_no_chords/Laird_Baird.krn',
+ '../data/charlie_parker_no_chords/An_Oscar_For_Treadwell.krn',
+ "../data/charlie_parker_no_chords/Parker's_Mood.krn",
+ '../data/charlie_parker_no_chords/Constellation.krn',
+ '../data/charlie_parker_no_chords/Blues_For_Alice.krn',
+ '../data/charlie_parker_no_chords/Steeplechase.krn',
+ '../data/charlie_parker_no_chords/Yardbird_Suite.krn',
+ '../data/charlie_parker_no_chords/Blues_(Fast).krn',
+ '../data/charlie_parker_no_chords/Barbados.krn',
+ '../data/charlie_parker_no_chords/Red_Cross.krn',
+ '../data/charlie_parker_no_chords/Au_Private_(No.1).krn',
+ '../data/charlie_parker_no_chords/Buzzy.krn',
+ '../data/charlie_parker_no_chords/Ballade.krn',
+ '../data/charlie_parker_no_chords/Ornithology.krn',
+ '../data/charlie_parker_no_chords/She_Rote_(No.2).krn']</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> analyze_scale_degree_bigrams(file_list):</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    all_bigrams <span class="op">=</span> []</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> file_list:</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>        score <span class="op">=</span> converter.parse(<span class="bu">file</span>)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>        key <span class="op">=</span> score.analyze(<span class="st">'key'</span>)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>        sd <span class="op">=</span> scale.MajorScale(key.tonic)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>        scale_degrees <span class="op">=</span> []</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> part <span class="kw">in</span> score.parts:</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>            measures <span class="op">=</span> part.getElementsByClass(<span class="st">'Measure'</span>)</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> measure <span class="kw">in</span> measures:</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>                time_signature <span class="op">=</span> measure.getTimeSignatures()[<span class="dv">0</span>] <span class="cf">if</span> measure.getTimeSignatures() <span class="cf">else</span> meter.TimeSignature(<span class="st">'4/4'</span>)</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>                beat_duration <span class="op">=</span> time_signature.beatDuration</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> note <span class="kw">in</span> measure.notesAndRests:</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> note.offset <span class="op">%</span> beat_duration.quarterLength <span class="op">==</span> <span class="dv">0</span>:  <span class="co"># Check if note is on a downbeat</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">if</span> <span class="bu">isinstance</span>(note, music21.note.Note):</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>                            scale_degree <span class="op">=</span> sd.getScaleDegreeFromPitch(note.pitch)</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">if</span> scale_degree <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>                                scale_degrees.append(scale_degree)</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create bigrams</span></span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>        bigrams <span class="op">=</span> <span class="bu">list</span>(<span class="bu">zip</span>(scale_degrees[:<span class="op">-</span><span class="dv">1</span>], scale_degrees[<span class="dv">1</span>:]))</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>        all_bigrams.extend(bigrams)</span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>    bigram_counter <span class="op">=</span> Counter(all_bigrams)</span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>    total_count <span class="op">=</span> <span class="bu">sum</span>(bigram_counter.values())</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> []</span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> bigram, count <span class="kw">in</span> bigram_counter.most_common():</span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">None</span> <span class="kw">not</span> <span class="kw">in</span> bigram:  <span class="co"># Exclude bigrams containing None</span></span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>            percentage <span class="op">=</span> (count <span class="op">/</span> total_count) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>            data.append({</span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>                <span class="st">'2-gram'</span>: <span class="ss">f"</span><span class="sc">{</span>bigram[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">-</span><span class="sc">{</span>bigram[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">"</span>,</span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>                <span class="st">'Count'</span>: count,</span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>                <span class="st">'Percentage'</span>: <span class="ss">f"</span><span class="sc">{</span>percentage<span class="sc">:.2f}</span><span class="ss">%"</span></span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>            })</span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span>
+<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Usage</span></span>
+<span id="cb27-45"><a href="#cb27-45" aria-hidden="true" tabindex="-1"></a>bigram_df <span class="op">=</span> analyze_scale_degree_bigrams(file_list)</span>
+<span id="cb27-46"><a href="#cb27-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(bigram_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>NameError: name 'music21' is not defined</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> converter, scale, note, meter</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> analyze_strong_beat_bigrams(file_list):</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    all_bigrams <span class="op">=</span> []</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> file_list:</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>        score <span class="op">=</span> converter.parse(<span class="bu">file</span>)</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>        key <span class="op">=</span> score.analyze(<span class="st">'key'</span>)</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>        sd <span class="op">=</span> scale.MajorScale(key.tonic)</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Get all time signatures in the score, sorted by offset</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>        time_signatures <span class="op">=</span> <span class="bu">sorted</span>(score.flat.getTimeSignatures(), key<span class="op">=</span><span class="kw">lambda</span> ts: ts.offset)</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> time_signatures:</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>            time_signatures <span class="op">=</span> [meter.TimeSignature(<span class="st">'4/4'</span>)]  <span class="co"># Default to 4/4 if no time signature found</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>        scale_degrees <span class="op">=</span> []</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>        current_ts_index <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>        current_ts <span class="op">=</span> time_signatures[<span class="dv">0</span>]</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>        current_measure_offset <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> n <span class="kw">in</span> score.flat.notesAndRests:</span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Update current time signature if necessary</span></span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> (current_ts_index <span class="op">&lt;</span> <span class="bu">len</span>(time_signatures) <span class="op">-</span> <span class="dv">1</span> <span class="kw">and</span> </span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>                   n.offset <span class="op">&gt;=</span> time_signatures[current_ts_index <span class="op">+</span> <span class="dv">1</span>].offset):</span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>                current_ts_index <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>                current_ts <span class="op">=</span> time_signatures[current_ts_index]</span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>                current_measure_offset <span class="op">=</span> current_ts.offset</span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Calculate the position within the current measure</span></span>
+<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a>            position_in_measure <span class="op">=</span> (n.offset <span class="op">-</span> current_measure_offset) <span class="op">%</span> current_ts.barDuration.quarterLength</span>
+<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Check if it's a strong beat (first beat of the measure or halfway through in common time signatures)</span></span>
+<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> position_in_measure <span class="op">==</span> <span class="fl">0.0</span> <span class="kw">or</span> (current_ts.ratioString <span class="kw">in</span> (<span class="st">'4/4'</span>, <span class="st">'2/2'</span>, <span class="st">'2/4'</span>) <span class="kw">and</span> position_in_measure <span class="op">==</span> current_ts.barDuration.quarterLength <span class="op">/</span> <span class="dv">2</span>):</span>
+<span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="bu">isinstance</span>(n, note.Note):</span>
+<span id="cb29-37"><a href="#cb29-37" aria-hidden="true" tabindex="-1"></a>                    scale_degree <span class="op">=</span> sd.getScaleDegreeFromPitch(n.pitch)</span>
+<span id="cb29-38"><a href="#cb29-38" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> scale_degree <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb29-39"><a href="#cb29-39" aria-hidden="true" tabindex="-1"></a>                        scale_degrees.append(scale_degree)</span>
+<span id="cb29-40"><a href="#cb29-40" aria-hidden="true" tabindex="-1"></a>                    </span>
+<span id="cb29-41"><a href="#cb29-41" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb29-42"><a href="#cb29-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-43"><a href="#cb29-43" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb29-44"><a href="#cb29-44" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create bigrams</span></span>
+<span id="cb29-45"><a href="#cb29-45" aria-hidden="true" tabindex="-1"></a>        bigrams <span class="op">=</span> <span class="bu">list</span>(<span class="bu">zip</span>(scale_degrees[:<span class="op">-</span><span class="dv">1</span>], scale_degrees[<span class="dv">1</span>:]))</span>
+<span id="cb29-46"><a href="#cb29-46" aria-hidden="true" tabindex="-1"></a>        all_bigrams.extend(bigrams)</span>
+<span id="cb29-47"><a href="#cb29-47" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-48"><a href="#cb29-48" aria-hidden="true" tabindex="-1"></a>    bigram_counter <span class="op">=</span> Counter(all_bigrams)</span>
+<span id="cb29-49"><a href="#cb29-49" aria-hidden="true" tabindex="-1"></a>    total_count <span class="op">=</span> <span class="bu">sum</span>(bigram_counter.values())</span>
+<span id="cb29-50"><a href="#cb29-50" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-51"><a href="#cb29-51" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> []</span>
+<span id="cb29-52"><a href="#cb29-52" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> bigram, count <span class="kw">in</span> bigram_counter.most_common():</span>
+<span id="cb29-53"><a href="#cb29-53" aria-hidden="true" tabindex="-1"></a>        percentage <span class="op">=</span> (count <span class="op">/</span> total_count) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb29-54"><a href="#cb29-54" aria-hidden="true" tabindex="-1"></a>        data.append({</span>
+<span id="cb29-55"><a href="#cb29-55" aria-hidden="true" tabindex="-1"></a>            <span class="st">'2-gram'</span>: <span class="ss">f"</span><span class="sc">{</span>bigram[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">-</span><span class="sc">{</span>bigram[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">"</span>,</span>
+<span id="cb29-56"><a href="#cb29-56" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Count'</span>: count,</span>
+<span id="cb29-57"><a href="#cb29-57" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Percentage'</span>: <span class="ss">f"</span><span class="sc">{</span>percentage<span class="sc">:.2f}</span><span class="ss">%"</span></span>
+<span id="cb29-58"><a href="#cb29-58" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb29-59"><a href="#cb29-59" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-60"><a href="#cb29-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-61"><a href="#cb29-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-62"><a href="#cb29-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-63"><a href="#cb29-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Usage</span></span>
+<span id="cb29-64"><a href="#cb29-64" aria-hidden="true" tabindex="-1"></a>bigram_df <span class="op">=</span> analyze_strong_beat_bigrams(file_list)</span>
+<span id="cb29-65"><a href="#cb29-65" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(bigram_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>None</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Usage</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>bigram_df <span class="op">=</span> analyze_strong_beat_bigrams(file_list)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(bigram_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>None</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">### your code below</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> beat_and_strength(filename):</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    beat_strength <span class="op">=</span> []</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    scale_degree <span class="op">=</span> []</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># open the file so we can read through it</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    kern_file <span class="op">=</span> [line.rstrip() <span class="cf">for</span> line <span class="kw">in</span> <span class="bu">open</span>(filename, <span class="st">"r+"</span>)]</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># skip file if it has an MX in it, use it if it does not</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># this gets rid of irregular time signatures</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">"MX"</span> <span class="kw">not</span> <span class="kw">in</span> kern_file:</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>        melody <span class="op">=</span> converter.parse(filename)</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>        <span class="co">### getting all pitches as scale degree.</span></span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>        pitch_count <span class="op">=</span> analysis.discrete.KrumhanslKessler(melody)</span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>        key <span class="op">=</span> pitch_count.getSolution(melody)</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>        my_list <span class="op">=</span> []</span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> n <span class="kw">in</span> melody.flat.notes:</span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>            sd <span class="op">=</span> key.getScaleDegreeFromPitch(n.name)</span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> sd <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>                scale_degree.append(<span class="bu">float</span>(sd))</span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>                scale_degree.append(<span class="dv">0</span>)</span>
+<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a>            beat_strength.append(<span class="bu">float</span>(n.beatStrength))</span>
+<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(filename, <span class="st">"has irregular time signatures. Skipping."</span>)</span>
+<span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-31"><a href="#cb33-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># return two arrays</span></span>
+<span id="cb33-32"><a href="#cb33-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [beat_strength, scale_degree]</span>
+<span id="cb33-33"><a href="#cb33-33" aria-hidden="true" tabindex="-1"></a>b_and_s <span class="op">=</span> [ beat_and_strength(filename) <span class="cf">for</span> filename <span class="kw">in</span> filebrowser()]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Music21ObjectException: this object does not have a TimeSignature in Sites</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> analyze_strong_beat_bigrams(file_list):</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    bigram_counts <span class="op">=</span> {}</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> file_list:</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>        score <span class="op">=</span> converter.parse(<span class="bu">file</span>)</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> part <span class="kw">in</span> score.parts:</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>            measures <span class="op">=</span> part.getElementsByClass(<span class="st">'Measure'</span>)</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(measures) <span class="op">-</span> <span class="dv">1</span>):</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>                m1 <span class="op">=</span> measures[i]</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>                m2 <span class="op">=</span> measures[i<span class="op">+</span><span class="dv">1</span>]</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Get the time signature for the current measure</span></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>                ts <span class="op">=</span> m1.timeSignature</span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> ts <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># If no time signature in the measure, search recursively</span></span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>                    ts <span class="op">=</span> m1.getContextByClass(<span class="st">'TimeSignature'</span>)</span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> ts <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># If still no time signature found, skip this measure</span></span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">continue</span></span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Get notes on strong beats</span></span>
+<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a>                strong_beat_notes1 <span class="op">=</span> [n <span class="cf">for</span> n <span class="kw">in</span> m1.notesAndRests <span class="cf">if</span> n.beat <span class="op">==</span> <span class="dv">1</span>]</span>
+<span id="cb35-29"><a href="#cb35-29" aria-hidden="true" tabindex="-1"></a>                strong_beat_notes2 <span class="op">=</span> [n <span class="cf">for</span> n <span class="kw">in</span> m2.notesAndRests <span class="cf">if</span> n.beat <span class="op">==</span> <span class="dv">1</span>]</span>
+<span id="cb35-30"><a href="#cb35-30" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb35-31"><a href="#cb35-31" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> strong_beat_notes1 <span class="kw">and</span> strong_beat_notes2:</span>
+<span id="cb35-32"><a href="#cb35-32" aria-hidden="true" tabindex="-1"></a>                    bigram <span class="op">=</span> (strong_beat_notes1[<span class="dv">0</span>].nameWithOctave, strong_beat_notes2[<span class="dv">0</span>].nameWithOctave)</span>
+<span id="cb35-33"><a href="#cb35-33" aria-hidden="true" tabindex="-1"></a>                    bigram_counts[bigram] <span class="op">=</span> bigram_counts.get(bigram, <span class="dv">0</span>) <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb35-34"><a href="#cb35-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb35-35"><a href="#cb35-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert to DataFrame</span></span>
+<span id="cb35-36"><a href="#cb35-36" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame(<span class="bu">list</span>(bigram_counts.items()), columns<span class="op">=</span>[<span class="st">'Bigram'</span>, <span class="st">'Count'</span>])</span>
+<span id="cb35-37"><a href="#cb35-37" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'First Note'</span>] <span class="op">=</span> df[<span class="st">'Bigram'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: x[<span class="dv">0</span>])</span>
+<span id="cb35-38"><a href="#cb35-38" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'Second Note'</span>] <span class="op">=</span> df[<span class="st">'Bigram'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: x[<span class="dv">1</span>])</span>
+<span id="cb35-39"><a href="#cb35-39" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.drop(<span class="st">'Bigram'</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb35-40"><a href="#cb35-40" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb35-41"><a href="#cb35-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span>
+<span id="cb35-42"><a href="#cb35-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-43"><a href="#cb35-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Usage</span></span>
+<span id="cb35-44"><a href="#cb35-44" aria-hidden="true" tabindex="-1"></a>bigram_df <span class="op">=</span> analyze_strong_beat_bigrams(file_list)</span>
+<span id="cb35-45"><a href="#cb35-45" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(bigram_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>AttributeError: 'Rest' object has no attribute 'nameWithOctave'</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> analyze_strong_beat_bigrams(file_list):</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    bigram_counts <span class="op">=</span> {}</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> file_list:</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>        score <span class="op">=</span> converter.parse(<span class="bu">file</span>)</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> part <span class="kw">in</span> score.parts:</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>            measures <span class="op">=</span> part.getElementsByClass(<span class="st">'Measure'</span>)</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(measures) <span class="op">-</span> <span class="dv">1</span>):</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>                m1 <span class="op">=</span> measures[i]</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>                m2 <span class="op">=</span> measures[i<span class="op">+</span><span class="dv">1</span>]</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>                ts <span class="op">=</span> m1.timeSignature</span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> ts <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>                    ts <span class="op">=</span> m1.getContextByClass(<span class="st">'TimeSignature'</span>)</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> ts <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">continue</span></span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>                strong_beat_elements1 <span class="op">=</span> [n <span class="cf">for</span> n <span class="kw">in</span> m1.notesAndRests <span class="cf">if</span> n.beat <span class="op">==</span> <span class="dv">1</span>]</span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>                strong_beat_elements2 <span class="op">=</span> [n <span class="cf">for</span> n <span class="kw">in</span> m2.notesAndRests <span class="cf">if</span> n.beat <span class="op">==</span> <span class="dv">1</span>]</span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> strong_beat_elements1 <span class="kw">and</span> strong_beat_elements2:</span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>                    <span class="kw">def</span> get_element_name(elem):</span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">if</span> <span class="bu">isinstance</span>(elem, note.Note):</span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">return</span> elem.nameWithOctave</span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">elif</span> <span class="bu">isinstance</span>(elem, note.Rest):</span>
+<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">return</span> <span class="st">'Rest'</span></span>
+<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">else</span>:</span>
+<span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a>                            <span class="cf">return</span> <span class="st">'Unknown'</span></span>
+<span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a>                    </span>
+<span id="cb37-36"><a href="#cb37-36" aria-hidden="true" tabindex="-1"></a>                    bigram <span class="op">=</span> (get_element_name(strong_beat_elements1[<span class="dv">0</span>]), </span>
+<span id="cb37-37"><a href="#cb37-37" aria-hidden="true" tabindex="-1"></a>                              get_element_name(strong_beat_elements2[<span class="dv">0</span>]))</span>
+<span id="cb37-38"><a href="#cb37-38" aria-hidden="true" tabindex="-1"></a>                    bigram_counts[bigram] <span class="op">=</span> bigram_counts.get(bigram, <span class="dv">0</span>) <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb37-39"><a href="#cb37-39" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb37-40"><a href="#cb37-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># total bigrams</span></span>
+<span id="cb37-41"><a href="#cb37-41" aria-hidden="true" tabindex="-1"></a>    total_count <span class="op">=</span> <span class="bu">sum</span>(bigram_counts.values())</span>
+<span id="cb37-42"><a href="#cb37-42" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb37-43"><a href="#cb37-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># percentages</span></span>
+<span id="cb37-44"><a href="#cb37-44" aria-hidden="true" tabindex="-1"></a>    percentages <span class="op">=</span> {bigram: (count <span class="op">/</span> total_count) <span class="op">*</span> <span class="dv">100</span> <span class="cf">for</span> bigram, count <span class="kw">in</span> bigram_counts.items()}</span>
+<span id="cb37-45"><a href="#cb37-45" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb37-46"><a href="#cb37-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># make it into a pandas thing.</span></span>
+<span id="cb37-47"><a href="#cb37-47" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame(<span class="bu">list</span>(bigram_counts.items()), columns<span class="op">=</span>[<span class="st">'Bigram'</span>, <span class="st">'Count'</span>])</span>
+<span id="cb37-48"><a href="#cb37-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>(df)</span>
+<span id="cb37-49"><a href="#cb37-49" aria-hidden="true" tabindex="-1"></a>  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>NameError: name 'df' is not defined</code></pre>
 </div>
 </div>
 

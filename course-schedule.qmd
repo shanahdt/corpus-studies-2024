@@ -17,5 +17,5 @@ output: html
                       7      Analyzing Time with Spotify
                       8      Regression, Clustering, and Authorship
                       9      Classifying and Recommending
-                      10     Potpurri
+                      10     Potpourri
 

@@ -1,0 +1,22 @@
+---
+title: "Some Troubleshooting"
+---
+
+# My Toolkit isn't Finding the Files!
+
+This is most often a `path` issue. Make sure that the code is looking for the data where the data is. 
+
+For example, if you download a file to your "Downloads" folder, on a Mac or Linux the code would read something like:
+
+```{r, eval=FALSE}
+happy_birthday <- readHumdrum("~/Downloads/happy_birthday.krn")
+```
+
+Note that the tilde ("~") is a shortcut for "/Users/MyName/" etc. 
+
+On a Windows machine, it's a bit different, but R should read the file correctly. Sometimes you will need to escape the file, it might be something like:
+
+```{r, eval=FALSE}
+happy_birthday <- readHumdrum("C:\\Downloads\\happy_birthday.krn")
+```
+

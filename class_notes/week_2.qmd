@@ -634,7 +634,7 @@ Then I do the typical bigram stuff:
 sd_beat |>  mutate(
     next_note = lead(scale_degree),
   ) |>
-    ###ok, this is just ridiculousnesslessness.
+    ###bigrams
   unite(bigram, scale_degree, next_note, sep = " ") |>
   count(bigram, sort = TRUE) |>
   mutate(percentage = n / sum(n) * 100) |> head(15)

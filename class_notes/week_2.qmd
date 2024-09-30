@@ -665,6 +665,76 @@ It's interesting to me that this seems to exclude rests. I can't really see wher
 
 ## music21
 
+This code returns scale degree and beat strength. I added the MX conditional because sometimes there are strange time signatures that come in with some data (usually the Essen Folksong collection data, not this data, but it's still useful).
+
+```{python, eval=FALSE}
+
+### your code below
+def beat_and_strength_as_column(filename):
+    
+    beat_strength = []
+    scale_degree = []
+
+    # open the file so we can read through it
+
+    kern_file = [line.rstrip() for line in open(filename, "r+")]
+
+    # skip file if it has an MX in it, use it if it does not
+    # this gets rid of irregular time signatures
+
+    if "MX" not in kern_file:
+        melody = converter.parse(filename)
+        ### getting all pitches as scale degree.
+        
+        pitch_count = analysis.discrete.KrumhanslKessler(melody)
+        key = pitch_count.getSolution(melody)
+        my_list = []
+
+        for n in melody.flat.notes:
+            sd = key.getScaleDegreeFromPitch(n.name)
+            if sd is not None:
+                scale_degree.append(float(sd))
+            else:
+                scale_degree.append(0)
+            beat_strength.append(float(n.beatStrength))
+    else:
+        print(filename, "has irregular time signatures. Skipping.")
+
+    # print an output, but this note that this just a print to the console.
+    for beat, scale in zip(beat_strength, scale_degree):
+      # return(beat, scale)
+      print(f'{beat}\t{scale}')
+
+
+for file in file_list:
+  beat_and_strength_as_column(file)
+
+
+```
+
+This gives scale degree on the right, and "beat strength" on the left.
+
+```{txt}
+0.25	1.0
+1.0	1.0
+0.25	3.0
+0.5	4.0
+0.25	1.0
+1.0	2.0
+0.25	3.0
+0.5	4.0
+0.25	4.0
+1.0	4.0
+0.25	6.0
+0.5	6.0
+0.25	6.0
+1.0	5.0
+```
+
+### A brief comparison with AI
+You can then use Pandas or soemthing similar to come up with nice tabulations of the data. My code got quite big when I did this and I got a little grumpy. So the code above is mine, and the code below is AI-generated. I think mine is more transparent and logical, but the AI one is maybe more comprehensive? The use of pandas seems nicely executed, but there are some parts that maybe aren't that necessary. For example, there's probably a better way of handling the measures than by assigning m1 and m2 variables, and I'm not really sure how the`isinstance` condutional is functioning. Still, this seems to work somewhat well. 
+
+
 ```{python, eval=FALSE}
 from music21 import *
 import pandas as pd
@@ -672,30 +742,25 @@ import pandas as pd
 def analyze_strong_beat_bigrams(file_list):
     bigram_counts = {}
     
-    ###import and parse the file.
     for file in file_list:
         score = converter.parse(file)
-
-       ### grab measures. 
+        
         for part in score.parts:
             measures = part.getElementsByClass('Measure')
-            ### get the length of the measure
+            
             for i in range(len(measures) - 1):
                 m1 = measures[i]
                 m2 = measures[i+1]
                 
                 ts = m1.timeSignature
-                ###modify based on the time signature.
                 if ts is None:
                     ts = m1.getContextByClass('TimeSignature')
                 
                 if ts is None:
                     continue
                 
-                ### list comprehension for strong beats.
                 strong_beat_elements1 = [n for n in m1.notesAndRests if n.beat == 1]
                 strong_beat_elements2 = [n for n in m2.notesAndRests if n.beat == 1]
-                
                 
                 if strong_beat_elements1 and strong_beat_elements2:
                     def get_element_name(elem):
@@ -723,19 +788,6 @@ def analyze_strong_beat_bigrams(file_list):
 
 
 ```
-
-And we get something like this.
-```{txt}
-
-Bigram	Count
-0	(Rest, F4)	81
-1	(F4, E4)	7
-2	(E4, Rest)	27
-3	(Rest, Rest)	1121
-4	(Rest, A-4)	34
-```
-
-This python way is not the best, and I think there's a better way that I'm going to try to work through. I'm pretty grumpy with it.
 
 :::
 

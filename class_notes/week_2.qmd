@@ -161,7 +161,40 @@ file_list
 Now we have a list of files, and the following function will import them, get the score, the key, and the scale degree (sd):
 
 ```{python, eval=FALSE}
+from music21 import *
+import pandas as pd
+from collections import Counter
 
+def analyze_scale_degrees(file_list):
+    all_scale_degrees = []
+    
+    for file in file_list:
+        score = converter.parse(file)
+        key = score.analyze('key')
+        sc = scale.MajorScale(key.tonic)
+        
+        for pitch in score.pitches:
+            scale_degree = sc.getScaleDegreeFromPitch(pitch)
+            all_scale_degrees.append(scale_degree)
+    
+    scale_degree_counter = Counter(all_scale_degrees)
+    total_count = sum(scale_degree_counter.values())
+    
+    data = []
+    for degree, count in scale_degree_counter.most_common():
+        percentage = (count / total_count) * 100
+        data.append({
+            'Scale Degree': degree,
+            'Count': count,
+            'Percentage': f"{percentage:.2f}%"
+        })
+    
+    df = pd.DataFrame(data)
+    return df
+
+# Assuming file_list is defined
+result_table = analyze_scale_degrees(file_list)
+print(result_table.to_string(index=False))
 ```
 
 This data will return it as a nice pandas table:

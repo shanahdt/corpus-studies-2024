@@ -561,6 +561,10 @@ It might be worth exploring your encoding from the weekend, exploring a couple o
 
 # N-grams by Beat Strength
 
+
+
+
+
 The thing is, some notes are more important than others. Downbeats, for example, might be thought of as more salient than offbeats.
 
 ![Example of Beat Hierarchy from *A Generative Theory of Tonal Music*, this example from Cross, 1998](../images/gttm-k311-beats.png)
@@ -829,3 +833,410 @@ def analyze_strong_beat_bigrams(file_list):
 1. What are the most common downbeat-to-downbeat transitions in the Dizzy Gillespie dataset?
 2. How does it compare with the Charlie Parker dataset?
 3. There are some discrepencies at play between the calculations. Why do you think that is?
+
+
+# Melodic and Harmonic Intervals
+
+We can think of intervals in two separate ways: horizontal and vertical. In terms of horizontal, we might think of melodic intervals, or note-to-note patterns, or harmonic, which are notes playing at a same time. There are a few ways of calculating both of these.
+
+## Melodic Intervals
+
+In terms of melodic intervals, we can think of it in terms of (1) simple intervals or (2) compound intervals, and with each of those can include the melodic direction. It's worth thinking about whether your research question requires one of these over another. 
+
+Returning to "Happy Birthday", perhaps I have a research question about how often melodic leaps are followed by steps:
+
+![Happy Birthday](../images/happy-birthday.png){width=75%}
+
+Not that the first melodic interval is a unison (a P1), and the second is an ascending major second (D going to E). It's then followed by a descending major second, and an ascending perfect fourth. [Open Music Theory](https://viva.pressbooks.pub/openmusictheory/chapter/intervals/) has a good introduction to this, if you'd feel like you could use a bit of an introduction or refresher.
+
+Back to our research question, we want to know what intervals are followed by leaps. For `Humdrum`, `music21`, and `HumdrumR`, it will primarily be the same code, but with some minor changes. In terms of `Humdrum` we can just take our old code for `deg`, but change `deg` to `mint`.
+
+For example, the code below does a few things: (1) it calculates the melodic interval with `mint`, (2) it gets rid of the metadata with the `rid` tool (global, local, interpretative, and data tokens with the GLId flags), it (3) gets rid of barlines with `grep -v`, it (4) runs the `context` tool to get note-by-note transitions, and then it (5) counts all of these and gives a percentage with `sourtcount -p`.
+
+```{bash, eval=FALSE}
+mint ../data/happy_birthday.krn | rid -GLId | grep -v '=' | context -n 2 | sortcount -p 
+```
+
+This gives us the following:
+
+```{txt}
+12.5    +M2 -M2
+8.33    -M3 P1
+8.33    P1 +M2
+4.17    -m2 -M3
+4.17    P1 +M7
+4.17    +M7 -M3
+4.17    +P4 -m2
+4.17    P1 +P8
+4.17    -M2 +P5
+4.17    -m2 -M2
+4.17    -m3 -M3
+4.17    -M2 +P4
+4.17    -M2 -M3
+4.17    [d] P1
+4.17    -P4 P1
+4.17    -M3 -m2
+4.17    +P5 -M2
+4.17    -M3 +M2
+4.17    -M2 -P4
+4.17    +P8 -m3
+```
+
+If we aren't intereseted in the melodic direction, we could have just added the `-a` flag to `mint`.
+
+In terms of the research question, I want to know what intervals follow **big** intervals. So I will use what is called a **regular expression**. 
+
+```{bash, eval=FALSE}
+mint ../data/happy_birthday.krn | rid -GLId | grep -v '=' | context -n 2 | grep '[45678] '
+```
+
+This returns this data: 
+
+```{txt}
++P4 -m2
++P5 -M2
+-P4 P1
++P8 -m3
++M7 -M3
+```
+
+The final part of the code (`grep '[45678] ')` has brackets, which means it's searching for 4, 5, 6, 7, or 8, followed by a space (which is what context returns).
+
+Although I'm using `Humdrum` here, it's worth knowing that regular expressions can be used in all of the languages and toolkits that we are working with.
+
+So a brief comparison of the code:
+
+:::
+
+## Humdrum
+
+The code from above can help us with this.
+```{bash, eval=FALSE}
+mint ../data/happy_birthday.krn | rid -GLId | grep -v '=' | context -n 2 | grep '[45678] '
+```
+
+## HumdrumR
+
+HumdrumR is pretty obviously derived from Humdrum here, in that you can just run the `mint` function. Again, the manual pages for HumdrumR (found [here](https://humdrumr.ccml.gtcmt.gatech.edu/articles/PitchAndTonality.html?q=melodic%20int#melodic-intervals)) are quite useful.
+
+```{r, eval=FALSE}
+library(tidyverse)
+library(humdrumR)
+
+happy_birthday <- readHumdrum("data/happy_birthday.krn")
+mint(happy_birthday) 
+```
+
+
+The code below is identical to the `deg` code above, but with `mint` instead of `deg`.
+```{r, eval=FALSE}
+
+mint(happy_birthday) |>
+    as.data.frame() |>
+    ### clean the data a bit and only get the V1 column, and get rid
+    ### of the null data tokens (".")
+    select(V1) |>
+    filter(V1 != ".") |>
+    ### the lead function gets the next data from the current data.
+     mutate(next_note = lead(V1)) |>
+    ### get rid of any NAs that show up.
+    filter(!is.na(next_note)) |>
+    ### start creating a table in the "bigram" column
+    unite(bigram, V1, next_note, sep = " ") |>
+    ### gives us the n column
+    count(bigram, sort = TRUE) |>
+  ### this is the mutate code from before.
+  mutate(percentage = n / sum(n) * 100) 
+```
+
+```{txt}
+    bigram n percentage
+1  +M2 -M2 3  12.500000
+2   -M3 P1 2   8.333333
+3   P1 +M2 2   8.333333
+4  +M7 -M3 1   4.166667
+5  +P4 -m2 1   4.166667
+6  +P5 -M2 1   4.166667
+7  +P8 -m3 1   4.166667
+8  -M2 +P4 1   4.166667
+9  -M2 +P5 1   4.166667
+10 -M2 -M3 1   4.166667
+11 -M2 -P4 1   4.166667
+12 -M3 +M2 1   4.166667
+13 -M3 -m2 1   4.166667
+14  -P4 P1 1   4.166667
+15 -m2 -M2 1   4.166667
+16 -m2 -M3 1   4.166667
+17 -m3 -M3 1   4.166667
+18  P1 +M7 1   4.166667
+19  P1 +P8 1   4.166667
+20  [d] P1 1   4.166667
+```
+
+We can filter out the big intervals. Here, I'm going to take all of this data and assign it to a variable.
+
+
+```{r, eval=FALSE}
+
+minty_birthday <- mint(happy_birthday) |>
+    as.data.frame() |>
+    ### clean the data a bit and only get the V1 column, and get rid
+    ### of the null data tokens (".")
+    select(V1) |>
+    filter(V1 != ".") |>
+    ### the lead function gets the next data from the current data.
+     mutate(next_note = lead(V1)) |>
+    ### get rid of any NAs that show up.
+    filter(!is.na(next_note)) |>
+    ### start creating a table in the "bigram" column
+    unite(bigram, V1, next_note, sep = " ") |>
+    ### gives us the n column
+    count(bigram, sort = TRUE) |>
+  ### this is the mutate code from before.
+  mutate(percentage = n / sum(n) * 100) 
+
+
+```
+
+And this code, using `filter` and then R's version of `grep` (`grepl`) we can get the same results:
+
+```{r, eval=FALSE}
+minty_birthday |> filter(grepl("[45678] ", bigram))
+```
+
+
+```{txt}
+   bigram n percentage
+1 +M7 -M3 1   4.166667
+2 +P4 -m2 1   4.166667
+3 +P5 -M2 1   4.166667
+4 +P8 -m3 1   4.166667
+5  -P4 P1 1   4.166667
+```
+
+## music21
+
+The music21 manual page on intervals (found [here](https://www.music21.org/music21docs/moduleReference/moduleInterval.html)) is very, very useful on this. 
+
+```{python, eval=FALSE}
+from music21 import converter, interval
+from collections import Counter
+import pandas as pd
+
+def mint_bigrams(file_list):
+    all_bigrams = []
+    
+    for file in file_list:
+        score = converter.parse(file)
+        
+        # this is list a nice bit of list comprehension...
+        pitches = [p for p in score.pitches if p is not None]
+        
+        # calculate the intervals. We are using 
+        # music21's direction, interval, and semiSimpleName functions.
+        intervals = []
+        for i in range(len(pitches) - 1):
+            int_obj = interval.Interval(pitches[i], pitches[i+1])
+            direction = "Ascending" if int_obj.direction == 1 else "Descending"
+            # Use semiSimpleName to get interval quality (e.g., 'm', 'M', 'P')
+            # this corresponds to minor, major, perfect, etc.
+            interval_name = f"{direction} {int_obj.semiSimpleName}"
+            intervals.append(interval_name)
+        
+        # our old bigram zip code.
+        bigrams = list(zip(intervals[:-1], intervals[1:]))
+        all_bigrams.extend(bigrams)
+    
+    bigram_counter = Counter(all_bigrams)
+    total_count = sum(bigram_counter.values())
+    
+    data = []
+    for bigram, count in bigram_counter.most_common():
+        percentage = (count / total_count) * 100
+        data.append({
+          #### here we are finding the first minty bigram note, and the
+          ### second minty bigram note.
+            'Interval Bigram': f"{bigram[0]} {bigram[1]}",
+            'Count': count,
+            'Percentage': f"{percentage:.2f}%"
+        })
+    
+    df = pd.DataFrame(data)
+    return df
+
+#  this is still the file_list code, so it runs on all of the Charlie Parker stuff.
+bigram_df = mint_bigrams(file_list)
+print(bigram_df)
+
+```
+
+This is quite cool, but took a bit more work. Still, it's more flexible and can give more info...
+
+```{txt}
+0    Descending P1 -> Descending P1   2780     18.58%
+1    Descending P1 -> Descending m2    387      2.59%
+2    Descending m2 -> Descending P1    360      2.41%
+3     Descending m2 -> Ascending m2    310      2.07%
+4    Descending M2 -> Descending P1    305      2.04%
+```
+
+:::
+
+## Harmonic Intervals
+
+We can think of vertical sonorities in a number of ways. First, we can think of `harmonic intervals`. Humdrum does this with the `hint` tool.
+
+For this, we will need to look at a different dataset. Let's look at the Barber Shop Quartet dataset. This can be found on both the Canvas page and the github repo.
+
+
+::: {.panel-tabset}
+
+## Humdrum
+
+With Humdrum, we can just use `hint` instead of `mint`. 
+
+```{bash, eval=FALSE}
+for file in ../data/humdrum_scores/Barbershop/*.krn
+  do  
+    hint  $file
+  done | sortcount -p
+```
+
+This gives us this data:
+
+```{txt}
+7.91    P5 P4 M3
+6.89    P5 m3 A4
+5.69    M3 m3 m3
+5.61    P4 M3 d5
+5.24    M3 m3 P4
+4.58    m3 M2 M3
+2.62    m3 M3 P4
+2.54    M6 m3 M3
+```
+
+This means that, of the four voices, there's a Perfect Fifth, a Perfect Fourth, and a Major Third, etc. (C-G-C-E). This is a major triad with the third of the chord in the top voice and the root of the chord in the bass.
+
+## HumdrumR
+
+```{r, eval=FALSE}
+barbershop <- readHumdrum("data/humdrum_scores/Barbershop/*.krn")
+hint(barbershop)
+```
+
+This returns this data:
+
+```{txt}
+     1:  !! "Are You From Dixie?" by George Cobb, arranged ***
+     2:  !! from "Close Harmony Classics for Barbershop Qua***
+     3:  !! copyright 1915 & 1952 by M. Witmark & Sons; pp.***
+     4:  !! NOTE:  The "tag ending" is encoded here without***
+     5:       **interval     **interval     **interval     **interval
+     6:                .              .              .              .
+     7:              *C:            *C:            *C:            *C:
+     8:               =1             =1             =1             =1
+     9:              [C]            +P8            -P4            +M6
+    10:               =2             =2             =2             =2
+    11:              [B]            +m3            +M2            +M3
+    12:              [E]            +P5            +m3            +P4
+    13:               =3             =3             =3             =3
+    14:              [F]            +M3            +m3            +P4
+    15:             [F#]            +P4            -M2            +A4
+```
+
+So we get the root and the intervals. If we want to grab only the intervals, we can look at it something like this:
+
+I think that 
+
+```{r, eval=FALSE}
+x <- hint(barbershop) |> as.data.frame()
+y <- paste(x$V2, x$V3, x$V4, sep = "_")
+
+y |> count(sort = TRUE) |> 
+                as.data.frame() |> 
+                mutate(percentage = n/sum(n) * 100) |> 
+                arrange(desc(percentage))
+```
+
+This gives us this data. **NOTE**: Notice the null data tokens. How would I clean that up? (hint: it's in some code above–NB: no pun intended on the *hint*).
+
+```{txt}
+           ._._. 284 6.56192237
+2     +P5_+P4_+M3 186 4.29759704
+3     +m7_-m3_+M6 185 4.27449168
+4     +M3_+m3_+m3 164 3.78927911
+5     +m3_+M2_+M3 144 3.32717190
+6     +M6_-M3_+m7 128 2.95748614
+7     +M3_+m3_+P4 118 2.72643253
+8     +P8_-P4_+M6 105 2.42606285
+9     +P8_-m3_+P5  81 1.87153420
+10    +P4_+M3_+d5  77 1.77911275
+
+```
+
+## music21 
+
+For music21 we will import all of our files first:
+
+```{python, eval=FALSE}
+
+import glob
+from music21 import *
+from collections import Counter
+
+
+def filebrowser(ext="../data/humdrum_scores/Barbershop/*.krn"):
+    "Returns files with an extension"
+    return [f for f in glob.glob(ext)]
+
+file_list = filebrowser()
+file_list
+```
+
+One of the strengths (and weaknesses) of music21 is the data structure, using a "stream" to store its data. Here, it's actually quite useful, and we can grab many attributes of a single chord, such as the measure number, the beat, and a chord quality. Music21 lets you represents these chords in _so, so, so many ways_ as well. See the [chord documentation](https://www.music21.org/music21docs/moduleReference/moduleChord.html) for more.
+
+```{python, eval=FALSE}
+def hint(filename):
+    print(f"Working on {filename}")
+    barbershop = converter.parse(filename)
+    barbershopChords = barbershop.chordify()
+    chord_list = []
+    
+    for thisChord in barbershopChords.recurse().getElementsByClass(chord.Chord):
+        chord_info = (thisChord.measureNumber, thisChord.beatStr, thisChord.commonName)
+        chord_list.append(chord_info)
+        print(f"Measure: {thisChord.measureNumber}, Beat: {thisChord.beatStr}, Chord: {thisChord.pitchedCommonName}")
+    
+    return chord_list
+
+for file in file_list:
+    hint(file)
+
+```
+
+
+And we get this data:
+
+```{txt}
+Measure: 1, Beat: 1, Chord: G-major triad
+Measure: 1, Beat: 1 1/2, Chord: E-minor triad
+Measure: 1, Beat: 2, Chord: G-Perfect Octave
+Measure: 1, Beat: 2 1/2, Chord: D-dominant seventh chord
+Measure: 2, Beat: 1, Chord: G-major triad
+Measure: 2, Beat: 1 1/4, Chord: G-major triad
+Measure: 2, Beat: 1 3/4, Chord: G-major triad
+Measure: 2, Beat: 2, Chord: G-major triad
+Measure: 2, Beat: 2 1/2, Chord: G-major triad
+Measure: 3, Beat: 1, Chord: G#-half-diminished seventh chord
+Measure: 3, Beat: 2, Chord: E-dominant seventh chord
+Measure: 4, Beat: 1, Chord: E-minor seventh chord
+Measure: 4, Beat: 1 1/2, Chord: E-major triad
+```
+:::
+
+
+## Classroom Exercises
+
+1. What are the most common chords in the Barbershop quartet? 
+2. How will you choose to represent those chords in a normalized way?
+3. Would you like to give chord-to-chord transitions a try???

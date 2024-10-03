@@ -906,7 +906,7 @@ Although I'm using `Humdrum` here, it's worth knowing that regular expressions c
 
 So a brief comparison of the code:
 
-:::
+:::{.panel-tabset}
 
 ## Humdrum
 
@@ -1029,21 +1029,31 @@ def mint_bigrams(file_list):
     for file in file_list:
         score = converter.parse(file)
         
-        # this is list a nice bit of list comprehension...
+        ###list comprehension, etc.
         pitches = [p for p in score.pitches if p is not None]
         
-        # calculate the intervals. We are using 
-        # music21's direction, interval, and semiSimpleName functions.
+        # create an interval list
         intervals = []
+
+        ### some conditionals to label the directions.
+        ### 1 = ascending, 0 = oblique (no motion), -1 = descending. 
+        ### here I've just > 0, less than 0 and else (ascending, decending, and oblique).
+
         for i in range(len(pitches) - 1):
-            int_obj = interval.Interval(pitches[i], pitches[i+1])
-            direction = "Ascending" if int_obj.direction == 1 else "Descending"
-            # Use semiSimpleName to get interval quality (e.g., 'm', 'M', 'P')
-            # this corresponds to minor, major, perfect, etc.
-            interval_name = f"{direction} {int_obj.semiSimpleName}"
+            my_interval = interval.Interval(pitches[i], pitches[i+1])
+            semitones = my_interval.semitones
+            
+            if semitones > 0:
+                direction = "Ascending"
+            elif semitones < 0:
+                direction = "Descending"
+            else:
+                direction = "Oblique"
+
+            interval_name = f"{direction} {my_interval.semiSimpleName}"
             intervals.append(interval_name)
         
-        # our old bigram zip code.
+        # Create bigrams of intervals
         bigrams = list(zip(intervals[:-1], intervals[1:]))
         all_bigrams.extend(bigrams)
     
@@ -1054,9 +1064,7 @@ def mint_bigrams(file_list):
     for bigram, count in bigram_counter.most_common():
         percentage = (count / total_count) * 100
         data.append({
-          #### here we are finding the first minty bigram note, and the
-          ### second minty bigram note.
-            'Interval Bigram': f"{bigram[0]} {bigram[1]}",
+            'Interval Bigram': f"{bigram[0]} -> {bigram[1]}",
             'Count': count,
             'Percentage': f"{percentage:.2f}%"
         })
@@ -1064,9 +1072,10 @@ def mint_bigrams(file_list):
     df = pd.DataFrame(data)
     return df
 
-#  this is still the file_list code, so it runs on all of the Charlie Parker stuff.
+# Usage
 bigram_df = mint_bigrams(file_list)
 print(bigram_df)
+
 
 ```
 
@@ -1078,6 +1087,59 @@ This is quite cool, but took a bit more work. Still, it's more flexible and can 
 2    Descending m2 -> Descending P1    360      2.41%
 3     Descending m2 -> Ascending m2    310      2.07%
 4    Descending M2 -> Descending P1    305      2.04%
+```
+
+
+In class, we were stumped a bit with extracting from a music21 stram. The code below will do it.
+
+```{python, eval=FALSE}
+### import the toolkits
+import glob
+from music21 import *
+
+### adjust your own path accordingly!!!
+def filebrowser(ext="../data/humdrum_scores/Barbershop/*.krn"):
+    return glob.glob(ext)
+
+file_list = filebrowser()
+
+### here's a loop to get the melodic intervals from only the bass part.
+for file in file_list:
+    score = converter.parse(file)
+    #### THIS IS THE CODE I WAS STRUGGLING WITH IN CLASS!
+    first_part = score.parts[0]
+    notes = first_part.recurse().notesAndRests
+    for i in range(len(notes) - 1):
+        if notes[i].isNote and notes[i+1].isNote:
+            my_interval = interval.Interval(notes[i], notes[i+1])
+            print(f"{my_interval.directedName}")
+
+
+```
+
+THat gives us this list...
+
+```{txt}
+P1
+P1
+m2
+M2
+m-3
+P1
+P1
+m3
+P1
+P1
+P1
+m-3
+P1
+P1
+m3
+P1
+m-2
+
+etc.
+
 ```
 
 :::

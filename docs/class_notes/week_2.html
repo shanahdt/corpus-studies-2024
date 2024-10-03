@@ -227,9 +227,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#melodic-and-harmonic-intervals" id="toc-melodic-and-harmonic-intervals" class="nav-link" data-scroll-target="#melodic-and-harmonic-intervals">Melodic and Harmonic Intervals</a>
   <ul class="collapse">
   <li><a href="#melodic-intervals" id="toc-melodic-intervals" class="nav-link" data-scroll-target="#melodic-intervals">Melodic Intervals</a></li>
-  <li><a href="#humdrum-3" id="toc-humdrum-3" class="nav-link" data-scroll-target="#humdrum-3">Humdrum</a></li>
-  <li><a href="#humdrumr-3" id="toc-humdrumr-3" class="nav-link" data-scroll-target="#humdrumr-3">HumdrumR</a></li>
-  <li><a href="#music21-3" id="toc-music21-3" class="nav-link" data-scroll-target="#music21-3">music21</a></li>
   <li><a href="#harmonic-intervals" id="toc-harmonic-intervals" class="nav-link" data-scroll-target="#harmonic-intervals">Harmonic Intervals</a></li>
   <li><a href="#classroom-exercises" id="toc-classroom-exercises" class="nav-link" data-scroll-target="#classroom-exercises">Classroom Exercises</a></li>
   </ul></li>
@@ -1075,17 +1072,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The final part of the code (<code>grep '[45678] ')</code> has brackets, which means it’s searching for 4, 5, 6, 7, or 8, followed by a space (which is what context returns).</p>
 <p>Although I’m using <code>Humdrum</code> here, it’s worth knowing that regular expressions can be used in all of the languages and toolkits that we are working with.</p>
 <p>So a brief comparison of the code:</p>
-<p>:::</p>
-</section>
-<section id="humdrum-3" class="level2">
-<h2 class="anchored" data-anchor-id="humdrum-3">Humdrum</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">Humdrum</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">HumdrumR</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-3" role="tab" aria-controls="tabset-4-3" aria-selected="false">music21</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
 <p>The code from above can help us with this.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mint</span> ../data/happy_birthday.krn <span class="kw">|</span> <span class="ex">rid</span> <span class="at">-GLId</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-v</span> <span class="st">'='</span> <span class="kw">|</span> <span class="ex">context</span> <span class="at">-n</span> 2 <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'[45678] '</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="humdrumr-3" class="level2">
-<h2 class="anchored" data-anchor-id="humdrumr-3">HumdrumR</h2>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
 <p>HumdrumR is pretty obviously derived from Humdrum here, in that you can just run the <code>mint</code> function. Again, the manual pages for HumdrumR (found <a href="https://humdrumr.ccml.gtcmt.gatech.edu/articles/PitchAndTonality.html?q=melodic%20int#melodic-intervals">here</a>) are quite useful.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -1167,9 +1163,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>4 +P8 -m3 1   4.166667</span>
 <span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>5  -P4 P1 1   4.166667</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="music21-3" class="level2">
-<h2 class="anchored" data-anchor-id="music21-3">music21</h2>
+</div>
+<div id="tabset-4-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-3-tab">
 <p>The music21 manual page on intervals (found <a href="https://www.music21.org/music21docs/moduleReference/moduleInterval.html">here</a>) is very, very useful on this.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> converter, interval</span>
@@ -1182,44 +1177,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> file_list:</span>
 <span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>        score <span class="op">=</span> converter.parse(<span class="bu">file</span>)</span>
 <span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># this is list a nice bit of list comprehension...</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>        <span class="co">###list comprehension, etc.</span></span>
 <span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>        pitches <span class="op">=</span> [p <span class="cf">for</span> p <span class="kw">in</span> score.pitches <span class="cf">if</span> p <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>]</span>
 <span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># calculate the intervals. We are using </span></span>
-<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># music21's direction, interval, and semiSimpleName functions.</span></span>
-<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>        intervals <span class="op">=</span> []</span>
-<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(pitches) <span class="op">-</span> <span class="dv">1</span>):</span>
-<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>            int_obj <span class="op">=</span> interval.Interval(pitches[i], pitches[i<span class="op">+</span><span class="dv">1</span>])</span>
-<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a>            direction <span class="op">=</span> <span class="st">"Ascending"</span> <span class="cf">if</span> int_obj.direction <span class="op">==</span> <span class="dv">1</span> <span class="cf">else</span> <span class="st">"Descending"</span></span>
-<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Use semiSimpleName to get interval quality (e.g., 'm', 'M', 'P')</span></span>
-<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a>            <span class="co"># this corresponds to minor, major, perfect, etc.</span></span>
-<span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a>            interval_name <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>direction<span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>int_obj<span class="sc">.</span>semiSimpleName<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a>            intervals.append(interval_name)</span>
-<span id="cb42-24"><a href="#cb42-24" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb42-25"><a href="#cb42-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># our old bigram zip code.</span></span>
-<span id="cb42-26"><a href="#cb42-26" aria-hidden="true" tabindex="-1"></a>        bigrams <span class="op">=</span> <span class="bu">list</span>(<span class="bu">zip</span>(intervals[:<span class="op">-</span><span class="dv">1</span>], intervals[<span class="dv">1</span>:]))</span>
-<span id="cb42-27"><a href="#cb42-27" aria-hidden="true" tabindex="-1"></a>        all_bigrams.extend(bigrams)</span>
-<span id="cb42-28"><a href="#cb42-28" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb42-29"><a href="#cb42-29" aria-hidden="true" tabindex="-1"></a>    bigram_counter <span class="op">=</span> Counter(all_bigrams)</span>
-<span id="cb42-30"><a href="#cb42-30" aria-hidden="true" tabindex="-1"></a>    total_count <span class="op">=</span> <span class="bu">sum</span>(bigram_counter.values())</span>
-<span id="cb42-31"><a href="#cb42-31" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb42-32"><a href="#cb42-32" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> []</span>
-<span id="cb42-33"><a href="#cb42-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> bigram, count <span class="kw">in</span> bigram_counter.most_common():</span>
-<span id="cb42-34"><a href="#cb42-34" aria-hidden="true" tabindex="-1"></a>        percentage <span class="op">=</span> (count <span class="op">/</span> total_count) <span class="op">*</span> <span class="dv">100</span></span>
-<span id="cb42-35"><a href="#cb42-35" aria-hidden="true" tabindex="-1"></a>        data.append({</span>
-<span id="cb42-36"><a href="#cb42-36" aria-hidden="true" tabindex="-1"></a>          <span class="co">#### here we are finding the first minty bigram note, and the</span></span>
-<span id="cb42-37"><a href="#cb42-37" aria-hidden="true" tabindex="-1"></a>          <span class="co">### second minty bigram note.</span></span>
-<span id="cb42-38"><a href="#cb42-38" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Interval Bigram'</span>: <span class="ss">f"</span><span class="sc">{</span>bigram[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>bigram[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">"</span>,</span>
-<span id="cb42-39"><a href="#cb42-39" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Count'</span>: count,</span>
-<span id="cb42-40"><a href="#cb42-40" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Percentage'</span>: <span class="ss">f"</span><span class="sc">{</span>percentage<span class="sc">:.2f}</span><span class="ss">%"</span></span>
-<span id="cb42-41"><a href="#cb42-41" aria-hidden="true" tabindex="-1"></a>        })</span>
-<span id="cb42-42"><a href="#cb42-42" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb42-43"><a href="#cb42-43" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame(data)</span>
-<span id="cb42-44"><a href="#cb42-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span>
-<span id="cb42-45"><a href="#cb42-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-46"><a href="#cb42-46" aria-hidden="true" tabindex="-1"></a><span class="co">#  this is still the file_list code, so it runs on all of the Charlie Parker stuff.</span></span>
-<span id="cb42-47"><a href="#cb42-47" aria-hidden="true" tabindex="-1"></a>bigram_df <span class="op">=</span> mint_bigrams(file_list)</span>
-<span id="cb42-48"><a href="#cb42-48" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(bigram_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># create an interval list</span></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>        intervals <span class="op">=</span> []</span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>        <span class="co">### some conditionals to label the directions.</span></span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>        <span class="co">### 1 = ascending, 0 = oblique (no motion), -1 = descending. </span></span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a>        <span class="co">### here I've just &gt; 0, less than 0 and else (ascending, decending, and oblique).</span></span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-21"><a href="#cb42-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(pitches) <span class="op">-</span> <span class="dv">1</span>):</span>
+<span id="cb42-22"><a href="#cb42-22" aria-hidden="true" tabindex="-1"></a>            my_interval <span class="op">=</span> interval.Interval(pitches[i], pitches[i<span class="op">+</span><span class="dv">1</span>])</span>
+<span id="cb42-23"><a href="#cb42-23" aria-hidden="true" tabindex="-1"></a>            semitones <span class="op">=</span> my_interval.semitones</span>
+<span id="cb42-24"><a href="#cb42-24" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb42-25"><a href="#cb42-25" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> semitones <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb42-26"><a href="#cb42-26" aria-hidden="true" tabindex="-1"></a>                direction <span class="op">=</span> <span class="st">"Ascending"</span></span>
+<span id="cb42-27"><a href="#cb42-27" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> semitones <span class="op">&lt;</span> <span class="dv">0</span>:</span>
+<span id="cb42-28"><a href="#cb42-28" aria-hidden="true" tabindex="-1"></a>                direction <span class="op">=</span> <span class="st">"Descending"</span></span>
+<span id="cb42-29"><a href="#cb42-29" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb42-30"><a href="#cb42-30" aria-hidden="true" tabindex="-1"></a>                direction <span class="op">=</span> <span class="st">"Oblique"</span></span>
+<span id="cb42-31"><a href="#cb42-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-32"><a href="#cb42-32" aria-hidden="true" tabindex="-1"></a>            interval_name <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>direction<span class="sc">}</span><span class="ss"> </span><span class="sc">{</span>my_interval<span class="sc">.</span>semiSimpleName<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb42-33"><a href="#cb42-33" aria-hidden="true" tabindex="-1"></a>            intervals.append(interval_name)</span>
+<span id="cb42-34"><a href="#cb42-34" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb42-35"><a href="#cb42-35" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create bigrams of intervals</span></span>
+<span id="cb42-36"><a href="#cb42-36" aria-hidden="true" tabindex="-1"></a>        bigrams <span class="op">=</span> <span class="bu">list</span>(<span class="bu">zip</span>(intervals[:<span class="op">-</span><span class="dv">1</span>], intervals[<span class="dv">1</span>:]))</span>
+<span id="cb42-37"><a href="#cb42-37" aria-hidden="true" tabindex="-1"></a>        all_bigrams.extend(bigrams)</span>
+<span id="cb42-38"><a href="#cb42-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-39"><a href="#cb42-39" aria-hidden="true" tabindex="-1"></a>    bigram_counter <span class="op">=</span> Counter(all_bigrams)</span>
+<span id="cb42-40"><a href="#cb42-40" aria-hidden="true" tabindex="-1"></a>    total_count <span class="op">=</span> <span class="bu">sum</span>(bigram_counter.values())</span>
+<span id="cb42-41"><a href="#cb42-41" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-42"><a href="#cb42-42" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> []</span>
+<span id="cb42-43"><a href="#cb42-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> bigram, count <span class="kw">in</span> bigram_counter.most_common():</span>
+<span id="cb42-44"><a href="#cb42-44" aria-hidden="true" tabindex="-1"></a>        percentage <span class="op">=</span> (count <span class="op">/</span> total_count) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb42-45"><a href="#cb42-45" aria-hidden="true" tabindex="-1"></a>        data.append({</span>
+<span id="cb42-46"><a href="#cb42-46" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Interval Bigram'</span>: <span class="ss">f"</span><span class="sc">{</span>bigram[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> -&gt; </span><span class="sc">{</span>bigram[<span class="dv">1</span>]<span class="sc">}</span><span class="ss">"</span>,</span>
+<span id="cb42-47"><a href="#cb42-47" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Count'</span>: count,</span>
+<span id="cb42-48"><a href="#cb42-48" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Percentage'</span>: <span class="ss">f"</span><span class="sc">{</span>percentage<span class="sc">:.2f}</span><span class="ss">%"</span></span>
+<span id="cb42-49"><a href="#cb42-49" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb42-50"><a href="#cb42-50" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb42-51"><a href="#cb42-51" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb42-52"><a href="#cb42-52" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span>
+<span id="cb42-53"><a href="#cb42-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-54"><a href="#cb42-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Usage</span></span>
+<span id="cb42-55"><a href="#cb42-55" aria-hidden="true" tabindex="-1"></a>bigram_df <span class="op">=</span> mint_bigrams(file_list)</span>
+<span id="cb42-56"><a href="#cb42-56" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(bigram_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This is quite cool, but took a bit more work. Still, it’s more flexible and can give more info…</p>
 <div class="cell">
@@ -1229,132 +1232,179 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>3     Descending m2 -&gt; Ascending m2    310      2.07%</span>
 <span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>4    Descending M2 -&gt; Descending P1    305      2.04%</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>:::</p>
+<p>In class, we were stumped a bit with extracting from a music21 stram. The code below will do it.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">### import the toolkits</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> glob</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="co">### adjust your own path accordingly!!!</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> filebrowser(ext<span class="op">=</span><span class="st">"../data/humdrum_scores/Barbershop/*.krn"</span>):</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> glob.glob(ext)</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>file_list <span class="op">=</span> filebrowser()</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a><span class="co">### here's a loop to get the melodic intervals from only the bass part.</span></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> file_list:</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>    score <span class="op">=</span> converter.parse(<span class="bu">file</span>)</span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">#### THIS IS THE CODE I WAS STRUGGLING WITH IN CLASS!</span></span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>    first_part <span class="op">=</span> score.parts[<span class="dv">0</span>]</span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>    notes <span class="op">=</span> first_part.recurse().notesAndRests</span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(notes) <span class="op">-</span> <span class="dv">1</span>):</span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> notes[i].isNote <span class="kw">and</span> notes[i<span class="op">+</span><span class="dv">1</span>].isNote:</span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>            my_interval <span class="op">=</span> interval.Interval(notes[i], notes[i<span class="op">+</span><span class="dv">1</span>])</span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>my_interval<span class="sc">.</span>directedName<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>THat gives us this list…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>P1</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>P1</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>m2</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>M2</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>m-3</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>P1</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>P1</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>m3</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>P1</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>P1</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>P1</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>m-3</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>P1</span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>P1</span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>m3</span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>P1</span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>m-2</span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>etc.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section id="harmonic-intervals" class="level2">
 <h2 class="anchored" data-anchor-id="harmonic-intervals">Harmonic Intervals</h2>
 <p>We can think of vertical sonorities in a number of ways. First, we can think of <code>harmonic intervals</code>. Humdrum does this with the <code>hint</code> tool.</p>
 <p>For this, we will need to look at a different dataset. Let’s look at the Barber Shop Quartet dataset. This can be found on both the Canvas page and the github repo.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">Humdrum</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">HumdrumR</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-3" role="tab" aria-controls="tabset-4-3" aria-selected="false">music21</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">Humdrum</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">HumdrumR</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-3" role="tab" aria-controls="tabset-5-3" aria-selected="false">music21</a></li></ul>
 <div class="tab-content">
-<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
 <p>With Humdrum, we can just use <code>hint</code> instead of <code>mint</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file <span class="kw">in</span> ../data/humdrum_scores/Barbershop/<span class="pp">*</span>.krn</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">do</span>  </span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">hint</span>  <span class="va">$file</span></span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">done</span> <span class="kw">|</span> <span class="ex">sortcount</span> <span class="at">-p</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file <span class="kw">in</span> ../data/humdrum_scores/Barbershop/<span class="pp">*</span>.krn</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">do</span>  </span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">hint</span>  <span class="va">$file</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">done</span> <span class="kw">|</span> <span class="ex">sortcount</span> <span class="at">-p</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This gives us this data:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>7.91    P5 P4 M3</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>6.89    P5 m3 A4</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>5.69    M3 m3 m3</span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>5.61    P4 M3 d5</span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>5.24    M3 m3 P4</span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>4.58    m3 M2 M3</span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>2.62    m3 M3 P4</span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>2.54    M6 m3 M3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>7.91    P5 P4 M3</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>6.89    P5 m3 A4</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>5.69    M3 m3 m3</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>5.61    P4 M3 d5</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>5.24    M3 m3 P4</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>4.58    m3 M2 M3</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>2.62    m3 M3 P4</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>2.54    M6 m3 M3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This means that, of the four voices, there’s a Perfect Fifth, a Perfect Fourth, and a Major Third, etc. (C-G-C-E). This is a major triad with the third of the chord in the top voice and the root of the chord in the bass.</p>
 </div>
-<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>barbershop <span class="ot">&lt;-</span> <span class="fu">readHumdrum</span>(<span class="st">"data/humdrum_scores/Barbershop/*.krn"</span>)</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hint</span>(barbershop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>barbershop <span class="ot">&lt;-</span> <span class="fu">readHumdrum</span>(<span class="st">"data/humdrum_scores/Barbershop/*.krn"</span>)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hint</span>(barbershop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This returns this data:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>     1:  !! "Are You From Dixie?" by George Cobb, arranged ***</span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>     2:  !! from "Close Harmony Classics for Barbershop Qua***</span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>     3:  !! copyright 1915 &amp; 1952 by M. Witmark &amp; Sons; pp.***</span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>     4:  !! NOTE:  The "tag ending" is encoded here without***</span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>     5:       **interval     **interval     **interval     **interval</span>
-<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>     6:                .              .              .              .</span>
-<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>     7:              *C:            *C:            *C:            *C:</span>
-<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>     8:               =1             =1             =1             =1</span>
-<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>     9:              [C]            +P8            -P4            +M6</span>
-<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>    10:               =2             =2             =2             =2</span>
-<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>    11:              [B]            +m3            +M2            +M3</span>
-<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>    12:              [E]            +P5            +m3            +P4</span>
-<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>    13:               =3             =3             =3             =3</span>
-<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>    14:              [F]            +M3            +m3            +P4</span>
-<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>    15:             [F#]            +P4            -M2            +A4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>     1:  !! "Are You From Dixie?" by George Cobb, arranged ***</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>     2:  !! from "Close Harmony Classics for Barbershop Qua***</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>     3:  !! copyright 1915 &amp; 1952 by M. Witmark &amp; Sons; pp.***</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>     4:  !! NOTE:  The "tag ending" is encoded here without***</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>     5:       **interval     **interval     **interval     **interval</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>     6:                .              .              .              .</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>     7:              *C:            *C:            *C:            *C:</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>     8:               =1             =1             =1             =1</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>     9:              [C]            +P8            -P4            +M6</span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>    10:               =2             =2             =2             =2</span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>    11:              [B]            +m3            +M2            +M3</span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>    12:              [E]            +P5            +m3            +P4</span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>    13:               =3             =3             =3             =3</span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>    14:              [F]            +M3            +m3            +P4</span>
+<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a>    15:             [F#]            +P4            -M2            +A4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>So we get the root and the intervals. If we want to grab only the intervals, we can look at it something like this:</p>
 <p>I think that</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">hint</span>(barbershop) <span class="sc">|&gt;</span> <span class="fu">as.data.frame</span>()</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">paste</span>(x<span class="sc">$</span>V2, x<span class="sc">$</span>V3, x<span class="sc">$</span>V4, <span class="at">sep =</span> <span class="st">"_"</span>)</span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>y <span class="sc">|&gt;</span> <span class="fu">count</span>(<span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>                <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>                <span class="fu">mutate</span>(<span class="at">percentage =</span> n<span class="sc">/</span><span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>                <span class="fu">arrange</span>(<span class="fu">desc</span>(percentage))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">hint</span>(barbershop) <span class="sc">|&gt;</span> <span class="fu">as.data.frame</span>()</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">paste</span>(x<span class="sc">$</span>V2, x<span class="sc">$</span>V3, x<span class="sc">$</span>V4, <span class="at">sep =</span> <span class="st">"_"</span>)</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>y <span class="sc">|&gt;</span> <span class="fu">count</span>(<span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>                <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>                <span class="fu">mutate</span>(<span class="at">percentage =</span> n<span class="sc">/</span><span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>                <span class="fu">arrange</span>(<span class="fu">desc</span>(percentage))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This gives us this data. <strong>NOTE</strong>: Notice the null data tokens. How would I clean that up? (hint: it’s in some code above–NB: no pun intended on the <em>hint</em>).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>           ._._. 284 6.56192237</span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>2     +P5_+P4_+M3 186 4.29759704</span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>3     +m7_-m3_+M6 185 4.27449168</span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>4     +M3_+m3_+m3 164 3.78927911</span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>5     +m3_+M2_+M3 144 3.32717190</span>
-<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>6     +M6_-M3_+m7 128 2.95748614</span>
-<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>7     +M3_+m3_+P4 118 2.72643253</span>
-<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>8     +P8_-P4_+M6 105 2.42606285</span>
-<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>9     +P8_-m3_+P5  81 1.87153420</span>
-<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>10    +P4_+M3_+d5  77 1.77911275</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>           ._._. 284 6.56192237</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>2     +P5_+P4_+M3 186 4.29759704</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>3     +m7_-m3_+M6 185 4.27449168</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>4     +M3_+m3_+m3 164 3.78927911</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>5     +m3_+M2_+M3 144 3.32717190</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>6     +M6_-M3_+m7 128 2.95748614</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>7     +M3_+m3_+P4 118 2.72643253</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>8     +P8_-P4_+M6 105 2.42606285</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>9     +P8_-m3_+P5  81 1.87153420</span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>10    +P4_+M3_+d5  77 1.77911275</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<div id="tabset-4-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-3-tab">
+<div id="tabset-5-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-3-tab">
 <p>For music21 we will import all of our files first:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> glob</span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> <span class="op">*</span></span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> filebrowser(ext<span class="op">=</span><span class="st">"../data/humdrum_scores/Barbershop/*.krn"</span>):</span>
-<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Returns files with an extension"</span></span>
-<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [f <span class="cf">for</span> f <span class="kw">in</span> glob.glob(ext)]</span>
-<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>file_list <span class="op">=</span> filebrowser()</span>
-<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>file_list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> glob</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> filebrowser(ext<span class="op">=</span><span class="st">"../data/humdrum_scores/Barbershop/*.krn"</span>):</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Returns files with an extension"</span></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [f <span class="cf">for</span> f <span class="kw">in</span> glob.glob(ext)]</span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>file_list <span class="op">=</span> filebrowser()</span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>file_list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>One of the strengths (and weaknesses) of music21 is the data structure, using a “stream” to store its data. Here, it’s actually quite useful, and we can grab many attributes of a single chord, such as the measure number, the beat, and a chord quality. Music21 lets you represents these chords in <em>so, so, so many ways</em> as well. See the <a href="https://www.music21.org/music21docs/moduleReference/moduleChord.html">chord documentation</a> for more.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hint(filename):</span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Working on </span><span class="sc">{</span>filename<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>    barbershop <span class="op">=</span> converter.parse(filename)</span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    barbershopChords <span class="op">=</span> barbershop.chordify()</span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>    chord_list <span class="op">=</span> []</span>
-<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> thisChord <span class="kw">in</span> barbershopChords.recurse().getElementsByClass(chord.Chord):</span>
-<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>        chord_info <span class="op">=</span> (thisChord.measureNumber, thisChord.beatStr, thisChord.commonName)</span>
-<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>        chord_list.append(chord_info)</span>
-<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Measure: </span><span class="sc">{</span>thisChord<span class="sc">.</span>measureNumber<span class="sc">}</span><span class="ss">, Beat: </span><span class="sc">{</span>thisChord<span class="sc">.</span>beatStr<span class="sc">}</span><span class="ss">, Chord: </span><span class="sc">{</span>thisChord<span class="sc">.</span>pitchedCommonName<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> chord_list</span>
-<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> file_list:</span>
-<span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a>    hint(<span class="bu">file</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hint(filename):</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Working on </span><span class="sc">{</span>filename<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    barbershop <span class="op">=</span> converter.parse(filename)</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>    barbershopChords <span class="op">=</span> barbershop.chordify()</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>    chord_list <span class="op">=</span> []</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> thisChord <span class="kw">in</span> barbershopChords.recurse().getElementsByClass(chord.Chord):</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>        chord_info <span class="op">=</span> (thisChord.measureNumber, thisChord.beatStr, thisChord.commonName)</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>        chord_list.append(chord_info)</span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Measure: </span><span class="sc">{</span>thisChord<span class="sc">.</span>measureNumber<span class="sc">}</span><span class="ss">, Beat: </span><span class="sc">{</span>thisChord<span class="sc">.</span>beatStr<span class="sc">}</span><span class="ss">, Chord: </span><span class="sc">{</span>thisChord<span class="sc">.</span>pitchedCommonName<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> chord_list</span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> file_list:</span>
+<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a>    hint(<span class="bu">file</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And we get this data:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>Measure: 1, Beat: 1, Chord: G-major triad</span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>Measure: 1, Beat: 1 1/2, Chord: E-minor triad</span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>Measure: 1, Beat: 2, Chord: G-Perfect Octave</span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>Measure: 1, Beat: 2 1/2, Chord: D-dominant seventh chord</span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>Measure: 2, Beat: 1, Chord: G-major triad</span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>Measure: 2, Beat: 1 1/4, Chord: G-major triad</span>
-<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>Measure: 2, Beat: 1 3/4, Chord: G-major triad</span>
-<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>Measure: 2, Beat: 2, Chord: G-major triad</span>
-<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>Measure: 2, Beat: 2 1/2, Chord: G-major triad</span>
-<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>Measure: 3, Beat: 1, Chord: G#-half-diminished seventh chord</span>
-<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>Measure: 3, Beat: 2, Chord: E-dominant seventh chord</span>
-<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>Measure: 4, Beat: 1, Chord: E-minor seventh chord</span>
-<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a>Measure: 4, Beat: 1 1/2, Chord: E-major triad</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>Measure: 1, Beat: 1, Chord: G-major triad</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>Measure: 1, Beat: 1 1/2, Chord: E-minor triad</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>Measure: 1, Beat: 2, Chord: G-Perfect Octave</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>Measure: 1, Beat: 2 1/2, Chord: D-dominant seventh chord</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>Measure: 2, Beat: 1, Chord: G-major triad</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>Measure: 2, Beat: 1 1/4, Chord: G-major triad</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>Measure: 2, Beat: 1 3/4, Chord: G-major triad</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>Measure: 2, Beat: 2, Chord: G-major triad</span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>Measure: 2, Beat: 2 1/2, Chord: G-major triad</span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>Measure: 3, Beat: 1, Chord: G#-half-diminished seventh chord</span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>Measure: 3, Beat: 2, Chord: E-dominant seventh chord</span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>Measure: 4, Beat: 1, Chord: E-minor seventh chord</span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>Measure: 4, Beat: 1 1/2, Chord: E-major triad</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>

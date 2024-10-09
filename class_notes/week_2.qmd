@@ -1090,7 +1090,7 @@ This is quite cool, but took a bit more work. Still, it's more flexible and can 
 ```
 
 
-In class, we were stumped a bit with extracting from a music21 stram. The code below will do it.
+In class, we were stumped a bit with extracting from a music21 stream. The code below will do it.
 
 ```{python, eval=FALSE}
 ### import the toolkits

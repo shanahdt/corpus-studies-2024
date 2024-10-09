@@ -1,0 +1,524 @@
+---
+title: "Week 3: Data Analysis, Time, Cadences, Phrases, *etc.*"
+---
+
+
+# Overview 
+
+This week, we begin by focusing on some aspects of data analysis. We've spent so long extracting data from scores, that it's probably time to think about analyzing data, and some interesting questions we might ask of that data. 
+
+**On Monday**, we discussed the homework, and some possible project ideas. We then broke into groups and analyzed some preprocessed data (everyone used Spotify data, anticipating where we will go later this quarter).
+
+**On Wednesday**, we are going to talk about a few aspects of time and structure in music. Specifically, we will look at:
+
+1. Meter and Key relationships
+2. Cadence types in songs
+3. Phrases
+4. Re-examine chord-to-chord transitions
+   1. Various ways we might codify this data
+
+We will begin by looking at some data from the Digital and Cognitive Musicology Lab (DCML) at EPFL in Lausanne, Switzerland. The scholars at DCML have meticulously analyzed score data and provided easy-to-analyze tsv and json files. It's worth looking at their [annotation standards](https://dcmlab.github.io/standards/build/html/onboarding.html) to see how the data was encoded, and what the best practices for this project are.
+
+An example of how some of the data is encoded can be found [here](https://dcmlab.github.io/standards/build/html/reference/specs.html).
+
+## Getting the data
+
+The [DCML github repo](https://github.com/DCMLab/dcml_corpora) has many corpora that can be explored and downloaded. Each song has chord data, harmony data, measure data (with some timing information),rhythm and duration information, and much more. 
+
+From this already-processed data, we can explore some research questions. I have put two folders on canva: one of Schumann's *Kinderszenen* (op.15), and another of Tchaikovsky's *Seasons* (op. 37a).
+
+## Some Research Questions for the Day
+
+1. How do key's interact with time signature?
+2. What types of cadences are present in the these songs?
+3. How do chord progressions work in this corpus?
+
+
+
+## Compiling the Data
+
+The first step will be taking all of these files and putting them into a single dataframe. We will work with both R and Python here. Note that we will be using neither `HumdrumR` nor `music21` today; our data is already extracted. 
+
+::: {.panel-tabset}
+
+## R
+
+I'm going to use two libraries here–tidyverse and data.table. Typically people use one or the other of these. This opening code just uses one bit from data.table (`list.files`).
+
+I set my working directory here to where my files are (yours will be different). After putting all of the data into a list, I've stored it in
+a variable called `files`, and I then use base R's `lapply` function to basically loop over all files and read the tsvs into a single data frame. I've also created a column called `song` in which I can put my file names. This will help me group by piece as needed. 
+
+```{r, warning=FALSE, message=FALSE}
+## load my libraries
+library(tidyverse)
+library(data.table)
+setwd("~/gitcloud/corpora/dcml_corpora/schumann_kinderszenen/harmonies")
+
+# all the files I want to use in my folder.
+# here I'm using json.
+files <- list.files(pattern = "*.tsv")
+
+# Read files and add filename column called "song"
+data <- lapply(files, function(x) {
+  df <- read_tsv(file = x)
+  df$song <- x
+  return(df)
+})
+
+df <- rbindlist(data, fill = TRUE)
+
+```
+
+## Python
+
+The Python code is the same as the R, basically. Here we are using the `Pandas` library (it's fantastic; learn more [here](https://pandas.pydata.org/)). The os and glob functions are allowing me to read directories from my machine and put the file names together, respectively.
+
+NB: The one difference I noticed between R and Python here was that Python didn't really have a native ability to expand the `~` operator, as is common in Unix machines (like Macs). Instead I wrote out my pathname explicitly here.
+
+```{python}
+
+import pandas as pd
+import os
+import glob
+
+# Set working directory
+os.chdir("/Users/danielshanahan/gitcloud/corpora/dcml_corpora/schumann_kinderszenen/harmonies")
+
+# Use glob to get all TSV files in the directory
+files = glob.glob("*.tsv")
+
+# Read files and add filename column called "song"
+# create an empty list called data
+data = []
+
+## loop over all of the files, appending to the dataframe.
+for file in files:
+    df = pd.read_csv(file, sep='\t')
+    df['song'] = file
+    data.append(df)
+
+# Combine all of the files into one (actually many pandas data frames into one)
+combined_data = pd.concat(data, ignore_index=True)
+
+```
+:::
+
+Now that we have all of our data, we can begin to ask some research questions of it. 
+
+## Time Signature and Key Relationships
+
+Is there a relationship between time signature and key?
+
+::: {.panel-tabset}
+
+## R
+
+Tidyverse gives us a nice tool called `distinct` that will basically delete rows between objects. Here, I've taken the song, the global key signature, and the time signature and asked for it to look for distinct ones. As every file is names something different, it means I'll get one per song (this would change if I wasn't looking at *global* key signatures).
+
+```{r, warning=FALSE}
+df |> distinct(song, globalkey, timesig)
+
+```
+
+I actually find it a bit better to define a variable and then run a table on it, like so:
+
+```{r}
+x <- df |> distinct(song, globalkey, timesig) 
+table(x$globalkey, x$timesig)
+```
+
+So here we can see that there is only one piece in C major, and it is in 3/4, 2 pieces in E-minor, and there are both in 2/4, *etc.*
+
+
+## Python
+
+```{python}
+# instead of distinct, we can just use Pandas' drop_duplicates function.
+x = combined_data.drop_duplicates(subset=['song', 'globalkey', 'timesig'])
+
+# intead of table, we can use "crosstab"
+my_table = pd.crosstab(x['globalkey'], x['timesig'])
+
+print(my_table)
+
+```
+:::
+
+## Cadence Types
+
+The dataset also provides us with annotations of cadences in each song. There are a few different types of cadences:
+
+1. Perfect Authentic Cadences
+2. Imperfect Authentic Cadences
+3. Half Cadences
+4. Evaded Cadences
+5. Deceptive Cadences
+6. Plagal Cadences
+
+Each of these is written as an abbreviation: PAC, IAC, *etc.*. Each of them is labeled with a "C" at the end, so I just decided to filter for lines that had that, which return the onset of the cadence.
+
+
+::: {.panel-tabset}
+
+## R 
+
+The code below usees tools we've already seen before:
+
+1. Filter and grep grabs everything from the cadence column that ends with a "C".
+2. The select only grabs the columns I want (here the filename and the cadence column)
+3. I then count all the cadences
+4. I use `mutate` from the tidyverse to create a percentage column.
+
+
+```{r, warning=FALSE}
+
+df |> filter(grepl("C", cadence)) |> 
+        select(song, cadence) |> 
+        group_by(song) |> 
+        count(cadence, sort = TRUE) |>
+        mutate(percentage = n / sum(n) * 100)
+
+```
+
+So this tells us some interesting information! Number 11 seems full of half cadences! Number 6 only has perfect authentic cadences (which is kind of strange!).
+
+What if I'm actually interested in the metric placement of these cadences? 
+
+In these annotations, "0" means the downbeat, and the fractions (I think?) are distance from that downbeat.
+
+So we could group by cadence type, and add the `mn_onset` data if we're interested in cross-referencing the onset data with the cadence type, we get some interesting information! 
+```{r, warning=FALSE}
+
+df |> filter(grepl("C", cadence)) |> 
+        select(cadence, mn_onset) |> 
+        group_by(cadence) |> 
+        count(cadence, mn_onset, sort = TRUE) |> 
+        mutate(percentage = n / sum(n) * 100)
+
+
+```
+
+
+## Python
+
+
+```{python}
+import pandas as pd
+
+# Filter rows where 'cadence' contains 'C'
+cadences = combined_data[combined_data['cadence'].str.contains('C', na=False)]
+
+# Select only 'song' and 'cadence' columns
+selected_columns = cadences[['song', 'cadence']]
+
+# Group by 'song' and 'cadence', count occurrences, and reset index
+grouped_data = selected_columns.groupby(['song', 'cadence']).size().reset_index(name='n')
+
+# Sort values by count in descending order
+df_sorted = grouped_data.sort_values('n', ascending=False)
+
+# getting the percentage
+# note that I'm using similar functions as with tidyverse!
+df_result = df_sorted.copy()
+df_result['total'] = df_result.groupby('song')['n'].transform('sum')
+df_result['percentage'] = (df_result['n'] / df_result['total']) * 100
+
+df_result
+
+```
+
+
+So this tells us some interesting information! Number 11 seems full of half cadences! Number 6 only has perfect authentic cadences (which is kind of strange!).
+
+What if I'm actually interested in the metric placement of these cadences? 
+
+In these annotations, "0" means the downbeat, and the fractions (I think?) are distance from that downbeat.
+
+So we could group by cadence type, and add the `mn_onset` data if we're interested in cross-referencing the onset data with the cadence type, we get some interesting information! 
+
+```{python}
+
+import pandas as pd
+
+# Filter rows where 'cadence' contains 'C', note that I just get rid of NAs here.
+cadences = combined_data[combined_data['cadence'].str.contains('C', na=False)]
+
+# Select only 'song' and 'cadence' columns
+selected_columns = cadences[['mn_onset', 'cadence']]
+
+# Group by 'song' and 'cadence', count occurrences, and reset index
+grouped_data = selected_columns.groupby(['mn_onset', 'cadence']).size().reset_index(name='n')
+
+# Sort values by count in descending order
+df_sorted = grouped_data.sort_values('n', ascending=False)
+
+# getting the percentage
+# note that I'm using similar functions as with tidyverse!
+df_result = df_sorted.copy()
+df_result['total'] = df_result.groupby('cadence')['n'].transform('sum')
+df_result['percentage'] = (df_result['n'] / df_result['total']) * 100
+
+df_result
+
+```
+
+
+
+:::
+
+
+
+## Using DCML's Harmonic Representations
+
+The harmonic representations in the DCML corpus are notated in a couple of ways. There's:
+
+1. a chord label
+2. a roman numeral
+3. a figured bass notation
+4. a bass note
+5. a root note
+6. all chord tones present
+7. chord types (major, minor, *etc.*)
+
+For now, let's just use Roman numerals to explore progressions in the corpus.
+
+::: {.panel-tabset}
+
+## R
+
+We can use all of our previous tools to just count the top chord progression. Here we use `select`, `mutate`, `lead`, and `count`. Again, the select tool grabs the column, the mutate tool in combination with the lead tool gets us bigrams, adn the count gives us a total count of the combination.
+
+The `head` function is just grabbing the top of the list to show (just for clarity's sake here).
+
+
+```{r, warning=F}
+
+df |> select(numeral) |> 
+      mutate(next_numeral = lead(numeral)) |> 
+      count(numeral, next_numeral) |> head()
+
+```
+
+I could get a bit more specific by looking at only downbeats by adding a filter for "0":
+
+```{r, warning = FALSE}
+
+ df |> filter(mn_onset == 0) |> select(numeral) |> 
+      mutate(next_numeral = lead(numeral)) |> 
+      count(numeral, next_numeral) |> head()
+
+```
+
+
+We could get fancier still by turning our code into a function. Here I've added a function declaration with three arguments: the data frame, the beat strength, and whether I want to calculate the percentage. 
+
+Note that whether I calculate the percentage is governed by a conditional if/else statement.
+
+```{r}
+harmonic_bigrams <- function(data, beat_strength=0, percentage=FALSE){
+  
+  ### my default is false, just the raw counts.
+  if(percentage == FALSE){
+    df_count <- df |> filter(mn_onset == 0) |> select(numeral) |> 
+      mutate(next_numeral = lead(numeral)) |> 
+      count(numeral, next_numeral)
+  }
+
+  ## otherwise, give me a percentage!
+  else{
+    df_count <- df |> filter(mn_onset == 0) |> select(numeral) |> 
+      mutate(next_numeral = lead(numeral)) |> 
+      count(numeral, next_numeral) |> group_by(numeral) |> 
+      mutate(percentage = round(n / sum(n) * 100, digits=2)) 
+  
+  }
+    return(df_count)
+}
+bigram_data <- harmonic_bigrams(data=df, percentage=TRUE)
+```
+
+Once I've `defined that function` by running it, I can call it with my data:
+
+```{r, warning=FALSE}
+bigram_data <- harmonic_bigrams(data=df, percentage=TRUE)
+
+bigram_data
+```
+
+Here, I've put it into a variable in case I want to use it later.
+
+### Plotting the data
+
+Here, I've created another function, this time plotting a matrix of either raw count of percentage. Note that I'm using another conditional here. The main difference between the two conditions is whether I use "n" or "percentage" as the fill.
+
+```{r, warning=FALSE}
+matrix_plotter <- function(data_for_matrix, pct=FALSE){
+  
+  if(pct==FALSE){
+  ggplot(data_for_matrix, aes(x = next_numeral, y = numeral, fill = n)) +
+    geom_tile(color = "white",
+            lwd = 2,
+            linetype = 1) +
+    geom_text(aes(label = n), color = "white", size = 2) +
+    coord_fixed() + theme_bw()}
+ 
+   else{
+    
+      ggplot(data_for_matrix, aes(x = next_numeral, y = numeral, fill = percentage)) +
+      geom_tile(color = "white",
+                lwd = 2,
+                linetype = 1) +
+      geom_text(aes(label = as.numeric(percentage)), color = "white", size = 2) +
+      coord_fixed() + theme_bw()}
+}
+
+```
+
+
+::: {layout-ncol=2 .column-page}
+```{r, warning=FALSE}
+matrix_plotter(bigram_data, pct=F)
+```
+
+```{r, warning=FALSE}
+
+matrix_plotter(bigram_data, pct=T)
+```
+:::
+
+Note how we might interpret meaning a bit differently based on whether we normalize the percentages of the chords.
+
+## Python
+
+We can use all of our previous tools to just count the top chord progression. Here we use various elements of `Pandas`, including `groupby`, *etc.*  Notice that we are using `shift` in place of `lead` in Tidyverse.
+
+```{python}
+### just grabbing the select column.
+combined_data_selected = combined_data[['numeral']]
+
+# note that we can use shift here instead of lead.
+combined_data_selected['next_numeral'] = combined_data_selected['numeral'].shift(-1)
+
+# Group by 'numeral' and 'next_numeral', count occurrences
+df_grouped = combined_data_selected.groupby(['numeral', 'next_numeral']).size().reset_index(name='n')
+print(df_grouped)
+
+```
+
+Like with the R code, we can make it a bit fancier:
+
+```{python}
+### just grabbing the select column.
+combined_data_selected = combined_data[combined_data['mn_onset'] == "0"][['numeral']]
+
+# note that we can use shift here instead of lead.
+combined_data_selected['next_numeral'] = combined_data_selected['numeral'].shift(-1)
+
+# Group by 'numeral' and 'next_numeral', count occurrences
+df_grouped = combined_data_selected.groupby(['numeral', 'next_numeral']).size().reset_index(name='n')
+print(df_grouped)
+
+```
+
+
+
+```{python}
+def harmonic_bigrams(df, beat_strength=0, percentage=False):
+    """ 
+    Filter rows where mn_onset is 0 and select 'numeral' column
+    For some reason 0 is numeric in R, but in Python it is actually
+    in quotes? I'm not really sure why.
+    """
+    df_filtered = df[df['mn_onset'] == "0"][['numeral']]
+    
+    # Create the 'next_numeral' column by shifting the 'numeral' column
+    df_filtered['next_numeral'] = df_filtered['numeral'].shift(-1)
+    
+    # count everything up with the N.
+    df_count = df_filtered.groupby(['numeral', 'next_numeral']).size().reset_index(name='n')
+    
+    ### notice that this is actually a bit more elegant than the R code?
+    if percentage:
+        # Calculate percentage if percentage is True
+        df_count['percentage'] = round(df_count['n'] / df_count.groupby('numeral')['n'].transform('sum') * 100, 2)
+    
+    return df_count
+
+# using my function...
+bigram_data = harmonic_bigrams(df=combined_data, percentage=True)
+print(bigram_data)
+```
+
+This code does the same as the R code, but the Quarto web framework isn't really letting me plot Seaborn plots for some reason.
+
+```{python, eval=FALSE}
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+def matrix_plotter(data_for_matrix, pct=False):
+    plt.figure(figsize=(10, 8))
+
+    if not pct:
+        # Plot for counts
+        heatmap = sns.heatmap(data_for_matrix.pivot('numeral', 'next_numeral', 'n'),
+                              annot=True, 
+                              fmt='d', 
+                              cmap='Blues', 
+                              linewidths=2,
+                              cbar_kws={'label': 'Count'})
+    else:
+        # Plot for percentages
+        heatmap = sns.heatmap(data_for_matrix.pivot('numeral', 'next_numeral', 'percentage'),
+                              annot=True, 
+                              fmt='.2f', 
+                              cmap='Blues', 
+                              linewidths=2,
+                              cbar_kws={'label': 'Percentage'})
+
+    plt.title('Matrix Plot')
+    plt.xlabel('Next Numeral')
+    plt.ylabel('Numeral')
+    
+    # Adjust the aspect ratio to make it square
+    plt.gca().set_aspect('equal', 'box')
+    
+    # Set the theme to be similar to theme_bw() in R
+    sns.set_style("whitegrid")
+    
+    plt.show()
+
+matrix_plotter(bigram_data, pct=True)
+
+```
+
+![A Matrix generated from Python of Percentages](../images/seaborn_harmony_matrix.png)
+
+:::
+
+## Classifying larger progressions
+
+In R, we can use the `case_when` tool to classify chords, as well. 
+```{r, warning=FALSE}
+stability <- df |> 
+  select(song, numeral) |> 
+  mutate(stable = case_when(
+    numeral == "V" ~ "unstable",
+    numeral == "vii" ~ "unstable",
+    numeral == "III" ~ "stable",
+    numeral == "vi" ~ "stable",
+    numeral == "ii" ~ "in motion",
+    numeral == "iv" ~ "in motion",
+    numeral == "IV" ~ "in motion",
+    numeral == "v" ~ "unstable",
+    numeral == "I" ~ "stable",
+    TRUE ~ "other"  # This catches all other cases
+  ))
+
+stability |> select(stable) |> mutate(stable2 = lead(stable)) |> 
+  count(stable, stable2, sort = TRUE) |>
+  mutate(percentage = n / sum(n) * 100)
+```
+
+In Python, it might be best to do with conditionals?

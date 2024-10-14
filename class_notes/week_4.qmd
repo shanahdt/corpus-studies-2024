@@ -1,0 +1,2109 @@
+---
+title: "Week 4: Conceptual Debates (Key-Finding, Entropy, etc.)"
+---
+
+# Monday
+- Let's talk about key-finding algorithms.
+- Explore where they might disagree, and try to figure out why.
+- What would it look like to devise your own key-finding algorithm?
+
+## Why is Key-Finding Interesting?
+
+When we hear this ringtone, it sounds as though it's in C, but why?
+
+![Nokia](../images/nokia.png)
+
+-   It doesn't begin with C, it begins with G.
+-   C isn't the most common note--in fact, it only occurs once before the final bar, and it's on the "and" of 2 in the third measure (a pretty weak position metrically).
+-   Is a key just whatever key the piece ends in? If we ended this on A, would it sound like it's in A minor? It would be the same key signature, and we'd actually have a nice cadential ascent to the final A from the G in the third measure.
+
+So what gives? Why do we hear this as being in C?
+
+Perhaps a follow-up question might simply be: what makes us hear something as being in a key?
+
+## A Brief History of Key Finding
+
+### Longuet-Higgins and Steedman
+
+This approach used what we might call an _exclusionary approach_, eliminating different key possibilities as pitch classes were introduced over the course of a musical passage. 
+
+For example, with the Nokia theme, the opening G would fit into seven major keys (G, C, D, F, B-flats, A-flat, E-flat;); six of those keys would include the opening two notes; and three of those six would still be possible when presented with the first three notes. By the end of the first measure, however, the only major key that would encompass all four melody notes would be C major. If more than one key was still available however, the algorithm would place more weight on the pitches present at the start of the piece. This worked quite well on pieces that were overtly tonal, but it was less effective for pieces that contained non-diatonic pitches (**which is most pieces!**) 
+
+![Longuet-Higgins and Steedman\'s 1971 Key-Finding Algorithm](../images/longuet-higgins-steedman-1971.jpg)
+
+### The Krumhansl-Schmuckler Key-Finding Weightings
+
+As you might guess, the Longuet-Higgins and Steedman would miss a lot of musical instances. For example, pieces that have non-harmonic chords would struggle, as would pieces that had a lot of chromatic ornamentations. Ideally an algorithm would allow for these pitches to occur, but acknowledge that pitches in the key might be a better fit than those outside of the key, and that certain pitches in the key should be more heavily weighted than others.
+
+Carol Krumhansl and Mark Schmuckler (Krumhansl, 1990) would devise an algorithm that tallied up the pitch classes of an excerpt and compared the distribution of these pitch classes to ratings from an earlier probe-tone experiment. (Krumhansl and Kessler, 1982). The weightings can be seen below. 
+
+We might think of this as a _correlational approach_. We tally up all of the pitches in a corpus, and then run a correlation on this key-profile. We run this over all of the keys, and the one that best fits is then labeled as "the key".
+
+
+```{r, echo=TRUE, message=FALSE}
+library(spotifyr)
+library(compmus)
+library(tidyverse)
+library(purrr)
+```
+
+
+```{r}
+ks_major_key <-
+  c(6.35, 
+   2.23, 
+   3.48, 
+   2.33, 
+   4.38, 
+   4.09, 
+   2.52, 
+   5.19, 
+   2.39, 
+   3.66, 
+   2.29, 
+   2.88)
+
+ks_minor_key <-
+  c(6.33, 
+  2.68, 
+  3.52, 
+  5.38, 
+  2.60, 
+  3.53, 
+  2.54, 
+  4.75, 
+  3.98, 
+  2.69, 
+  3.34, 
+  3.17)
+  
+```
+
+
+An interesting distinction here is that of experiment-derived vs. corpus-derived weightings. Should a key-finding algorithm intend to match how we hear key in a controlled lab environment (with basic harmonic progression stimuli), or should they use real music as a starting point? If they use real music, which music?
+
+### Bellman-Budge Profiles
+
+Hector Bellman created a key-finding algorithm that used Helen Budge's dissertation from the 1940s as a starting point. Budge tallied up note occurrences in composers from the classical music canon, looking at the tonal makeup of a large collection of pieces. Bellman then used these frequencies as the starting point for his own key-finding algorithm.
+
+```{r}
+
+
+major <- c(16.80, 
+            0.86,
+            12.95,
+            1.41,
+            13.49,
+            11.93,
+            1.25,
+            20.28,
+            1.80,
+            8.04,
+            0.62,
+            10.57)
+
+minor <- c(18.16,
+            0.69,
+            12.99,
+            13.34,
+            1.07,
+            11.15,
+            1.38,
+            21.07,
+            7.49,
+            1.53,
+            0.92,
+            10.21)
+```
+
+### The Temperley (Kostka-Payne Corpus) 
+
+David Temperley (2001) also employed Western classical music as a starting point for his early key-finding work (not to be confused with his more dynamic Bayesian-informed later work). He used examples from a commonly used music theory textbook (Stefan Kostka and Dorothy Payne's _Tonal Harmony_). 
+
+```{r}
+major <- c(0.748, 
+            0.060, 
+            0.488,
+            0.082, 
+            0.670, 
+            0.460, 
+            0.096, 
+            0.715, 
+            0.104, 
+            0.366,
+            0.057, 
+            0.400)
+
+minor <- c(0.712, 
+            0.084, 
+            0.474, 
+            0.618, 
+            0.049, 
+            0.460, 
+            0.105, 
+            0.747, 
+            0.404, 
+            0.067, 
+            0.133, 
+            0.330)
+```
+
+### Aarden's Folk Song Key-Profiles
+
+Bret Aarden (2003) argued that folk music would be a better fit than those generated from classical music. He used the Essen Folksong collection (consisting of thousands of folksongs throughout Europe, although with an uneven balance toward German folksong), to come up with the weightings below.
+
+```{r}
+major <- c(17.7661, 
+            0.145624, 
+            14.9265, 
+            0.160186, 
+            19.8049, 
+            11.3587, 
+            0.291248, 
+            22.062, 
+            0.145624, 
+            8.15494, 
+            0.232998, 
+            4.95122)
+            
+minor <- c(18.2648, 
+            0.737619, 
+            14.0499, 
+            16.8599, 
+            0.702494, 
+            14.4362, 
+            0.702494, 
+            18.6161, 
+            4.56621, 
+            1.93186, 
+            7.37619, 
+            1.75623)
+```
+
+
+### Sapp's Simple Weightings
+
+Craig Sapp argued that we probably didn't even need to get frequencies from corpora or experiments. If we just assume that the tonic and the dominant (scale degrees 1 and 5) are the most important, and the other pitches in the key are less important, but more important than those not in the key, then we have a pretty simple weighting system (that works quite well!).
+
+```{r}
+major <- c(2, 0, 1, 0, 1, 1, 0, 2, 0, 1, 0, 1)
+
+minor <- c(2, 0, 1, 1, 0, 1, 0, 2, 1, 0, 0.5, 0.5)
+```
+
+
+### Albrecht and Shanahan (2013)
+
+Josh Albrecht and I tried our hands at this problem, and picked a set of classical works from the Humdrum corpus, looking at only the first and last eight measures of each. The numbers are below.
+
+```{r}
+major <- c(0.238, 
+            0.006, 
+            0.111, 
+            0.006, 
+            0.137, 
+            0.094, 
+            0.016, 
+            0.214, 
+            0.009, 
+            0.080, 
+            0.008, 
+            0.081) 
+
+minor <- c(0.220, 
+            0.006, 
+            0.104, 
+            0.123, 
+            0.019, 
+            0.103, 
+            0.012, 
+            0.214, 
+            0.062, 
+            0.022, 
+            0.061, 
+            0.052)
+```
+
+We also tried a Euclidean distance approach, rather than a correlational approach. 
+
+We tried to explain it as follows:
+
+> In a two-dimensional space, if there were 70% of pitch X and 30% pitch Y, the Cartesian 
+> location of the point representing this pitch-class distribution would be at X 1⁄4 0.7 and Y 1⁄4 
+> 0.3. In this case, we are examining the distribution of 12 pitch classes, resulting in a 
+> 12-dimensional Cartesian space. The pitch-class distribution of each piece is represented by a 
+> point in that 12-dimensional space. The distance is then measured between this point and the 24 
+> points representing the 12 major and 12 minor key pitch-class distributions, and the key 
+> separated by the shortest distance is taken to be the key of the work.
+
+Below is a table comparing how well this did to the others.
+
+![Comparing the Albrecht and Shanahan to others](../images/albrecht-shanahan-comparison.png)
+
+### How do they each perform on a corpus of classical music?
+
+They each perform a bit differently on different types of tasks.
+
+![Comparing key-finding algorithms in major, minor, and overall (from Albrecht and Shanahan, 2013)](../images/albrecht-shanahan-keyfinding-performance.png)
+
+## Analyzing Key with Music21
+
+music21 has a number of built-in key-finding algorithms, and it's nice to be able to compare keys in specific pieces. You 
+can start to see the differences between them, and their respective biases.
+
+This code will grab all of the files in a folder (here a number of Yugoslav folk songs):
+
+```{python, eval=FALSE}
+
+import glob
+
+###change this path to be your own!
+def filebrowser(ext="/Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/*.krn"):
+    "Returns files with an extension"
+    return [f for f in glob.glob(ext)]
+
+file_list = filebrowser()
+
+```
+
+And here I will grab the key of each one and print it out using different algorithms:
+
+```{python, eval=FALSE}
+from music21 import *
+for kern_file in file_list:
+
+  melody = converter.parse(kern_file)       
+  krum = analysis.discrete.KrumhanslKessler(melody)
+  krum_key = krum.getSolution(melody)
+  
+  aarden = analysis.discrete.AardenEssen(melody)
+  aarden_key = aarden.getSolution(melody)
+
+  bellman = analysis.discrete.BellmanBudge(melody)
+  bellman_key = bellman.getSolution(melody)
+
+  temperley = analysis.discrete.TemperleyKostkaPayne(melody)
+  temperley_key = temperley.getSolution(melody)
+
+  sapp = analysis.discrete.SimpleWeights(melody)
+  sapp_key = sapp.getSolution(melody)
+```
+
+
+And then we can call all of our variables like so:
+
+```{python, eval=FALSE}
+  print(f'File name: {kern_file}\nKrumhansl-Kessler: {krum_key}\nAarden Essen: {aarden_key}\nBellman-Budge: {bellman_key}\nTemperley-Kostka-Payne: {temperley_key}\nSapp Simple-Weightings: {sapp_key}\n')
+```
+
+
+This returns the following results (with a very long list):
+
+```{txt}
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos039.krn
+Krumhansl-Kessler: b minor
+Aarden Essen: G major
+Bellman-Budge: G major
+Temperley-Kostka-Payne: G major
+Sapp Simple-Weightings: e minor
+
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos005.krn
+Krumhansl-Kessler: G major
+Aarden Essen: G major
+Bellman-Budge: G major
+Temperley-Kostka-Payne: G major
+Sapp Simple-Weightings: D major
+
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos011.krn
+Krumhansl-Kessler: D major
+Aarden Essen: D major
+Bellman-Budge: D major
+Temperley-Kostka-Payne: D major
+Sapp Simple-Weightings: D major
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos010.krn
+Krumhansl-Kessler: A- major
+Aarden Essen: A- major
+Bellman-Budge: A- major
+Temperley-Kostka-Payne: A- major
+Sapp Simple-Weightings: C# major
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos004.krn
+Krumhansl-Kessler: F major
+Aarden Essen: g minor
+Bellman-Budge: F major
+Temperley-Kostka-Payne: F major
+Sapp Simple-Weightings: B- major
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos038.krn
+Krumhansl-Kessler: G major
+Aarden Essen: e minor
+Bellman-Budge: e minor
+Temperley-Kostka-Payne: G major
+Sapp Simple-Weightings: G major
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos012.krn
+Krumhansl-Kessler: G major
+Aarden Essen: G major
+Bellman-Budge: G major
+Temperley-Kostka-Payne: G major
+Sapp Simple-Weightings: C major
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos006.krn
+Krumhansl-Kessler: C major
+Aarden Essen: C major
+Bellman-Budge: C major
+Temperley-Kostka-Payne: C major
+Sapp Simple-Weightings: C major
+
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos007.krn
+Krumhansl-Kessler: F major
+Aarden Essen: B- major
+Bellman-Budge: B- major
+Temperley-Kostka-Payne: B- major
+Sapp Simple-Weightings: F major
+
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos013.krn
+Krumhansl-Kessler: D major
+Aarden Essen: G major
+Bellman-Budge: G major
+Temperley-Kostka-Payne: G major
+Sapp Simple-Weightings: G major
+
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos017.krn
+Krumhansl-Kessler: A- major
+Aarden Essen: f minor
+Bellman-Budge: f minor
+Temperley-Kostka-Payne: A- major
+Sapp Simple-Weightings: A- major
+
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos003.krn
+Krumhansl-Kessler: B major
+Aarden Essen: E major
+Bellman-Budge: E major
+Temperley-Kostka-Payne: E major
+Sapp Simple-Weightings: B major
+
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos002.krn
+Krumhansl-Kessler: F major
+Aarden Essen: F major
+Bellman-Budge: B- major
+Temperley-Kostka-Payne: B- major
+Sapp Simple-Weightings: B- major
+
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos016.krn
+Krumhansl-Kessler: D major
+Aarden Essen: G major
+Bellman-Budge: G major
+Temperley-Kostka-Payne: G major
+Sapp Simple-Weightings: D major
+
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos014.krn
+Krumhansl-Kessler: G major
+Aarden Essen: G major
+Bellman-Budge: G major
+Temperley-Kostka-Payne: G major
+Sapp Simple-Weightings: G major
+
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos028.krn
+Krumhansl-Kessler: a minor
+Aarden Essen: g minor
+Bellman-Budge: F major
+Temperley-Kostka-Payne: F major
+Sapp Simple-Weightings: d minor
+
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos029.krn
+Krumhansl-Kessler: C major
+Aarden Essen: C major
+Bellman-Budge: C major
+Temperley-Kostka-Payne: C major
+Sapp Simple-Weightings: C major
+
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos015.krn
+Krumhansl-Kessler: G major
+Aarden Essen: G major
+Bellman-Budge: G major
+Temperley-Kostka-Payne: G major
+Sapp Simple-Weightings: G major
+
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos001.krn
+Krumhansl-Kessler: b minor
+Aarden Essen: G major
+Bellman-Budge: G major
+Temperley-Kostka-Payne: G major
+Sapp Simple-Weightings: e minor
+
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos112.krn
+Krumhansl-Kessler: b minor
+Aarden Essen: G major
+Bellman-Budge: G major
+Temperley-Kostka-Payne: G major
+Sapp Simple-Weightings: e minor
+
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos106.krn
+Krumhansl-Kessler: F major
+Aarden Essen: F major
+Bellman-Budge: B- major
+Temperley-Kostka-Payne: F major
+Sapp Simple-Weightings: B- major
+
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos066.krn
+Krumhansl-Kessler: g minor
+Aarden Essen: g minor
+Bellman-Budge: g minor
+Temperley-Kostka-Payne: g minor
+Sapp Simple-Weightings: g minor
+
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos072.krn
+Krumhansl-Kessler: a minor
+Aarden Essen: F major
+Bellman-Budge: F major
+Temperley-Kostka-Payne: F major
+Sapp Simple-Weightings: F major
+
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos099.krn
+Krumhansl-Kessler: G major
+Aarden Essen: a minor
+Bellman-Budge: G major
+Temperley-Kostka-Payne: G major
+Sapp Simple-Weightings: G major
+
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos098.krn
+Krumhansl-Kessler: b minor
+Aarden Essen: G major
+Bellman-Budge: G major
+Temperley-Kostka-Payne: G major
+Sapp Simple-Weightings: e minor
+
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos073.krn
+Krumhansl-Kessler: a minor
+Aarden Essen: F major
+Bellman-Budge: F major
+Temperley-Kostka-Payne: F major
+Sapp Simple-Weightings: d minor
+
+
+
+
+File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos067.krn
+Krumhansl-Kessler: D major
+Aarden Essen: e minor
+Bellman-Budge: G major
+Temperley-Kostka-Payne: G major
+Sapp Simple-Weightings: G major
+```
+
+This code will give us the key, and the confidence of each key, with different algorithms:
+
+```{python, eval=FALSE}
+import pandas as pd
+from music21 import *
+krum_kess = []
+aarden_essen = []
+temperley_kp = []
+bellman_budge = []
+sapp_weighted = []
+
+titles = []
+for file in file_list:
+  titles.append(file.split("/")[-1])
+  melody = converter.parse(file) 
+ 
+  krum = analysis.discrete.KrumhanslKessler(melody)
+  krum_key = krum.getSolution(melody)
+  coef_krum = round(krum_key.correlationCoefficient, 3)
+  krum_kess.append(f'{krum_key} ({coef_krum})')
+
+  aarden = analysis.discrete.AardenEssen(melody)
+  coef_aarden = round(aarden_key.correlationCoefficient, 3)
+  aarden_key = aarden.getSolution(melody)
+  aarden_essen.append(f'{aarden_key} ({coef_aarden})')
+  
+  bellman = analysis.discrete.BellmanBudge(melody)
+  bellman_key = bellman.getSolution(melody)
+  coef_bellman = round(bellman_key.correlationCoefficient, 3)
+  bellman_budge.append(f'{bellman_key} ({coef_bellman})')
+
+  sapp = analysis.discrete.SimpleWeights(melody)
+  sapp_key = sapp.getSolution(melody)
+  coef_sapp = round(sapp_key.correlationCoefficient, 3)
+  sapp_weighted.append(f'{sapp_key} ({coef_sapp})')
+  
+  temperley = analysis.discrete.TemperleyKostkaPayne(melody)
+  temperley_key = temperley.getSolution(melody)
+  coef_temperley = round(temperley_key.correlationCoefficient, 3)
+  temperley_kp.append(f'{temperley_key} ({coef_temperley})')
+
+pd.set_option('max_rows', 371)
+df = pd.DataFrame(list(zip(titles, krum_kess, aarden_essen, bellman_budge, sapp_weighted, temperley_kp)), columns= ['Chorale','Krumhansl-Kessler', 'Aarden-Essen', 'Bellman-Budge', 'Sapp Weighted', 'Temperley-KP'])
+df
+```
+
+Here is a table of each key decided by each algorithm: 
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Chorale</th>
+      <th>Krumhansl-Kessler</th>
+      <th>Aarden-Essen</th>
+      <th>Bellman-Budge</th>
+      <th>Sapp Weighted</th>
+      <th>Temperley-KP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>jugos039.krn</td>
+      <td>b minor (0.64)</td>
+      <td>G major (0.848)</td>
+      <td>G major (0.653)</td>
+      <td>e minor (0.663)</td>
+      <td>G major (0.693)</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>jugos005.krn</td>
+      <td>G major (0.765)</td>
+      <td>G major (0.793)</td>
+      <td>G major (0.79)</td>
+      <td>D major (0.711)</td>
+      <td>G major (0.827)</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>jugos011.krn</td>
+      <td>D major (0.839)</td>
+      <td>D major (0.887)</td>
+      <td>D major (0.757)</td>
+      <td>D major (0.753)</td>
+      <td>D major (0.839)</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>jugos010.krn</td>
+      <td>A- major (0.762)</td>
+      <td>A- major (0.83)</td>
+      <td>A- major (0.773)</td>
+      <td>C# major (0.692)</td>
+      <td>A- major (0.838)</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>jugos004.krn</td>
+      <td>F major (0.618)</td>
+      <td>g minor (0.886)</td>
+      <td>F major (0.727)</td>
+      <td>B- major (0.686)</td>
+      <td>F major (0.715)</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>jugos038.krn</td>
+      <td>G major (0.598)</td>
+      <td>e minor (0.827)</td>
+      <td>e minor (0.636)</td>
+      <td>G major (0.587)</td>
+      <td>G major (0.688)</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>jugos012.krn</td>
+      <td>G major (0.858)</td>
+      <td>G major (0.727)</td>
+      <td>G major (0.688)</td>
+      <td>C major (0.716)</td>
+      <td>G major (0.789)</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>jugos006.krn</td>
+      <td>C major (0.705)</td>
+      <td>C major (0.753)</td>
+      <td>C major (0.594)</td>
+      <td>C major (0.582)</td>
+      <td>C major (0.696)</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>jugos007.krn</td>
+      <td>F major (0.768)</td>
+      <td>B- major (0.685)</td>
+      <td>B- major (0.787)</td>
+      <td>F major (0.801)</td>
+      <td>B- major (0.82)</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>jugos013.krn</td>
+      <td>D major (0.822)</td>
+      <td>G major (0.882)</td>
+      <td>G major (0.859)</td>
+      <td>G major (0.796)</td>
+      <td>G major (0.826)</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>jugos017.krn</td>
+      <td>A- major (0.696)</td>
+      <td>f minor (0.906)</td>
+      <td>f minor (0.586)</td>
+      <td>A- major (0.575)</td>
+      <td>A- major (0.672)</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>jugos003.krn</td>
+      <td>B major (0.815)</td>
+      <td>E major (0.683)</td>
+      <td>E major (0.793)</td>
+      <td>B major (0.817)</td>
+      <td>E major (0.781)</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>jugos002.krn</td>
+      <td>F major (0.837)</td>
+      <td>F major (0.858)</td>
+      <td>B- major (0.828)</td>
+      <td>B- major (0.884)</td>
+      <td>B- major (0.806)</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>jugos016.krn</td>
+      <td>D major (0.829)</td>
+      <td>G major (0.77)</td>
+      <td>G major (0.843)</td>
+      <td>D major (0.77)</td>
+      <td>G major (0.851)</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>jugos014.krn</td>
+      <td>G major (0.797)</td>
+      <td>G major (0.907)</td>
+      <td>G major (0.784)</td>
+      <td>G major (0.708)</td>
+      <td>G major (0.857)</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>jugos028.krn</td>
+      <td>a minor (0.547)</td>
+      <td>g minor (0.902)</td>
+      <td>F major (0.667)</td>
+      <td>d minor (0.547)</td>
+      <td>F major (0.659)</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>jugos029.krn</td>
+      <td>C major (0.64)</td>
+      <td>C major (0.787)</td>
+      <td>C major (0.616)</td>
+      <td>C major (0.577)</td>
+      <td>C major (0.682)</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>jugos015.krn</td>
+      <td>G major (0.744)</td>
+      <td>G major (0.675)</td>
+      <td>G major (0.611)</td>
+      <td>G major (0.616)</td>
+      <td>G major (0.709)</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>jugos001.krn</td>
+      <td>b minor (0.733)</td>
+      <td>G major (0.688)</td>
+      <td>G major (0.703)</td>
+      <td>e minor (0.725)</td>
+      <td>G major (0.809)</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>jugos112.krn</td>
+      <td>b minor (0.66)</td>
+      <td>G major (0.84)</td>
+      <td>G major (0.511)</td>
+      <td>e minor (0.617)</td>
+      <td>G major (0.576)</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>jugos106.krn</td>
+      <td>F major (0.872)</td>
+      <td>F major (0.649)</td>
+      <td>B- major (0.777)</td>
+      <td>B- major (0.843)</td>
+      <td>F major (0.795)</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>jugos066.krn</td>
+      <td>g minor (0.771)</td>
+      <td>g minor (0.763)</td>
+      <td>g minor (0.745)</td>
+      <td>g minor (0.713)</td>
+      <td>g minor (0.734)</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>jugos072.krn</td>
+      <td>a minor (0.818)</td>
+      <td>F major (0.734)</td>
+      <td>F major (0.702)</td>
+      <td>F major (0.566)</td>
+      <td>F major (0.692)</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>jugos099.krn</td>
+      <td>G major (0.662)</td>
+      <td>a minor (0.773)</td>
+      <td>G major (0.767)</td>
+      <td>G major (0.719)</td>
+      <td>G major (0.752)</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>jugos098.krn</td>
+      <td>b minor (0.697)</td>
+      <td>G major (0.847)</td>
+      <td>G major (0.499)</td>
+      <td>e minor (0.568)</td>
+      <td>G major (0.568)</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>jugos073.krn</td>
+      <td>a minor (0.677)</td>
+      <td>F major (0.642)</td>
+      <td>F major (0.619)</td>
+      <td>d minor (0.578)</td>
+      <td>F major (0.648)</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>jugos067.krn</td>
+      <td>D major (0.619)</td>
+      <td>e minor (0.746)</td>
+      <td>G major (0.663)</td>
+      <td>G major (0.628)</td>
+      <td>G major (0.694)</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>jugos107.krn</td>
+      <td>G major (0.696)</td>
+      <td>G major (0.718)</td>
+      <td>G major (0.82)</td>
+      <td>G major (0.708)</td>
+      <td>G major (0.833)</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>jugos113.krn</td>
+      <td>G major (0.788)</td>
+      <td>G major (0.932)</td>
+      <td>G major (0.662)</td>
+      <td>C major (0.699)</td>
+      <td>G major (0.737)</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>jugos105.krn</td>
+      <td>G major (0.782)</td>
+      <td>G major (0.678)</td>
+      <td>G major (0.854)</td>
+      <td>G major (0.745)</td>
+      <td>G major (0.866)</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>jugos111.krn</td>
+      <td>G major (0.765)</td>
+      <td>G major (0.943)</td>
+      <td>G major (0.684)</td>
+      <td>C major (0.719)</td>
+      <td>G major (0.75)</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>jugos059.krn</td>
+      <td>F major (0.81)</td>
+      <td>F major (0.723)</td>
+      <td>F major (0.823)</td>
+      <td>F major (0.729)</td>
+      <td>F major (0.877)</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>jugos071.krn</td>
+      <td>F major (0.771)</td>
+      <td>F major (0.929)</td>
+      <td>F major (0.888)</td>
+      <td>F major (0.82)</td>
+      <td>F major (0.832)</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>jugos065.krn</td>
+      <td>F major (0.627)</td>
+      <td>F major (0.908)</td>
+      <td>F major (0.577)</td>
+      <td>B- major (0.631)</td>
+      <td>F major (0.662)</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>jugos064.krn</td>
+      <td>g minor (0.797)</td>
+      <td>g minor (0.668)</td>
+      <td>g minor (0.836)</td>
+      <td>g minor (0.775)</td>
+      <td>g minor (0.822)</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>jugos070.krn</td>
+      <td>F major (0.84)</td>
+      <td>F major (0.824)</td>
+      <td>F major (0.832)</td>
+      <td>F major (0.822)</td>
+      <td>F major (0.867)</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>jugos058.krn</td>
+      <td>F major (0.819)</td>
+      <td>F major (0.901)</td>
+      <td>F major (0.777)</td>
+      <td>F major (0.709)</td>
+      <td>F major (0.856)</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>jugos110.krn</td>
+      <td>C major (0.756)</td>
+      <td>C major (0.89)</td>
+      <td>C major (0.713)</td>
+      <td>C major (0.791)</td>
+      <td>C major (0.735)</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>jugos104.krn</td>
+      <td>G major (0.641)</td>
+      <td>e minor (0.597)</td>
+      <td>g minor (0.492)</td>
+      <td>G major (0.568)</td>
+      <td>G major (0.509)</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>jugos100.krn</td>
+      <td>g minor (0.691)</td>
+      <td>C major (0.476)</td>
+      <td>C major (0.626)</td>
+      <td>c minor (0.652)</td>
+      <td>c minor (0.558)</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>jugos114.krn</td>
+      <td>C major (0.861)</td>
+      <td>F major (0.576)</td>
+      <td>F major (0.798)</td>
+      <td>C major (0.804)</td>
+      <td>F major (0.741)</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>jugos074.krn</td>
+      <td>G major (0.636)</td>
+      <td>G major (0.78)</td>
+      <td>G major (0.647)</td>
+      <td>G major (0.651)</td>
+      <td>G major (0.651)</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>jugos060.krn</td>
+      <td>g minor (0.627)</td>
+      <td>d minor (0.573)</td>
+      <td>F major (0.621)</td>
+      <td>B- major (0.586)</td>
+      <td>F major (0.664)</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>jugos048.krn</td>
+      <td>F major (0.696)</td>
+      <td>F major (0.687)</td>
+      <td>F major (0.647)</td>
+      <td>F major (0.589)</td>
+      <td>F major (0.737)</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>jugos049.krn</td>
+      <td>A major (0.821)</td>
+      <td>A major (0.754)</td>
+      <td>A major (0.707)</td>
+      <td>A major (0.74)</td>
+      <td>A major (0.738)</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>jugos061.krn</td>
+      <td>C major (0.684)</td>
+      <td>C major (0.716)</td>
+      <td>F major (0.579)</td>
+      <td>F major (0.68)</td>
+      <td>C major (0.625)</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>jugos075.krn</td>
+      <td>G major (0.896)</td>
+      <td>G major (0.54)</td>
+      <td>G major (0.814)</td>
+      <td>G major (0.837)</td>
+      <td>G major (0.829)</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>jugos115.krn</td>
+      <td>G major (0.898)</td>
+      <td>G major (0.835)</td>
+      <td>G major (0.947)</td>
+      <td>G major (0.939)</td>
+      <td>G major (0.948)</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>jugos101.krn</td>
+      <td>G major (0.819)</td>
+      <td>G major (0.958)</td>
+      <td>G major (0.777)</td>
+      <td>G major (0.709)</td>
+      <td>G major (0.856)</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>jugos117.krn</td>
+      <td>C major (0.85)</td>
+      <td>C major (0.89)</td>
+      <td>C major (0.784)</td>
+      <td>a minor (0.765)</td>
+      <td>C major (0.893)</td>
+    </tr>
+    <tr>
+      <th>50</th>
+      <td>jugos103.krn</td>
+      <td>G major (0.676)</td>
+      <td>G major (0.862)</td>
+      <td>G major (0.688)</td>
+      <td>D major (0.62)</td>
+      <td>G major (0.737)</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>jugos063.krn</td>
+      <td>F major (0.572)</td>
+      <td>d minor (0.775)</td>
+      <td>F major (0.561)</td>
+      <td>B- major (0.524)</td>
+      <td>F major (0.635)</td>
+    </tr>
+    <tr>
+      <th>52</th>
+      <td>jugos077.krn</td>
+      <td>a minor (0.622)</td>
+      <td>a minor (0.648)</td>
+      <td>G major (0.64)</td>
+      <td>d minor (0.533)</td>
+      <td>a minor (0.581)</td>
+    </tr>
+    <tr>
+      <th>53</th>
+      <td>jugos088.krn</td>
+      <td>a minor (0.622)</td>
+      <td>D major (0.689)</td>
+      <td>D major (0.545)</td>
+      <td>D major (0.564)</td>
+      <td>A major (0.439)</td>
+    </tr>
+    <tr>
+      <th>54</th>
+      <td>jugos089.krn</td>
+      <td>a minor (0.594)</td>
+      <td>G major (0.506)</td>
+      <td>G major (0.544)</td>
+      <td>C major (0.583)</td>
+      <td>G major (0.619)</td>
+    </tr>
+    <tr>
+      <th>55</th>
+      <td>jugos076.krn</td>
+      <td>C major (0.828)</td>
+      <td>C major (0.659)</td>
+      <td>C major (0.733)</td>
+      <td>C major (0.725)</td>
+      <td>C major (0.809)</td>
+    </tr>
+    <tr>
+      <th>56</th>
+      <td>jugos062.krn</td>
+      <td>G major (0.603)</td>
+      <td>e minor (0.812)</td>
+      <td>G major (0.594)</td>
+      <td>C major (0.597)</td>
+      <td>G major (0.622)</td>
+    </tr>
+    <tr>
+      <th>57</th>
+      <td>jugos102.krn</td>
+      <td>a minor (0.495)</td>
+      <td>G major (0.57)</td>
+      <td>e minor (0.577)</td>
+      <td>e minor (0.54)</td>
+      <td>G major (0.602)</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>jugos116.krn</td>
+      <td>G major (0.676)</td>
+      <td>G major (0.651)</td>
+      <td>G major (0.749)</td>
+      <td>e minor (0.666)</td>
+      <td>G major (0.774)</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>jugos047.krn</td>
+      <td>G major (0.835)</td>
+      <td>C major (0.834)</td>
+      <td>C major (0.861)</td>
+      <td>C major (0.834)</td>
+      <td>C major (0.861)</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>jugos053.krn</td>
+      <td>G major (0.903)</td>
+      <td>G major (0.904)</td>
+      <td>G major (0.786)</td>
+      <td>G major (0.777)</td>
+      <td>G major (0.859)</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>jugos084.krn</td>
+      <td>D major (0.65)</td>
+      <td>e minor (0.859)</td>
+      <td>G major (0.685)</td>
+      <td>D major (0.665)</td>
+      <td>G major (0.708)</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>jugos090.krn</td>
+      <td>a minor (0.925)</td>
+      <td>a minor (0.695)</td>
+      <td>a minor (0.79)</td>
+      <td>a minor (0.774)</td>
+      <td>a minor (0.838)</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>jugos091.krn</td>
+      <td>E- major (0.711)</td>
+      <td>E- major (0.868)</td>
+      <td>E- major (0.666)</td>
+      <td>E- major (0.632)</td>
+      <td>E- major (0.726)</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>jugos085.krn</td>
+      <td>G major (0.639)</td>
+      <td>G major (0.739)</td>
+      <td>G major (0.772)</td>
+      <td>G major (0.665)</td>
+      <td>G major (0.805)</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>jugos052.krn</td>
+      <td>G major (0.769)</td>
+      <td>G major (0.791)</td>
+      <td>G major (0.701)</td>
+      <td>e minor (0.708)</td>
+      <td>G major (0.816)</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>jugos046.krn</td>
+      <td>G major (0.872)</td>
+      <td>G major (0.839)</td>
+      <td>G major (0.769)</td>
+      <td>G major (0.772)</td>
+      <td>G major (0.835)</td>
+    </tr>
+    <tr>
+      <th>67</th>
+      <td>jugos118.krn</td>
+      <td>b minor (0.878)</td>
+      <td>G major (0.831)</td>
+      <td>G major (0.801)</td>
+      <td>G major (0.725)</td>
+      <td>G major (0.86)</td>
+    </tr>
+    <tr>
+      <th>68</th>
+      <td>jugos078.krn</td>
+      <td>g minor (0.705)</td>
+      <td>g minor (0.907)</td>
+      <td>F major (0.565)</td>
+      <td>B- major (0.567)</td>
+      <td>g minor (0.607)</td>
+    </tr>
+    <tr>
+      <th>69</th>
+      <td>jugos050.krn</td>
+      <td>C major (0.82)</td>
+      <td>F major (0.721)</td>
+      <td>F major (0.951)</td>
+      <td>F major (0.877)</td>
+      <td>F major (0.894)</td>
+    </tr>
+    <tr>
+      <th>70</th>
+      <td>jugos044.krn</td>
+      <td>G major (0.853)</td>
+      <td>G major (0.93)</td>
+      <td>G major (0.86)</td>
+      <td>G major (0.825)</td>
+      <td>G major (0.865)</td>
+    </tr>
+    <tr>
+      <th>71</th>
+      <td>jugos093.krn</td>
+      <td>G major (0.729)</td>
+      <td>G major (0.889)</td>
+      <td>G major (0.657)</td>
+      <td>G major (0.644)</td>
+      <td>G major (0.712)</td>
+    </tr>
+    <tr>
+      <th>72</th>
+      <td>jugos087.krn</td>
+      <td>a minor (0.585)</td>
+      <td>G major (0.709)</td>
+      <td>G major (0.55)</td>
+      <td>C major (0.587)</td>
+      <td>G major (0.611)</td>
+    </tr>
+    <tr>
+      <th>73</th>
+      <td>jugos086.krn</td>
+      <td>b- minor (0.794)</td>
+      <td>b- minor (0.632)</td>
+      <td>b- minor (0.505)</td>
+      <td>b- minor (0.583)</td>
+      <td>b- minor (0.554)</td>
+    </tr>
+    <tr>
+      <th>74</th>
+      <td>jugos092.krn</td>
+      <td>G major (0.621)</td>
+      <td>G major (0.6)</td>
+      <td>G major (0.686)</td>
+      <td>D major (0.647)</td>
+      <td>G major (0.727)</td>
+    </tr>
+    <tr>
+      <th>75</th>
+      <td>jugos045.krn</td>
+      <td>G major (0.546)</td>
+      <td>e minor (0.791)</td>
+      <td>e minor (0.652)</td>
+      <td>e minor (0.56)</td>
+      <td>e minor (0.687)</td>
+    </tr>
+    <tr>
+      <th>76</th>
+      <td>jugos051.krn</td>
+      <td>e minor (0.565)</td>
+      <td>b minor (0.74)</td>
+      <td>D major (0.566)</td>
+      <td>G major (0.579)</td>
+      <td>D major (0.589)</td>
+    </tr>
+    <tr>
+      <th>77</th>
+      <td>jugos079.krn</td>
+      <td>G major (0.837)</td>
+      <td>G major (0.555)</td>
+      <td>G major (0.903)</td>
+      <td>G major (0.832)</td>
+      <td>G major (0.924)</td>
+    </tr>
+    <tr>
+      <th>78</th>
+      <td>jugos119.krn</td>
+      <td>G major (0.778)</td>
+      <td>G major (0.933)</td>
+      <td>G major (0.778)</td>
+      <td>G major (0.71)</td>
+      <td>G major (0.858)</td>
+    </tr>
+    <tr>
+      <th>79</th>
+      <td>jugos109.krn</td>
+      <td>G major (0.637)</td>
+      <td>G major (0.883)</td>
+      <td>G major (0.668)</td>
+      <td>G major (0.583)</td>
+      <td>G major (0.748)</td>
+    </tr>
+    <tr>
+      <th>80</th>
+      <td>jugos055.krn</td>
+      <td>G major (0.868)</td>
+      <td>G major (0.756)</td>
+      <td>G major (0.816)</td>
+      <td>G major (0.842)</td>
+      <td>G major (0.796)</td>
+    </tr>
+    <tr>
+      <th>81</th>
+      <td>jugos041.krn</td>
+      <td>G major (0.482)</td>
+      <td>e minor (0.814)</td>
+      <td>G major (0.55)</td>
+      <td>G major (0.547)</td>
+      <td>G major (0.546)</td>
+    </tr>
+    <tr>
+      <th>82</th>
+      <td>jugos069.krn</td>
+      <td>a minor (0.686)</td>
+      <td>G major (0.532)</td>
+      <td>G major (0.719)</td>
+      <td>C major (0.607)</td>
+      <td>G major (0.716)</td>
+    </tr>
+    <tr>
+      <th>83</th>
+      <td>jugos096.krn</td>
+      <td>G major (0.825)</td>
+      <td>G major (0.805)</td>
+      <td>G major (0.869)</td>
+      <td>G major (0.815)</td>
+      <td>G major (0.865)</td>
+    </tr>
+    <tr>
+      <th>84</th>
+      <td>jugos082.krn</td>
+      <td>G major (0.705)</td>
+      <td>G major (0.904)</td>
+      <td>G major (0.733)</td>
+      <td>C major (0.609)</td>
+      <td>G major (0.806)</td>
+    </tr>
+    <tr>
+      <th>85</th>
+      <td>jugos083.krn</td>
+      <td>D major (0.855)</td>
+      <td>G major (0.864)</td>
+      <td>G major (0.864)</td>
+      <td>D major (0.8)</td>
+      <td>G major (0.813)</td>
+    </tr>
+    <tr>
+      <th>86</th>
+      <td>jugos097.krn</td>
+      <td>G major (0.617)</td>
+      <td>G major (0.885)</td>
+      <td>G major (0.637)</td>
+      <td>D major (0.631)</td>
+      <td>G major (0.638)</td>
+    </tr>
+    <tr>
+      <th>87</th>
+      <td>jugos068.krn</td>
+      <td>G major (0.829)</td>
+      <td>C major (0.666)</td>
+      <td>C major (0.843)</td>
+      <td>C major (0.77)</td>
+      <td>C major (0.851)</td>
+    </tr>
+    <tr>
+      <th>88</th>
+      <td>jugos040.krn</td>
+      <td>b minor (0.753)</td>
+      <td>G major (0.907)</td>
+      <td>G major (0.68)</td>
+      <td>D major (0.606)</td>
+      <td>G major (0.673)</td>
+    </tr>
+    <tr>
+      <th>89</th>
+      <td>jugos054.krn</td>
+      <td>G major (0.838)</td>
+      <td>G major (0.791)</td>
+      <td>G major (0.824)</td>
+      <td>G major (0.765)</td>
+      <td>G major (0.869)</td>
+    </tr>
+    <tr>
+      <th>90</th>
+      <td>jugos108.krn</td>
+      <td>a minor (0.504)</td>
+      <td>d minor (0.905)</td>
+      <td>d minor (0.585)</td>
+      <td>d minor (0.553)</td>
+      <td>d minor (0.566)</td>
+    </tr>
+    <tr>
+      <th>91</th>
+      <td>jugos042.krn</td>
+      <td>G major (0.66)</td>
+      <td>G major (0.597)</td>
+      <td>G major (0.628)</td>
+      <td>C major (0.622)</td>
+      <td>G major (0.733)</td>
+    </tr>
+    <tr>
+      <th>92</th>
+      <td>jugos056.krn</td>
+      <td>G major (0.874)</td>
+      <td>G major (0.758)</td>
+      <td>G major (0.854)</td>
+      <td>G major (0.816)</td>
+      <td>G major (0.874)</td>
+    </tr>
+    <tr>
+      <th>93</th>
+      <td>jugos081.krn</td>
+      <td>G major (0.79)</td>
+      <td>G major (0.916)</td>
+      <td>G major (0.762)</td>
+      <td>G major (0.682)</td>
+      <td>G major (0.848)</td>
+    </tr>
+    <tr>
+      <th>94</th>
+      <td>jugos095.krn</td>
+      <td>G major (0.792)</td>
+      <td>G major (0.886)</td>
+      <td>G major (0.771)</td>
+      <td>G major (0.728)</td>
+      <td>G major (0.836)</td>
+    </tr>
+    <tr>
+      <th>95</th>
+      <td>jugos094.krn</td>
+      <td>g minor (0.771)</td>
+      <td>g minor (0.796)</td>
+      <td>g minor (0.745)</td>
+      <td>g minor (0.713)</td>
+      <td>g minor (0.734)</td>
+    </tr>
+    <tr>
+      <th>96</th>
+      <td>jugos080.krn</td>
+      <td>G major (0.891)</td>
+      <td>G major (0.734)</td>
+      <td>C major (0.692)</td>
+      <td>G major (0.738)</td>
+      <td>G major (0.798)</td>
+    </tr>
+    <tr>
+      <th>97</th>
+      <td>jugos057.krn</td>
+      <td>F major (0.861)</td>
+      <td>F major (0.754)</td>
+      <td>F major (0.836)</td>
+      <td>F major (0.776)</td>
+      <td>F major (0.89)</td>
+    </tr>
+    <tr>
+      <th>98</th>
+      <td>jugos043.krn</td>
+      <td>b minor (0.735)</td>
+      <td>G major (0.932)</td>
+      <td>G major (0.823)</td>
+      <td>D major (0.732)</td>
+      <td>G major (0.855)</td>
+    </tr>
+    <tr>
+      <th>99</th>
+      <td>jugos018.krn</td>
+      <td>b- minor (0.807)</td>
+      <td>b- minor (0.934)</td>
+      <td>b- minor (0.551)</td>
+      <td>b- minor (0.588)</td>
+      <td>b- minor (0.587)</td>
+    </tr>
+    <tr>
+      <th>100</th>
+      <td>jugos024.krn</td>
+      <td>G major (0.824)</td>
+      <td>G major (0.578)</td>
+      <td>G major (0.873)</td>
+      <td>G major (0.808)</td>
+      <td>G major (0.895)</td>
+    </tr>
+    <tr>
+      <th>101</th>
+      <td>jugos030.krn</td>
+      <td>G major (0.793)</td>
+      <td>G major (0.968)</td>
+      <td>G major (0.837)</td>
+      <td>G major (0.85)</td>
+      <td>G major (0.848)</td>
+    </tr>
+    <tr>
+      <th>102</th>
+      <td>jugos031.krn</td>
+      <td>C major (0.797)</td>
+      <td>F major (0.732)</td>
+      <td>F major (0.823)</td>
+      <td>C major (0.776)</td>
+      <td>F major (0.804)</td>
+    </tr>
+    <tr>
+      <th>103</th>
+      <td>jugos025.krn</td>
+      <td>C major (0.908)</td>
+      <td>C major (0.89)</td>
+      <td>C major (0.831)</td>
+      <td>C major (0.811)</td>
+      <td>C major (0.894)</td>
+    </tr>
+    <tr>
+      <th>104</th>
+      <td>jugos019.krn</td>
+      <td>a minor (0.611)</td>
+      <td>f# minor (0.879)</td>
+      <td>a minor (0.53)</td>
+      <td>a minor (0.544)</td>
+      <td>a minor (0.504)</td>
+    </tr>
+    <tr>
+      <th>105</th>
+      <td>jugos033.krn</td>
+      <td>D major (0.664)</td>
+      <td>G major (0.488)</td>
+      <td>G major (0.667)</td>
+      <td>G major (0.635)</td>
+      <td>G major (0.602)</td>
+    </tr>
+    <tr>
+      <th>106</th>
+      <td>jugos027.krn</td>
+      <td>g minor (0.686)</td>
+      <td>F major (0.685)</td>
+      <td>F major (0.51)</td>
+      <td>B- major (0.543)</td>
+      <td>F major (0.549)</td>
+    </tr>
+    <tr>
+      <th>107</th>
+      <td>jugos026.krn</td>
+      <td>G major (0.895)</td>
+      <td>G major (0.592)</td>
+      <td>G major (0.805)</td>
+      <td>G major (0.791)</td>
+      <td>G major (0.87)</td>
+    </tr>
+    <tr>
+      <th>108</th>
+      <td>jugos032.krn</td>
+      <td>G major (0.936)</td>
+      <td>G major (0.836)</td>
+      <td>G major (0.878)</td>
+      <td>G major (0.942)</td>
+      <td>G major (0.913)</td>
+    </tr>
+    <tr>
+      <th>109</th>
+      <td>jugos036.krn</td>
+      <td>b minor (0.715)</td>
+      <td>G major (0.853)</td>
+      <td>G major (0.81)</td>
+      <td>G major (0.726)</td>
+      <td>G major (0.787)</td>
+    </tr>
+    <tr>
+      <th>110</th>
+      <td>jugos022.krn</td>
+      <td>D major (0.768)</td>
+      <td>D major (0.88)</td>
+      <td>D major (0.819)</td>
+      <td>G major (0.781)</td>
+      <td>D major (0.826)</td>
+    </tr>
+    <tr>
+      <th>111</th>
+      <td>jugos023.krn</td>
+      <td>C major (0.601)</td>
+      <td>F major (0.883)</td>
+      <td>F major (0.704)</td>
+      <td>C major (0.639)</td>
+      <td>F major (0.714)</td>
+    </tr>
+    <tr>
+      <th>112</th>
+      <td>jugos037.krn</td>
+      <td>G major (0.767)</td>
+      <td>G major (0.822)</td>
+      <td>G major (0.774)</td>
+      <td>G major (0.724)</td>
+      <td>G major (0.798)</td>
+    </tr>
+    <tr>
+      <th>113</th>
+      <td>jugos021.krn</td>
+      <td>D major (0.688)</td>
+      <td>e minor (0.806)</td>
+      <td>D major (0.739)</td>
+      <td>G major (0.731)</td>
+      <td>G major (0.762)</td>
+    </tr>
+    <tr>
+      <th>114</th>
+      <td>jugos035.krn</td>
+      <td>G major (0.881)</td>
+      <td>G major (0.869)</td>
+      <td>G major (0.952)</td>
+      <td>G major (0.951)</td>
+      <td>G major (0.938)</td>
+    </tr>
+    <tr>
+      <th>115</th>
+      <td>jugos009.krn</td>
+      <td>C major (0.762)</td>
+      <td>a minor (0.927)</td>
+      <td>C major (0.752)</td>
+      <td>C major (0.746)</td>
+      <td>C major (0.814)</td>
+    </tr>
+    <tr>
+      <th>116</th>
+      <td>jugos008.krn</td>
+      <td>G major (0.896)</td>
+      <td>G major (0.77)</td>
+      <td>G major (0.806)</td>
+      <td>G major (0.806)</td>
+      <td>G major (0.872)</td>
+    </tr>
+    <tr>
+      <th>117</th>
+      <td>jugos034.krn</td>
+      <td>G major (0.897)</td>
+      <td>G major (0.851)</td>
+      <td>G major (0.779)</td>
+      <td>G major (0.756)</td>
+      <td>G major (0.866)</td>
+    </tr>
+    <tr>
+      <th>118</th>
+      <td>jugos020.krn</td>
+      <td>G major (0.888)</td>
+      <td>G major (0.861)</td>
+      <td>G major (0.86)</td>
+      <td>G major (0.892)</td>
+      <td>G major (0.897)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+### Windows
+
+Here, we can see the various windows of keys in a song:
+
+
+```{python, eval=FALSE}
+for kern_file in file_list:
+  krum = analysis.discrete.KrumhanslKessler(kern_file)
+  krum_key = krum.getSolution(kern_file)
+  krum_key.correlationCoefficient
+  p = graph.plot.WindowedKey(kern_file.parts[0])
+  p.run()
+```
+
+One of these would look like this:
+
+![Windowed analysis using the K-S algorithm](../images/k-s-windowed-example.png)
+
+
+
+## Audio Data 
+
+It might be worth having a look at some audio data now. 
+For this, we will use the Spotify API and Ashley Burgoyne's `compmus` package, and the `spotifyr` toolkit.
+
+
+### Spotify
+In order to explore the Spotify API, you will need a client ID and a client "secret". You can find those [here](https://developer.spotify.com/documentation/web-api/concepts/apps).
+
+```{r, echo=FALSE, warnings=FALSE}
+# Sys.setenv(SPOTIFY_CLIENT_ID = YOUR CLIENT ID)
+# Sys.setenv(SPOTIFY_CLIENT_SECRET = YOUR CLIENT SECRET)
+
+library(spotifyr)
+library(tidyverse)
+#remotes::install_github('jaburgoyne/compmus')
+library(compmus)
+library(corrplot)
+access_token <- get_spotify_access_token()
+```
+
+
+```{r}
+circshift <- function(v, n) {
+  if (n == 0) v else c(tail(v, n), head(v, -n))
+}
+# 
+# # ### uses the Krumhansl Schmuckler Profiles
+major_key <- c(6.35, 2.23, 3.48, 2.33, 4.38, 4.09, 2.52, 5.19, 2.39, 3.66, 2.29, 2.88)
+minor_key <- c(6.33, 2.68, 3.52, 5.38, 2.60, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17)
+
+##sapp's simple weightings
+# major_key <- c(2, 0, 1, 0, 1, 1, 0, 2, 0, 1, 0, 1)
+# 
+# minor_key <- c(2, 0, 1, 1, 0, 1, 0, 2, 1, 0, 0.5, 0.5)
+
+key_templates <-
+  tribble(
+    ~name, ~template,
+    "Gb:maj", circshift(major_key, 6),
+    "Bb:min", circshift(minor_key, 10),
+    "Db:maj", circshift(major_key, 1),
+    "F:min", circshift(minor_key, 5),
+    "Ab:maj", circshift(major_key, 8),
+    "C:min", circshift(minor_key, 0),
+    "Eb:maj", circshift(major_key, 3),
+    "G:min", circshift(minor_key, 7),
+    "Bb:maj", circshift(major_key, 10),
+    "D:min", circshift(minor_key, 2),
+    "F:maj", circshift(major_key, 5),
+    "A:min", circshift(minor_key, 9),
+    "C:maj", circshift(major_key, 0),
+    "E:min", circshift(minor_key, 4),
+    "G:maj", circshift(major_key, 7),
+    "B:min", circshift(minor_key, 11),
+    "D:maj", circshift(major_key, 2),
+    "F#:min", circshift(minor_key, 6),
+    "A:maj", circshift(major_key, 9),
+    "C#:min", circshift(minor_key, 1),
+    "E:maj", circshift(major_key, 4),
+    "G#:min", circshift(minor_key, 8),
+    "B:maj", circshift(major_key, 11),
+    "D#:min", circshift(minor_key, 3)
+  )
+```
+
+
+
+Let's look at Lucy Dacus's "Night Shift". 
+
+This grabs the track and does all the magic:
+
+```{r}
+night_shift <-
+  get_tidy_audio_analysis("1yYlpGuBiRRf33e1gY61bN") %>%
+  compmus_align(sections, segments) %>%
+  select(sections) %>%
+  unnest(sections) %>%
+  mutate(
+    pitches =
+      map(segments,
+          compmus_summarise, pitches,
+          method = "mean", norm = "manhattan"
+      )
+  )
+```
+
+
+And this is just a plotting function:
+```{r}
+night_shift %>% 
+  compmus_match_pitch_template(
+    key_templates,         # Change to chord_templates if descired
+    method = "euclidean",  # Try different distance metrics
+    norm = "manhattan"     # Try different norms
+  ) %>%
+  ggplot(
+    aes(x = start + duration / 2, width = duration, y = name, fill = d)
+  ) +
+  geom_tile() +
+  scale_fill_viridis_c(guide = "none") +
+  theme_minimal() +
+  labs(x = "Time (s)", y = "")
+```
+
+```{r}
+night_shift <-
+  get_tidy_audio_analysis("1yYlpGuBiRRf33e1gY61bN") %>%
+  compmus_align(sections, segments) %>%
+  select(sections) %>%
+  unnest(sections) %>%
+  mutate(
+    pitches =
+      map(segments,
+          compmus_summarise, pitches,
+          method = "mean", norm = "manhattan"
+      )
+  )
+```
+
+Let's do some exercises:
+
+1. Visualize a song with all of these weightings.
+   1. How do the algorithms differ?
+2. Can you write a function that would call each weighting as an argument? What would that look like?
+
+
+
+## Making our own
+
+There are many different ways of calculating key, and what constitutes "tonality" can change quite a bit depending on how you approach it. If using a set of pitches from a corpus to define a key-profile, the question becomes "which corpus?" 
+
+Today, we are going to look at what it means to generate a key-profile for more appropriate key-finding algorithms. We are going to break the class into a few separate sections:
+
+1. Looking at getting a broad key-profile from a playlist.
+2. Breaking that into a major and minor key-profile (and discussing the issues and implications with this)
+3. Working on an in-class exercise that generates a key-profile from a corpus and then looks at 
+
+## What's the Key-Profile for "Indie-Pop"
+
+The basic code for getting a key-profile from a playlist is below. The process is as follows:
+
+1. Get the audio features from a playlist, and add the audio analysis onto the datafame.
+2. We then create a "segments" column by using a map function from the `tidyverse`. Map functions basically apply a function over each element in a list. Here, we are saying "apply the `compmus_c_transpose` function to the key and segments lists from the `add_audio_analysis` function."
+   1. What does the `compmus_c_transpose` function do? It takes all of the chroma vectors and transposes them to the key of C, so that we can construct a single set of weightings from pieces in different keys.
+3. We then only grab this transposed segments column and turn it into a more readable list with the `unnest` function.
+   1. We then grab the start, duration, and pitches info.
+4. We then create a "pitches" column, and normalize these raw pitch counts. There are a few ways to do this, and there are different options for this.
+5. We then used the `compmus_gather_chroma` function to take all of those chroma vectors and turn them into a list.
+6. We then use the `group_by` and `summarise` functions from `tidyverse`, and get the mean count of each pitch class in the distribution. 
+
+
+```{r, eval=FALSE}
+### grabs the key-profile of the indie-pop playlist.
+indie_pop_key_profile <- get_playlist_audio_features("", "37i9dQZF1DWWEcRhUVtL8n") |>
+  add_audio_analysis() |>
+  ## transpose all the chroma vectors to C.
+  mutate(segments = map2(segments, key, compmus_c_transpose)) |>
+  ## grab the segments data and unnest it, then only grabbing the start, duration, and pitches info.
+  select(segments) |>
+  unnest(segments) |> 
+  select(start, duration, pitches) |> 
+  mutate(pitches = map(pitches, compmus_normalise, "euclidean")) |>
+  compmus_gather_chroma() |>
+  group_by(pitch_class) |>
+  summarise(mean_value = mean(value)) 
+
+indie_pop_key_profile
+```
+
+Ideally, we'd be able to turn this into a more reusable function. Below we've just turned made the playlist URI an argument:
+
+```{r}
+get_key_profile_broad <- function(uri){
+   get_playlist_audio_features("", uri) |>
+   add_audio_analysis() |>
+   ## transpose all the chroma vectors to C. (have I mentioned how great Burgoyne's library is??)
+   mutate(segments = map2(segments, key, compmus_c_transpose)) |>
+   ## grab the segments data and unnest it, then only grabbing the start, duration, and pitches info.
+   select(segments) |>
+   unnest(segments) |> 
+   select(start, duration, pitches) |> 
+   mutate(pitches = map(pitches, compmus_normalise, "euclidean")) |>
+   compmus_gather_chroma() |>
+   group_by(pitch_class) |>
+   summarise(mean_value = mean(value)) 
+}
+```
+
+And now we can just run the function like so:
+
+```{r, eval=FALSE}
+indie_pop <- get_key_profile_broad("37i9dQZF1DWWEcRhUVtL8n")
+indie_pop
+```
+
+and we can plot it in a pretty straightforward way:
+
+```{r, eval=FALSE}
+barplot(indie_pop$mean_value)
+```
+So we can look at other genres pretty easily. Here is me looking at Spotify's "EDM 2023" playlist:
+
+## What's the Key Profile for EDM?
+```{r}
+edm <- get_key_profile_broad("37i9dQZF1DX1kCIzMYtzum")
+edm
+```
+
+and once again we can plot it:
+```{r}
+barplot(edm$mean_value)
+```
+
+### Some points of interest
+
+1. For both of these distributions, we see a strong showing for scale degrees 1 and 5 (they aren't really labeled in these quickie plots, but it would be the first and seventh column, respectively).
+2. With the "Indie Pop" plot, we see a strong showing of scale degrees 1 and 5, and are followed by the diatonic pitches, but with the "EDM" list, scale degrees 2, flat 3, and 3 occur with pretty much the same frequency. It might be worth splitting the major and minor pieces up a bit?
+
+## Getting separate major and minor key-profiles
+
+We could break this into a few parts for our own comfort. Let's start by just creating a function that grabs the data. As that's the one that's quite time intensive, and calls to the API, let's try to run it only once.
+```{r}
+grab_playlist_info <- function(uri){
+   get_playlist_audio_features("", uri) |>
+   add_audio_analysis() 
+}
+```
+
+Once we have that in place, we can create a variable, and then subset it from there. Here, I'm saving the full list, and then creating a major and a minor variable.
+```{r}
+playlist <- grab_playlist_info("37i9dQZF1DX1kCIzMYtzum")  
+minor <- playlist |> filter(mode == 0)
+major <- playlist |> filter(mode == 1)
+```
+
+
+```{r}
+get_pitch_list <- function(input){
+   input |>     
+   mutate(segments = map2(segments, key, compmus_c_transpose)) |>
+   ## grab the segments data and unnest it, then only grabbing the start, duration, and pitches info.
+   select(segments) |>
+   unnest(segments) |> 
+   select(start, duration, pitches) |> 
+   mutate(pitches = map(pitches, compmus_normalise, "euclidean")) |>
+   compmus_gather_chroma() |>
+   group_by(pitch_class) |>
+   summarise(mean_value = mean(value))
+}
+```
+
+
+And now we can get separate pitch lists for major and minor:
+
+```{r}
+minor_key <- get_pitch_list(minor)
+major_key <- get_pitch_list(major)
+```
+
+and then of course we can use these to inform our own key mapping.
+
+
+We can start by putting this all into a super quick and inefficient function like this (hoping to improve it as we go along):
+
+```{r}
+key_plotter <- function(uri, major, minor){
+   major_key <- major
+   minor_key <- minor
+   key_templates <-
+   tribble(
+      ~name, ~template,
+      "Gb:maj", circshift(major_key, 6),
+      "Bb:min", circshift(minor_key, 10),
+      "Db:maj", circshift(major_key, 1),
+      "F:min", circshift(minor_key, 5),
+      "Ab:maj", circshift(major_key, 8),
+      "C:min", circshift(minor_key, 0),
+      "Eb:maj", circshift(major_key, 3),
+      "G:min", circshift(minor_key, 7),
+      "Bb:maj", circshift(major_key, 10),
+      "D:min", circshift(minor_key, 2),
+      "F:maj", circshift(major_key, 5),
+      "A:min", circshift(minor_key, 9),
+      "C:maj", circshift(major_key, 0),
+      "E:min", circshift(minor_key, 4),
+      "G:maj", circshift(major_key, 7),
+      "B:min", circshift(minor_key, 11),
+      "D:maj", circshift(major_key, 2),
+      "F#:min", circshift(minor_key, 6),
+      "A:maj", circshift(major_key, 9),
+      "C#:min", circshift(minor_key, 1),
+      "E:maj", circshift(major_key, 4),
+      "G#:min", circshift(minor_key, 8),
+      "B:maj", circshift(major_key, 11),
+      "D#:min", circshift(minor_key, 3)
+  )
+
+tune <-
+  get_tidy_audio_analysis(uri) %>%
+  compmus_align(sections, segments) %>%
+  select(sections) %>%
+  unnest(sections) %>%
+  mutate(
+    pitches =
+      map(segments,
+          compmus_summarise, pitches,
+          method = "mean", norm = "manhattan"
+      )
+  ) 
+
+tune |> compmus_match_pitch_template(
+    key_templates,         # Change to chord_templates if descired
+    method = "euclidean",  # Try different distance metrics
+    norm = "manhattan"     # Try different norms
+  ) %>%
+  ggplot(
+    aes(x = start + duration / 2, width = duration, y = name, fill = d)
+  ) +
+  geom_tile() +
+  scale_fill_viridis_c(guide = "none") +
+  theme_minimal() +
+  labs(x = "Time (s)", y = "")
+
+}
+```
+
+
+
+## One Piece and Many Key Profiles
+Looking at Lucy Dacus's "Night Shift" with EDM Key Profiles:
+
+```{r}
+edm_major_key <- c(0.2949827,0.1842662, 0.2249348, 0.1796559, 0.2532545, 0.2391564, 0.2028676, 0.2607747, 0.1765553, 0.2105823, 0.1806760, 0.2562869)
+# 
+edm_minor_key <- c(0.3247214, 0.1767437, 0.2066454, 0.2482824, 0.1811887, 0.2263670, 0.1830838, 0.2662832, 0.2340293, 0.1888321, 0.2203257, 0.2047107)
+key_plotter("1yYlpGuBiRRf33e1gY61bN", edm_major_key, edm_minor_key)
+```
+
+
+And here is the piece with the more traditional Krumhansl-Schmuckler key profiles:
+```{r}
+key_plotter("1yYlpGuBiRRf33e1gY61bN", ks_major_key, ks_minor_key)
+```
+
+We can load our "indie pop" but now in major and minor:
+
+```{r, eval=FALSE}
+playlist <- grab_playlist_info("37i9dQZF1DWWEcRhUVtL8n")  
+indie_minor <- playlist |> filter(mode == 0)
+indie_major <- playlist |> filter(mode == 1)
+indie_minor <- get_pitch_list(indie_minor)
+indie_major <- get_pitch_list(indie_major)
+```
+
+
+```{r, echo=FALSE}
+ indie_major_key <- c(0.333, 0.179, 0.245, 0.163, 0.249, 0.226, 0.167, 0.273, 0.146, 0.194, 0.144, 0.228)
+ indie_minor_key <- c(0.273, 0.161, 0.227, 0.257, 0.159, 0.227, 0.165, 0.270, 0.246, 0.185, 0.238, 0.179)
+```
+
+And then we put these weightings into the plotter:
+
+```{r}
+key_plotter("1yYlpGuBiRRf33e1gY61bN", ks_major_key, ks_minor_key)
+```
+
+## Exercise: 
+
+1. Pick one piece and construct a genre-specific key-profile that might be used to explain its tonal make-up.
+   1. Explain this musically.
+
+

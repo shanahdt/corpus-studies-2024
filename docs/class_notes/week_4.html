@@ -1,0 +1,4386 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Corpus Studies in Music - Week 4: Conceptual Debates (Key-Finding, Entropy, etc.)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../class_notes/week_3.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<meta property="og:title" content="Corpus Studies in Music - Week 4: Conceptual Debates (Key-Finding, Entropy, etc.)">
+<meta property="og:image" content="https://shanahdt.github.io/corpus-studies-2024/images/nokia.png">
+<meta property="og:site-name" content="Corpus Studies in Music">
+<meta property="og:image:height" content="292">
+<meta property="og:image:width" content="1546">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../class_notes/week_1.html">Class Notes</a></li><li class="breadcrumb-item"><a href="../class_notes/week_4.html">Week 4: Conceptual Debates (Key-Finding, Entropy, etc.)</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Corpus Studies in Music</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Resources</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course-syllabus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Syllabus</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course-schedule.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Schedule</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../some-troubleshooting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Some Troubleshooting</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Class Notes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../class_notes/week_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1: Representing Musical Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../class_notes/week_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2: Melodic and Harmonic Intervals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../class_notes/week_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3: Data Analysis, Time, Cadences, Phrases, <em>etc.</em></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../class_notes/week_4.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Week 4: Conceptual Debates (Key-Finding, Entropy, etc.)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#monday" id="toc-monday" class="nav-link active" data-scroll-target="#monday">Monday</a>
+  <ul class="collapse">
+  <li><a href="#why-is-key-finding-interesting" id="toc-why-is-key-finding-interesting" class="nav-link" data-scroll-target="#why-is-key-finding-interesting">Why is Key-Finding Interesting?</a></li>
+  <li><a href="#a-brief-history-of-key-finding" id="toc-a-brief-history-of-key-finding" class="nav-link" data-scroll-target="#a-brief-history-of-key-finding">A Brief History of Key Finding</a>
+  <ul class="collapse">
+  <li><a href="#longuet-higgins-and-steedman" id="toc-longuet-higgins-and-steedman" class="nav-link" data-scroll-target="#longuet-higgins-and-steedman">Longuet-Higgins and Steedman</a></li>
+  <li><a href="#the-krumhansl-schmuckler-key-finding-weightings" id="toc-the-krumhansl-schmuckler-key-finding-weightings" class="nav-link" data-scroll-target="#the-krumhansl-schmuckler-key-finding-weightings">The Krumhansl-Schmuckler Key-Finding Weightings</a></li>
+  <li><a href="#bellman-budge-profiles" id="toc-bellman-budge-profiles" class="nav-link" data-scroll-target="#bellman-budge-profiles">Bellman-Budge Profiles</a></li>
+  <li><a href="#the-temperley-kostka-payne-corpus" id="toc-the-temperley-kostka-payne-corpus" class="nav-link" data-scroll-target="#the-temperley-kostka-payne-corpus">The Temperley (Kostka-Payne Corpus)</a></li>
+  <li><a href="#aardens-folk-song-key-profiles" id="toc-aardens-folk-song-key-profiles" class="nav-link" data-scroll-target="#aardens-folk-song-key-profiles">Aarden’s Folk Song Key-Profiles</a></li>
+  <li><a href="#sapps-simple-weightings" id="toc-sapps-simple-weightings" class="nav-link" data-scroll-target="#sapps-simple-weightings">Sapp’s Simple Weightings</a></li>
+  <li><a href="#albrecht-and-shanahan-2013" id="toc-albrecht-and-shanahan-2013" class="nav-link" data-scroll-target="#albrecht-and-shanahan-2013">Albrecht and Shanahan (2013)</a></li>
+  <li><a href="#how-do-they-each-perform-on-a-corpus-of-classical-music" id="toc-how-do-they-each-perform-on-a-corpus-of-classical-music" class="nav-link" data-scroll-target="#how-do-they-each-perform-on-a-corpus-of-classical-music">How do they each perform on a corpus of classical music?</a></li>
+  </ul></li>
+  <li><a href="#analyzing-key-with-music21" id="toc-analyzing-key-with-music21" class="nav-link" data-scroll-target="#analyzing-key-with-music21">Analyzing Key with Music21</a>
+  <ul class="collapse">
+  <li><a href="#windows" id="toc-windows" class="nav-link" data-scroll-target="#windows">Windows</a></li>
+  </ul></li>
+  <li><a href="#audio-data" id="toc-audio-data" class="nav-link" data-scroll-target="#audio-data">Audio Data</a>
+  <ul class="collapse">
+  <li><a href="#spotify" id="toc-spotify" class="nav-link" data-scroll-target="#spotify">Spotify</a></li>
+  </ul></li>
+  <li><a href="#making-our-own" id="toc-making-our-own" class="nav-link" data-scroll-target="#making-our-own">Making our own</a></li>
+  <li><a href="#whats-the-key-profile-for-indie-pop" id="toc-whats-the-key-profile-for-indie-pop" class="nav-link" data-scroll-target="#whats-the-key-profile-for-indie-pop">What’s the Key-Profile for “Indie-Pop”</a></li>
+  <li><a href="#whats-the-key-profile-for-edm" id="toc-whats-the-key-profile-for-edm" class="nav-link" data-scroll-target="#whats-the-key-profile-for-edm">What’s the Key Profile for EDM?</a>
+  <ul class="collapse">
+  <li><a href="#some-points-of-interest" id="toc-some-points-of-interest" class="nav-link" data-scroll-target="#some-points-of-interest">Some points of interest</a></li>
+  </ul></li>
+  <li><a href="#getting-separate-major-and-minor-key-profiles" id="toc-getting-separate-major-and-minor-key-profiles" class="nav-link" data-scroll-target="#getting-separate-major-and-minor-key-profiles">Getting separate major and minor key-profiles</a></li>
+  <li><a href="#one-piece-and-many-key-profiles" id="toc-one-piece-and-many-key-profiles" class="nav-link" data-scroll-target="#one-piece-and-many-key-profiles">One Piece and Many Key Profiles</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise">Exercise:</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/shanahdt/corpus-studies-2024/edit/main/class_notes/week_4.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/shanahdt/corpus-studies-2024/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Week 4: Conceptual Debates (Key-Finding, Entropy, etc.)</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="monday" class="level1">
+<h1>Monday</h1>
+<ul>
+<li>Let’s talk about key-finding algorithms.</li>
+<li>Explore where they might disagree, and try to figure out why.</li>
+<li>What would it look like to devise your own key-finding algorithm?</li>
+</ul>
+<section id="why-is-key-finding-interesting" class="level2">
+<h2 class="anchored" data-anchor-id="why-is-key-finding-interesting">Why is Key-Finding Interesting?</h2>
+<p>When we hear this ringtone, it sounds as though it’s in C, but why?</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/nokia.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Nokia</figcaption>
+</figure>
+</div>
+<ul>
+<li>It doesn’t begin with C, it begins with G.</li>
+<li>C isn’t the most common note–in fact, it only occurs once before the final bar, and it’s on the “and” of 2 in the third measure (a pretty weak position metrically).</li>
+<li>Is a key just whatever key the piece ends in? If we ended this on A, would it sound like it’s in A minor? It would be the same key signature, and we’d actually have a nice cadential ascent to the final A from the G in the third measure.</li>
+</ul>
+<p>So what gives? Why do we hear this as being in C?</p>
+<p>Perhaps a follow-up question might simply be: what makes us hear something as being in a key?</p>
+</section>
+<section id="a-brief-history-of-key-finding" class="level2">
+<h2 class="anchored" data-anchor-id="a-brief-history-of-key-finding">A Brief History of Key Finding</h2>
+<section id="longuet-higgins-and-steedman" class="level3">
+<h3 class="anchored" data-anchor-id="longuet-higgins-and-steedman">Longuet-Higgins and Steedman</h3>
+<p>This approach used what we might call an <em>exclusionary approach</em>, eliminating different key possibilities as pitch classes were introduced over the course of a musical passage.</p>
+<p>For example, with the Nokia theme, the opening G would fit into seven major keys (G, C, D, F, B-flats, A-flat, E-flat;); six of those keys would include the opening two notes; and three of those six would still be possible when presented with the first three notes. By the end of the first measure, however, the only major key that would encompass all four melody notes would be C major. If more than one key was still available however, the algorithm would place more weight on the pitches present at the start of the piece. This worked quite well on pieces that were overtly tonal, but it was less effective for pieces that contained non-diatonic pitches (<strong>which is most pieces!</strong>)</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/longuet-higgins-steedman-1971.jpg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Longuet-Higgins and Steedman's 1971 Key-Finding Algorithm</figcaption>
+</figure>
+</div>
+</section>
+<section id="the-krumhansl-schmuckler-key-finding-weightings" class="level3">
+<h3 class="anchored" data-anchor-id="the-krumhansl-schmuckler-key-finding-weightings">The Krumhansl-Schmuckler Key-Finding Weightings</h3>
+<p>As you might guess, the Longuet-Higgins and Steedman would miss a lot of musical instances. For example, pieces that have non-harmonic chords would struggle, as would pieces that had a lot of chromatic ornamentations. Ideally an algorithm would allow for these pitches to occur, but acknowledge that pitches in the key might be a better fit than those outside of the key, and that certain pitches in the key should be more heavily weighted than others.</p>
+<p>Carol Krumhansl and Mark Schmuckler (Krumhansl, 1990) would devise an algorithm that tallied up the pitch classes of an excerpt and compared the distribution of these pitch classes to ratings from an earlier probe-tone experiment. (Krumhansl and Kessler, 1982). The weightings can be seen below.</p>
+<p>We might think of this as a <em>correlational approach</em>. We tally up all of the pitches in a corpus, and then run a correlation on this key-profile. We run this over all of the keys, and the one that best fits is then labeled as “the key”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(spotifyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(compmus)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ks_major_key <span class="ot">&lt;-</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="fl">6.35</span>, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>   <span class="fl">2.23</span>, </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>   <span class="fl">3.48</span>, </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>   <span class="fl">2.33</span>, </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>   <span class="fl">4.38</span>, </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>   <span class="fl">4.09</span>, </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>   <span class="fl">2.52</span>, </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>   <span class="fl">5.19</span>, </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>   <span class="fl">2.39</span>, </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>   <span class="fl">3.66</span>, </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>   <span class="fl">2.29</span>, </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>   <span class="fl">2.88</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>ks_minor_key <span class="ot">&lt;-</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="fl">6.33</span>, </span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fl">2.68</span>, </span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fl">3.52</span>, </span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fl">5.38</span>, </span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fl">2.60</span>, </span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fl">3.53</span>, </span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fl">2.54</span>, </span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fl">4.75</span>, </span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="fl">3.98</span>, </span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fl">2.69</span>, </span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="fl">3.34</span>, </span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="fl">3.17</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>An interesting distinction here is that of experiment-derived vs.&nbsp;corpus-derived weightings. Should a key-finding algorithm intend to match how we hear key in a controlled lab environment (with basic harmonic progression stimuli), or should they use real music as a starting point? If they use real music, which music?</p>
+</section>
+<section id="bellman-budge-profiles" class="level3">
+<h3 class="anchored" data-anchor-id="bellman-budge-profiles">Bellman-Budge Profiles</h3>
+<p>Hector Bellman created a key-finding algorithm that used Helen Budge’s dissertation from the 1940s as a starting point. Budge tallied up note occurrences in composers from the classical music canon, looking at the tonal makeup of a large collection of pieces. Bellman then used these frequencies as the starting point for his own key-finding algorithm.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>major <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">16.80</span>, </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.86</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>            <span class="fl">12.95</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>            <span class="fl">1.41</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>            <span class="fl">13.49</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>            <span class="fl">11.93</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>            <span class="fl">1.25</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>            <span class="fl">20.28</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>            <span class="fl">1.80</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>            <span class="fl">8.04</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.62</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>            <span class="fl">10.57</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>minor <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">18.16</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.69</span>,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>            <span class="fl">12.99</span>,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>            <span class="fl">13.34</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>            <span class="fl">1.07</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>            <span class="fl">11.15</span>,</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>            <span class="fl">1.38</span>,</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>            <span class="fl">21.07</span>,</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>            <span class="fl">7.49</span>,</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>            <span class="fl">1.53</span>,</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.92</span>,</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>            <span class="fl">10.21</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-temperley-kostka-payne-corpus" class="level3">
+<h3 class="anchored" data-anchor-id="the-temperley-kostka-payne-corpus">The Temperley (Kostka-Payne Corpus)</h3>
+<p>David Temperley (2001) also employed Western classical music as a starting point for his early key-finding work (not to be confused with his more dynamic Bayesian-informed later work). He used examples from a commonly used music theory textbook (Stefan Kostka and Dorothy Payne’s <em>Tonal Harmony</em>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>major <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.748</span>, </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.060</span>, </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.488</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.082</span>, </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.670</span>, </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.460</span>, </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.096</span>, </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.715</span>, </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.104</span>, </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.366</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.057</span>, </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.400</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>minor <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.712</span>, </span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.084</span>, </span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.474</span>, </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.618</span>, </span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.049</span>, </span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.460</span>, </span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.105</span>, </span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.747</span>, </span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.404</span>, </span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.067</span>, </span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.133</span>, </span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.330</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="aardens-folk-song-key-profiles" class="level3">
+<h3 class="anchored" data-anchor-id="aardens-folk-song-key-profiles">Aarden’s Folk Song Key-Profiles</h3>
+<p>Bret Aarden (2003) argued that folk music would be a better fit than those generated from classical music. He used the Essen Folksong collection (consisting of thousands of folksongs throughout Europe, although with an uneven balance toward German folksong), to come up with the weightings below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>major <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">17.7661</span>, </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.145624</span>, </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>            <span class="fl">14.9265</span>, </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.160186</span>, </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>            <span class="fl">19.8049</span>, </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>            <span class="fl">11.3587</span>, </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.291248</span>, </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>            <span class="fl">22.062</span>, </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.145624</span>, </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>            <span class="fl">8.15494</span>, </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.232998</span>, </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>            <span class="fl">4.95122</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>minor <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">18.2648</span>, </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.737619</span>, </span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>            <span class="fl">14.0499</span>, </span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>            <span class="fl">16.8599</span>, </span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.702494</span>, </span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>            <span class="fl">14.4362</span>, </span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.702494</span>, </span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>            <span class="fl">18.6161</span>, </span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>            <span class="fl">4.56621</span>, </span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>            <span class="fl">1.93186</span>, </span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>            <span class="fl">7.37619</span>, </span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>            <span class="fl">1.75623</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="sapps-simple-weightings" class="level3">
+<h3 class="anchored" data-anchor-id="sapps-simple-weightings">Sapp’s Simple Weightings</h3>
+<p>Craig Sapp argued that we probably didn’t even need to get frequencies from corpora or experiments. If we just assume that the tonic and the dominant (scale degrees 1 and 5) are the most important, and the other pitches in the key are less important, but more important than those not in the key, then we have a pretty simple weighting system (that works quite well!).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>major <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>minor <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="albrecht-and-shanahan-2013" class="level3">
+<h3 class="anchored" data-anchor-id="albrecht-and-shanahan-2013">Albrecht and Shanahan (2013)</h3>
+<p>Josh Albrecht and I tried our hands at this problem, and picked a set of classical works from the Humdrum corpus, looking at only the first and last eight measures of each. The numbers are below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>major <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.238</span>, </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.006</span>, </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.111</span>, </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.006</span>, </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.137</span>, </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.094</span>, </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.016</span>, </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.214</span>, </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.009</span>, </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.080</span>, </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.008</span>, </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.081</span>) </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>minor <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.220</span>, </span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.006</span>, </span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.104</span>, </span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.123</span>, </span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.019</span>, </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.103</span>, </span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.012</span>, </span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.214</span>, </span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.062</span>, </span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.022</span>, </span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.061</span>, </span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.052</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We also tried a Euclidean distance approach, rather than a correlational approach.</p>
+<p>We tried to explain it as follows:</p>
+<blockquote class="blockquote">
+<p>In a two-dimensional space, if there were 70% of pitch X and 30% pitch Y, the Cartesian location of the point representing this pitch-class distribution would be at X 1⁄4 0.7 and Y 1⁄4 0.3. In this case, we are examining the distribution of 12 pitch classes, resulting in a 12-dimensional Cartesian space. The pitch-class distribution of each piece is represented by a point in that 12-dimensional space. The distance is then measured between this point and the 24 points representing the 12 major and 12 minor key pitch-class distributions, and the key separated by the shortest distance is taken to be the key of the work.</p>
+</blockquote>
+<p>Below is a table comparing how well this did to the others.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/albrecht-shanahan-comparison.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Comparing the Albrecht and Shanahan to others</figcaption>
+</figure>
+</div>
+</section>
+<section id="how-do-they-each-perform-on-a-corpus-of-classical-music" class="level3">
+<h3 class="anchored" data-anchor-id="how-do-they-each-perform-on-a-corpus-of-classical-music">How do they each perform on a corpus of classical music?</h3>
+<p>They each perform a bit differently on different types of tasks.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/albrecht-shanahan-keyfinding-performance.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Comparing key-finding algorithms in major, minor, and overall (from Albrecht and Shanahan, 2013)</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="analyzing-key-with-music21" class="level2">
+<h2 class="anchored" data-anchor-id="analyzing-key-with-music21">Analyzing Key with Music21</h2>
+<p>music21 has a number of built-in key-finding algorithms, and it’s nice to be able to compare keys in specific pieces. You can start to see the differences between them, and their respective biases.</p>
+<p>This code will grab all of the files in a folder (here a number of Yugoslav folk songs):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> glob</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">###change this path to be your own!</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> filebrowser(ext<span class="op">=</span><span class="st">"/Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/*.krn"</span>):</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Returns files with an extension"</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [f <span class="cf">for</span> f <span class="kw">in</span> glob.glob(ext)]</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>file_list <span class="op">=</span> filebrowser()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And here I will grab the key of each one and print it out using different algorithms:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> kern_file <span class="kw">in</span> file_list:</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  melody <span class="op">=</span> converter.parse(kern_file)       </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  krum <span class="op">=</span> analysis.discrete.KrumhanslKessler(melody)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  krum_key <span class="op">=</span> krum.getSolution(melody)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  aarden <span class="op">=</span> analysis.discrete.AardenEssen(melody)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  aarden_key <span class="op">=</span> aarden.getSolution(melody)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  bellman <span class="op">=</span> analysis.discrete.BellmanBudge(melody)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  bellman_key <span class="op">=</span> bellman.getSolution(melody)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  temperley <span class="op">=</span> analysis.discrete.TemperleyKostkaPayne(melody)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  temperley_key <span class="op">=</span> temperley.getSolution(melody)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  sapp <span class="op">=</span> analysis.discrete.SimpleWeights(melody)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  sapp_key <span class="op">=</span> sapp.getSolution(melody)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And then we can call all of our variables like so:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="ss">f'File name: </span><span class="sc">{</span>kern_file<span class="sc">}</span><span class="ch">\n</span><span class="ss">Krumhansl-Kessler: </span><span class="sc">{</span>krum_key<span class="sc">}</span><span class="ch">\n</span><span class="ss">Aarden Essen: </span><span class="sc">{</span>aarden_key<span class="sc">}</span><span class="ch">\n</span><span class="ss">Bellman-Budge: </span><span class="sc">{</span>bellman_key<span class="sc">}</span><span class="ch">\n</span><span class="ss">Temperley-Kostka-Payne: </span><span class="sc">{</span>temperley_key<span class="sc">}</span><span class="ch">\n</span><span class="ss">Sapp Simple-Weightings: </span><span class="sc">{</span>sapp_key<span class="sc">}</span><span class="ch">\n</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This returns the following results (with a very long list):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode txt code-with-copy"><code class="sourceCode default"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos039.krn</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: b minor</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>Aarden Essen: G major</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: G major</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: G major</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: e minor</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos005.krn</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: G major</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>Aarden Essen: G major</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: G major</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: G major</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: D major</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos011.krn</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: D major</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>Aarden Essen: D major</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: D major</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: D major</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: D major</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos010.krn</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: A- major</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>Aarden Essen: A- major</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: A- major</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: A- major</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: C# major</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos004.krn</span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: F major</span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>Aarden Essen: g minor</span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: F major</span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: F major</span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: B- major</span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos038.krn</span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: G major</span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>Aarden Essen: e minor</span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: e minor</span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: G major</span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: G major</span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos012.krn</span>
+<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: G major</span>
+<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>Aarden Essen: G major</span>
+<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: G major</span>
+<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: G major</span>
+<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: C major</span>
+<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos006.krn</span>
+<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: C major</span>
+<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a>Aarden Essen: C major</span>
+<span id="cb11-68"><a href="#cb11-68" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: C major</span>
+<span id="cb11-69"><a href="#cb11-69" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: C major</span>
+<span id="cb11-70"><a href="#cb11-70" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: C major</span>
+<span id="cb11-71"><a href="#cb11-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-72"><a href="#cb11-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-73"><a href="#cb11-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-74"><a href="#cb11-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-75"><a href="#cb11-75" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos007.krn</span>
+<span id="cb11-76"><a href="#cb11-76" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: F major</span>
+<span id="cb11-77"><a href="#cb11-77" aria-hidden="true" tabindex="-1"></a>Aarden Essen: B- major</span>
+<span id="cb11-78"><a href="#cb11-78" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: B- major</span>
+<span id="cb11-79"><a href="#cb11-79" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: B- major</span>
+<span id="cb11-80"><a href="#cb11-80" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: F major</span>
+<span id="cb11-81"><a href="#cb11-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-82"><a href="#cb11-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-83"><a href="#cb11-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-84"><a href="#cb11-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-85"><a href="#cb11-85" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos013.krn</span>
+<span id="cb11-86"><a href="#cb11-86" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: D major</span>
+<span id="cb11-87"><a href="#cb11-87" aria-hidden="true" tabindex="-1"></a>Aarden Essen: G major</span>
+<span id="cb11-88"><a href="#cb11-88" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: G major</span>
+<span id="cb11-89"><a href="#cb11-89" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: G major</span>
+<span id="cb11-90"><a href="#cb11-90" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: G major</span>
+<span id="cb11-91"><a href="#cb11-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-92"><a href="#cb11-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-93"><a href="#cb11-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-94"><a href="#cb11-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-95"><a href="#cb11-95" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos017.krn</span>
+<span id="cb11-96"><a href="#cb11-96" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: A- major</span>
+<span id="cb11-97"><a href="#cb11-97" aria-hidden="true" tabindex="-1"></a>Aarden Essen: f minor</span>
+<span id="cb11-98"><a href="#cb11-98" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: f minor</span>
+<span id="cb11-99"><a href="#cb11-99" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: A- major</span>
+<span id="cb11-100"><a href="#cb11-100" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: A- major</span>
+<span id="cb11-101"><a href="#cb11-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-102"><a href="#cb11-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-103"><a href="#cb11-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-104"><a href="#cb11-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-105"><a href="#cb11-105" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos003.krn</span>
+<span id="cb11-106"><a href="#cb11-106" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: B major</span>
+<span id="cb11-107"><a href="#cb11-107" aria-hidden="true" tabindex="-1"></a>Aarden Essen: E major</span>
+<span id="cb11-108"><a href="#cb11-108" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: E major</span>
+<span id="cb11-109"><a href="#cb11-109" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: E major</span>
+<span id="cb11-110"><a href="#cb11-110" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: B major</span>
+<span id="cb11-111"><a href="#cb11-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-112"><a href="#cb11-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-113"><a href="#cb11-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-114"><a href="#cb11-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-115"><a href="#cb11-115" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos002.krn</span>
+<span id="cb11-116"><a href="#cb11-116" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: F major</span>
+<span id="cb11-117"><a href="#cb11-117" aria-hidden="true" tabindex="-1"></a>Aarden Essen: F major</span>
+<span id="cb11-118"><a href="#cb11-118" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: B- major</span>
+<span id="cb11-119"><a href="#cb11-119" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: B- major</span>
+<span id="cb11-120"><a href="#cb11-120" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: B- major</span>
+<span id="cb11-121"><a href="#cb11-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-122"><a href="#cb11-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-123"><a href="#cb11-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-124"><a href="#cb11-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-125"><a href="#cb11-125" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos016.krn</span>
+<span id="cb11-126"><a href="#cb11-126" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: D major</span>
+<span id="cb11-127"><a href="#cb11-127" aria-hidden="true" tabindex="-1"></a>Aarden Essen: G major</span>
+<span id="cb11-128"><a href="#cb11-128" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: G major</span>
+<span id="cb11-129"><a href="#cb11-129" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: G major</span>
+<span id="cb11-130"><a href="#cb11-130" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: D major</span>
+<span id="cb11-131"><a href="#cb11-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-132"><a href="#cb11-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-133"><a href="#cb11-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-134"><a href="#cb11-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-135"><a href="#cb11-135" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos014.krn</span>
+<span id="cb11-136"><a href="#cb11-136" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: G major</span>
+<span id="cb11-137"><a href="#cb11-137" aria-hidden="true" tabindex="-1"></a>Aarden Essen: G major</span>
+<span id="cb11-138"><a href="#cb11-138" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: G major</span>
+<span id="cb11-139"><a href="#cb11-139" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: G major</span>
+<span id="cb11-140"><a href="#cb11-140" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: G major</span>
+<span id="cb11-141"><a href="#cb11-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-142"><a href="#cb11-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-143"><a href="#cb11-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-144"><a href="#cb11-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-145"><a href="#cb11-145" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos028.krn</span>
+<span id="cb11-146"><a href="#cb11-146" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: a minor</span>
+<span id="cb11-147"><a href="#cb11-147" aria-hidden="true" tabindex="-1"></a>Aarden Essen: g minor</span>
+<span id="cb11-148"><a href="#cb11-148" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: F major</span>
+<span id="cb11-149"><a href="#cb11-149" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: F major</span>
+<span id="cb11-150"><a href="#cb11-150" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: d minor</span>
+<span id="cb11-151"><a href="#cb11-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-152"><a href="#cb11-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-153"><a href="#cb11-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-154"><a href="#cb11-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-155"><a href="#cb11-155" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos029.krn</span>
+<span id="cb11-156"><a href="#cb11-156" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: C major</span>
+<span id="cb11-157"><a href="#cb11-157" aria-hidden="true" tabindex="-1"></a>Aarden Essen: C major</span>
+<span id="cb11-158"><a href="#cb11-158" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: C major</span>
+<span id="cb11-159"><a href="#cb11-159" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: C major</span>
+<span id="cb11-160"><a href="#cb11-160" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: C major</span>
+<span id="cb11-161"><a href="#cb11-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-162"><a href="#cb11-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-163"><a href="#cb11-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-164"><a href="#cb11-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-165"><a href="#cb11-165" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos015.krn</span>
+<span id="cb11-166"><a href="#cb11-166" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: G major</span>
+<span id="cb11-167"><a href="#cb11-167" aria-hidden="true" tabindex="-1"></a>Aarden Essen: G major</span>
+<span id="cb11-168"><a href="#cb11-168" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: G major</span>
+<span id="cb11-169"><a href="#cb11-169" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: G major</span>
+<span id="cb11-170"><a href="#cb11-170" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: G major</span>
+<span id="cb11-171"><a href="#cb11-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-172"><a href="#cb11-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-173"><a href="#cb11-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-174"><a href="#cb11-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-175"><a href="#cb11-175" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos001.krn</span>
+<span id="cb11-176"><a href="#cb11-176" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: b minor</span>
+<span id="cb11-177"><a href="#cb11-177" aria-hidden="true" tabindex="-1"></a>Aarden Essen: G major</span>
+<span id="cb11-178"><a href="#cb11-178" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: G major</span>
+<span id="cb11-179"><a href="#cb11-179" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: G major</span>
+<span id="cb11-180"><a href="#cb11-180" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: e minor</span>
+<span id="cb11-181"><a href="#cb11-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-182"><a href="#cb11-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-183"><a href="#cb11-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-184"><a href="#cb11-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-185"><a href="#cb11-185" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos112.krn</span>
+<span id="cb11-186"><a href="#cb11-186" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: b minor</span>
+<span id="cb11-187"><a href="#cb11-187" aria-hidden="true" tabindex="-1"></a>Aarden Essen: G major</span>
+<span id="cb11-188"><a href="#cb11-188" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: G major</span>
+<span id="cb11-189"><a href="#cb11-189" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: G major</span>
+<span id="cb11-190"><a href="#cb11-190" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: e minor</span>
+<span id="cb11-191"><a href="#cb11-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-192"><a href="#cb11-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-193"><a href="#cb11-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-194"><a href="#cb11-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-195"><a href="#cb11-195" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos106.krn</span>
+<span id="cb11-196"><a href="#cb11-196" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: F major</span>
+<span id="cb11-197"><a href="#cb11-197" aria-hidden="true" tabindex="-1"></a>Aarden Essen: F major</span>
+<span id="cb11-198"><a href="#cb11-198" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: B- major</span>
+<span id="cb11-199"><a href="#cb11-199" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: F major</span>
+<span id="cb11-200"><a href="#cb11-200" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: B- major</span>
+<span id="cb11-201"><a href="#cb11-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-202"><a href="#cb11-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-203"><a href="#cb11-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-204"><a href="#cb11-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-205"><a href="#cb11-205" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos066.krn</span>
+<span id="cb11-206"><a href="#cb11-206" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: g minor</span>
+<span id="cb11-207"><a href="#cb11-207" aria-hidden="true" tabindex="-1"></a>Aarden Essen: g minor</span>
+<span id="cb11-208"><a href="#cb11-208" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: g minor</span>
+<span id="cb11-209"><a href="#cb11-209" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: g minor</span>
+<span id="cb11-210"><a href="#cb11-210" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: g minor</span>
+<span id="cb11-211"><a href="#cb11-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-212"><a href="#cb11-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-213"><a href="#cb11-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-214"><a href="#cb11-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-215"><a href="#cb11-215" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos072.krn</span>
+<span id="cb11-216"><a href="#cb11-216" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: a minor</span>
+<span id="cb11-217"><a href="#cb11-217" aria-hidden="true" tabindex="-1"></a>Aarden Essen: F major</span>
+<span id="cb11-218"><a href="#cb11-218" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: F major</span>
+<span id="cb11-219"><a href="#cb11-219" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: F major</span>
+<span id="cb11-220"><a href="#cb11-220" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: F major</span>
+<span id="cb11-221"><a href="#cb11-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-222"><a href="#cb11-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-223"><a href="#cb11-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-224"><a href="#cb11-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-225"><a href="#cb11-225" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos099.krn</span>
+<span id="cb11-226"><a href="#cb11-226" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: G major</span>
+<span id="cb11-227"><a href="#cb11-227" aria-hidden="true" tabindex="-1"></a>Aarden Essen: a minor</span>
+<span id="cb11-228"><a href="#cb11-228" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: G major</span>
+<span id="cb11-229"><a href="#cb11-229" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: G major</span>
+<span id="cb11-230"><a href="#cb11-230" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: G major</span>
+<span id="cb11-231"><a href="#cb11-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-232"><a href="#cb11-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-233"><a href="#cb11-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-234"><a href="#cb11-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-235"><a href="#cb11-235" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos098.krn</span>
+<span id="cb11-236"><a href="#cb11-236" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: b minor</span>
+<span id="cb11-237"><a href="#cb11-237" aria-hidden="true" tabindex="-1"></a>Aarden Essen: G major</span>
+<span id="cb11-238"><a href="#cb11-238" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: G major</span>
+<span id="cb11-239"><a href="#cb11-239" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: G major</span>
+<span id="cb11-240"><a href="#cb11-240" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: e minor</span>
+<span id="cb11-241"><a href="#cb11-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-242"><a href="#cb11-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-243"><a href="#cb11-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-244"><a href="#cb11-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-245"><a href="#cb11-245" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos073.krn</span>
+<span id="cb11-246"><a href="#cb11-246" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: a minor</span>
+<span id="cb11-247"><a href="#cb11-247" aria-hidden="true" tabindex="-1"></a>Aarden Essen: F major</span>
+<span id="cb11-248"><a href="#cb11-248" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: F major</span>
+<span id="cb11-249"><a href="#cb11-249" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: F major</span>
+<span id="cb11-250"><a href="#cb11-250" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: d minor</span>
+<span id="cb11-251"><a href="#cb11-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-252"><a href="#cb11-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-253"><a href="#cb11-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-254"><a href="#cb11-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-255"><a href="#cb11-255" aria-hidden="true" tabindex="-1"></a>File name: /Users/danielshanahan/gitcloud/Teaching/corpus-studies-2024/data/Essen/Jugoslav/jugos067.krn</span>
+<span id="cb11-256"><a href="#cb11-256" aria-hidden="true" tabindex="-1"></a>Krumhansl-Kessler: D major</span>
+<span id="cb11-257"><a href="#cb11-257" aria-hidden="true" tabindex="-1"></a>Aarden Essen: e minor</span>
+<span id="cb11-258"><a href="#cb11-258" aria-hidden="true" tabindex="-1"></a>Bellman-Budge: G major</span>
+<span id="cb11-259"><a href="#cb11-259" aria-hidden="true" tabindex="-1"></a>Temperley-Kostka-Payne: G major</span>
+<span id="cb11-260"><a href="#cb11-260" aria-hidden="true" tabindex="-1"></a>Sapp Simple-Weightings: G major</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This code will give us the key, and the confidence of each key, with different algorithms:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>krum_kess <span class="op">=</span> []</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>aarden_essen <span class="op">=</span> []</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>temperley_kp <span class="op">=</span> []</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>bellman_budge <span class="op">=</span> []</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>sapp_weighted <span class="op">=</span> []</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>titles <span class="op">=</span> []</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> file_list:</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  titles.append(<span class="bu">file</span>.split(<span class="st">"/"</span>)[<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  melody <span class="op">=</span> converter.parse(<span class="bu">file</span>) </span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  krum <span class="op">=</span> analysis.discrete.KrumhanslKessler(melody)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  krum_key <span class="op">=</span> krum.getSolution(melody)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  coef_krum <span class="op">=</span> <span class="bu">round</span>(krum_key.correlationCoefficient, <span class="dv">3</span>)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  krum_kess.append(<span class="ss">f'</span><span class="sc">{</span>krum_key<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>coef_krum<span class="sc">}</span><span class="ss">)'</span>)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  aarden <span class="op">=</span> analysis.discrete.AardenEssen(melody)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  coef_aarden <span class="op">=</span> <span class="bu">round</span>(aarden_key.correlationCoefficient, <span class="dv">3</span>)</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>  aarden_key <span class="op">=</span> aarden.getSolution(melody)</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>  aarden_essen.append(<span class="ss">f'</span><span class="sc">{</span>aarden_key<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>coef_aarden<span class="sc">}</span><span class="ss">)'</span>)</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>  bellman <span class="op">=</span> analysis.discrete.BellmanBudge(melody)</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>  bellman_key <span class="op">=</span> bellman.getSolution(melody)</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>  coef_bellman <span class="op">=</span> <span class="bu">round</span>(bellman_key.correlationCoefficient, <span class="dv">3</span>)</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>  bellman_budge.append(<span class="ss">f'</span><span class="sc">{</span>bellman_key<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>coef_bellman<span class="sc">}</span><span class="ss">)'</span>)</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>  sapp <span class="op">=</span> analysis.discrete.SimpleWeights(melody)</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>  sapp_key <span class="op">=</span> sapp.getSolution(melody)</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>  coef_sapp <span class="op">=</span> <span class="bu">round</span>(sapp_key.correlationCoefficient, <span class="dv">3</span>)</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>  sapp_weighted.append(<span class="ss">f'</span><span class="sc">{</span>sapp_key<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>coef_sapp<span class="sc">}</span><span class="ss">)'</span>)</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>  temperley <span class="op">=</span> analysis.discrete.TemperleyKostkaPayne(melody)</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>  temperley_key <span class="op">=</span> temperley.getSolution(melody)</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>  coef_temperley <span class="op">=</span> <span class="bu">round</span>(temperley_key.correlationCoefficient, <span class="dv">3</span>)</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>  temperley_kp.append(<span class="ss">f'</span><span class="sc">{</span>temperley_key<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>coef_temperley<span class="sc">}</span><span class="ss">)'</span>)</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">'max_rows'</span>, <span class="dv">371</span>)</span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(<span class="bu">list</span>(<span class="bu">zip</span>(titles, krum_kess, aarden_essen, bellman_budge, sapp_weighted, temperley_kp)), columns<span class="op">=</span> [<span class="st">'Chorale'</span>,<span class="st">'Krumhansl-Kessler'</span>, <span class="st">'Aarden-Essen'</span>, <span class="st">'Bellman-Budge'</span>, <span class="st">'Sapp Weighted'</span>, <span class="st">'Temperley-KP'</span>])</span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is a table of each key decided by each algorithm:</p>
+<div>
+
+
+<table class="dataframe table table-sm table-striped small">
+<thead>
+<tr>
+<th>
+</th>
+<th>
+Chorale
+</th>
+<th>
+Krumhansl-Kessler
+</th>
+<th>
+Aarden-Essen
+</th>
+<th>
+Bellman-Budge
+</th>
+<th>
+Sapp Weighted
+</th>
+<th>
+Temperley-KP
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>
+0
+</th>
+<td>
+jugos039.krn
+</td>
+<td>
+b minor (0.64)
+</td>
+<td>
+G major (0.848)
+</td>
+<td>
+G major (0.653)
+</td>
+<td>
+e minor (0.663)
+</td>
+<td>
+G major (0.693)
+</td>
+</tr>
+<tr>
+<th>
+1
+</th>
+<td>
+jugos005.krn
+</td>
+<td>
+G major (0.765)
+</td>
+<td>
+G major (0.793)
+</td>
+<td>
+G major (0.79)
+</td>
+<td>
+D major (0.711)
+</td>
+<td>
+G major (0.827)
+</td>
+</tr>
+<tr>
+<th>
+2
+</th>
+<td>
+jugos011.krn
+</td>
+<td>
+D major (0.839)
+</td>
+<td>
+D major (0.887)
+</td>
+<td>
+D major (0.757)
+</td>
+<td>
+D major (0.753)
+</td>
+<td>
+D major (0.839)
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+jugos010.krn
+</td>
+<td>
+A- major (0.762)
+</td>
+<td>
+A- major (0.83)
+</td>
+<td>
+A- major (0.773)
+</td>
+<td>
+C# major (0.692)
+</td>
+<td>
+A- major (0.838)
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+jugos004.krn
+</td>
+<td>
+F major (0.618)
+</td>
+<td>
+g minor (0.886)
+</td>
+<td>
+F major (0.727)
+</td>
+<td>
+B- major (0.686)
+</td>
+<td>
+F major (0.715)
+</td>
+</tr>
+<tr>
+<th>
+5
+</th>
+<td>
+jugos038.krn
+</td>
+<td>
+G major (0.598)
+</td>
+<td>
+e minor (0.827)
+</td>
+<td>
+e minor (0.636)
+</td>
+<td>
+G major (0.587)
+</td>
+<td>
+G major (0.688)
+</td>
+</tr>
+<tr>
+<th>
+6
+</th>
+<td>
+jugos012.krn
+</td>
+<td>
+G major (0.858)
+</td>
+<td>
+G major (0.727)
+</td>
+<td>
+G major (0.688)
+</td>
+<td>
+C major (0.716)
+</td>
+<td>
+G major (0.789)
+</td>
+</tr>
+<tr>
+<th>
+7
+</th>
+<td>
+jugos006.krn
+</td>
+<td>
+C major (0.705)
+</td>
+<td>
+C major (0.753)
+</td>
+<td>
+C major (0.594)
+</td>
+<td>
+C major (0.582)
+</td>
+<td>
+C major (0.696)
+</td>
+</tr>
+<tr>
+<th>
+8
+</th>
+<td>
+jugos007.krn
+</td>
+<td>
+F major (0.768)
+</td>
+<td>
+B- major (0.685)
+</td>
+<td>
+B- major (0.787)
+</td>
+<td>
+F major (0.801)
+</td>
+<td>
+B- major (0.82)
+</td>
+</tr>
+<tr>
+<th>
+9
+</th>
+<td>
+jugos013.krn
+</td>
+<td>
+D major (0.822)
+</td>
+<td>
+G major (0.882)
+</td>
+<td>
+G major (0.859)
+</td>
+<td>
+G major (0.796)
+</td>
+<td>
+G major (0.826)
+</td>
+</tr>
+<tr>
+<th>
+10
+</th>
+<td>
+jugos017.krn
+</td>
+<td>
+A- major (0.696)
+</td>
+<td>
+f minor (0.906)
+</td>
+<td>
+f minor (0.586)
+</td>
+<td>
+A- major (0.575)
+</td>
+<td>
+A- major (0.672)
+</td>
+</tr>
+<tr>
+<th>
+11
+</th>
+<td>
+jugos003.krn
+</td>
+<td>
+B major (0.815)
+</td>
+<td>
+E major (0.683)
+</td>
+<td>
+E major (0.793)
+</td>
+<td>
+B major (0.817)
+</td>
+<td>
+E major (0.781)
+</td>
+</tr>
+<tr>
+<th>
+12
+</th>
+<td>
+jugos002.krn
+</td>
+<td>
+F major (0.837)
+</td>
+<td>
+F major (0.858)
+</td>
+<td>
+B- major (0.828)
+</td>
+<td>
+B- major (0.884)
+</td>
+<td>
+B- major (0.806)
+</td>
+</tr>
+<tr>
+<th>
+13
+</th>
+<td>
+jugos016.krn
+</td>
+<td>
+D major (0.829)
+</td>
+<td>
+G major (0.77)
+</td>
+<td>
+G major (0.843)
+</td>
+<td>
+D major (0.77)
+</td>
+<td>
+G major (0.851)
+</td>
+</tr>
+<tr>
+<th>
+14
+</th>
+<td>
+jugos014.krn
+</td>
+<td>
+G major (0.797)
+</td>
+<td>
+G major (0.907)
+</td>
+<td>
+G major (0.784)
+</td>
+<td>
+G major (0.708)
+</td>
+<td>
+G major (0.857)
+</td>
+</tr>
+<tr>
+<th>
+15
+</th>
+<td>
+jugos028.krn
+</td>
+<td>
+a minor (0.547)
+</td>
+<td>
+g minor (0.902)
+</td>
+<td>
+F major (0.667)
+</td>
+<td>
+d minor (0.547)
+</td>
+<td>
+F major (0.659)
+</td>
+</tr>
+<tr>
+<th>
+16
+</th>
+<td>
+jugos029.krn
+</td>
+<td>
+C major (0.64)
+</td>
+<td>
+C major (0.787)
+</td>
+<td>
+C major (0.616)
+</td>
+<td>
+C major (0.577)
+</td>
+<td>
+C major (0.682)
+</td>
+</tr>
+<tr>
+<th>
+17
+</th>
+<td>
+jugos015.krn
+</td>
+<td>
+G major (0.744)
+</td>
+<td>
+G major (0.675)
+</td>
+<td>
+G major (0.611)
+</td>
+<td>
+G major (0.616)
+</td>
+<td>
+G major (0.709)
+</td>
+</tr>
+<tr>
+<th>
+18
+</th>
+<td>
+jugos001.krn
+</td>
+<td>
+b minor (0.733)
+</td>
+<td>
+G major (0.688)
+</td>
+<td>
+G major (0.703)
+</td>
+<td>
+e minor (0.725)
+</td>
+<td>
+G major (0.809)
+</td>
+</tr>
+<tr>
+<th>
+19
+</th>
+<td>
+jugos112.krn
+</td>
+<td>
+b minor (0.66)
+</td>
+<td>
+G major (0.84)
+</td>
+<td>
+G major (0.511)
+</td>
+<td>
+e minor (0.617)
+</td>
+<td>
+G major (0.576)
+</td>
+</tr>
+<tr>
+<th>
+20
+</th>
+<td>
+jugos106.krn
+</td>
+<td>
+F major (0.872)
+</td>
+<td>
+F major (0.649)
+</td>
+<td>
+B- major (0.777)
+</td>
+<td>
+B- major (0.843)
+</td>
+<td>
+F major (0.795)
+</td>
+</tr>
+<tr>
+<th>
+21
+</th>
+<td>
+jugos066.krn
+</td>
+<td>
+g minor (0.771)
+</td>
+<td>
+g minor (0.763)
+</td>
+<td>
+g minor (0.745)
+</td>
+<td>
+g minor (0.713)
+</td>
+<td>
+g minor (0.734)
+</td>
+</tr>
+<tr>
+<th>
+22
+</th>
+<td>
+jugos072.krn
+</td>
+<td>
+a minor (0.818)
+</td>
+<td>
+F major (0.734)
+</td>
+<td>
+F major (0.702)
+</td>
+<td>
+F major (0.566)
+</td>
+<td>
+F major (0.692)
+</td>
+</tr>
+<tr>
+<th>
+23
+</th>
+<td>
+jugos099.krn
+</td>
+<td>
+G major (0.662)
+</td>
+<td>
+a minor (0.773)
+</td>
+<td>
+G major (0.767)
+</td>
+<td>
+G major (0.719)
+</td>
+<td>
+G major (0.752)
+</td>
+</tr>
+<tr>
+<th>
+24
+</th>
+<td>
+jugos098.krn
+</td>
+<td>
+b minor (0.697)
+</td>
+<td>
+G major (0.847)
+</td>
+<td>
+G major (0.499)
+</td>
+<td>
+e minor (0.568)
+</td>
+<td>
+G major (0.568)
+</td>
+</tr>
+<tr>
+<th>
+25
+</th>
+<td>
+jugos073.krn
+</td>
+<td>
+a minor (0.677)
+</td>
+<td>
+F major (0.642)
+</td>
+<td>
+F major (0.619)
+</td>
+<td>
+d minor (0.578)
+</td>
+<td>
+F major (0.648)
+</td>
+</tr>
+<tr>
+<th>
+26
+</th>
+<td>
+jugos067.krn
+</td>
+<td>
+D major (0.619)
+</td>
+<td>
+e minor (0.746)
+</td>
+<td>
+G major (0.663)
+</td>
+<td>
+G major (0.628)
+</td>
+<td>
+G major (0.694)
+</td>
+</tr>
+<tr>
+<th>
+27
+</th>
+<td>
+jugos107.krn
+</td>
+<td>
+G major (0.696)
+</td>
+<td>
+G major (0.718)
+</td>
+<td>
+G major (0.82)
+</td>
+<td>
+G major (0.708)
+</td>
+<td>
+G major (0.833)
+</td>
+</tr>
+<tr>
+<th>
+28
+</th>
+<td>
+jugos113.krn
+</td>
+<td>
+G major (0.788)
+</td>
+<td>
+G major (0.932)
+</td>
+<td>
+G major (0.662)
+</td>
+<td>
+C major (0.699)
+</td>
+<td>
+G major (0.737)
+</td>
+</tr>
+<tr>
+<th>
+29
+</th>
+<td>
+jugos105.krn
+</td>
+<td>
+G major (0.782)
+</td>
+<td>
+G major (0.678)
+</td>
+<td>
+G major (0.854)
+</td>
+<td>
+G major (0.745)
+</td>
+<td>
+G major (0.866)
+</td>
+</tr>
+<tr>
+<th>
+30
+</th>
+<td>
+jugos111.krn
+</td>
+<td>
+G major (0.765)
+</td>
+<td>
+G major (0.943)
+</td>
+<td>
+G major (0.684)
+</td>
+<td>
+C major (0.719)
+</td>
+<td>
+G major (0.75)
+</td>
+</tr>
+<tr>
+<th>
+31
+</th>
+<td>
+jugos059.krn
+</td>
+<td>
+F major (0.81)
+</td>
+<td>
+F major (0.723)
+</td>
+<td>
+F major (0.823)
+</td>
+<td>
+F major (0.729)
+</td>
+<td>
+F major (0.877)
+</td>
+</tr>
+<tr>
+<th>
+32
+</th>
+<td>
+jugos071.krn
+</td>
+<td>
+F major (0.771)
+</td>
+<td>
+F major (0.929)
+</td>
+<td>
+F major (0.888)
+</td>
+<td>
+F major (0.82)
+</td>
+<td>
+F major (0.832)
+</td>
+</tr>
+<tr>
+<th>
+33
+</th>
+<td>
+jugos065.krn
+</td>
+<td>
+F major (0.627)
+</td>
+<td>
+F major (0.908)
+</td>
+<td>
+F major (0.577)
+</td>
+<td>
+B- major (0.631)
+</td>
+<td>
+F major (0.662)
+</td>
+</tr>
+<tr>
+<th>
+34
+</th>
+<td>
+jugos064.krn
+</td>
+<td>
+g minor (0.797)
+</td>
+<td>
+g minor (0.668)
+</td>
+<td>
+g minor (0.836)
+</td>
+<td>
+g minor (0.775)
+</td>
+<td>
+g minor (0.822)
+</td>
+</tr>
+<tr>
+<th>
+35
+</th>
+<td>
+jugos070.krn
+</td>
+<td>
+F major (0.84)
+</td>
+<td>
+F major (0.824)
+</td>
+<td>
+F major (0.832)
+</td>
+<td>
+F major (0.822)
+</td>
+<td>
+F major (0.867)
+</td>
+</tr>
+<tr>
+<th>
+36
+</th>
+<td>
+jugos058.krn
+</td>
+<td>
+F major (0.819)
+</td>
+<td>
+F major (0.901)
+</td>
+<td>
+F major (0.777)
+</td>
+<td>
+F major (0.709)
+</td>
+<td>
+F major (0.856)
+</td>
+</tr>
+<tr>
+<th>
+37
+</th>
+<td>
+jugos110.krn
+</td>
+<td>
+C major (0.756)
+</td>
+<td>
+C major (0.89)
+</td>
+<td>
+C major (0.713)
+</td>
+<td>
+C major (0.791)
+</td>
+<td>
+C major (0.735)
+</td>
+</tr>
+<tr>
+<th>
+38
+</th>
+<td>
+jugos104.krn
+</td>
+<td>
+G major (0.641)
+</td>
+<td>
+e minor (0.597)
+</td>
+<td>
+g minor (0.492)
+</td>
+<td>
+G major (0.568)
+</td>
+<td>
+G major (0.509)
+</td>
+</tr>
+<tr>
+<th>
+39
+</th>
+<td>
+jugos100.krn
+</td>
+<td>
+g minor (0.691)
+</td>
+<td>
+C major (0.476)
+</td>
+<td>
+C major (0.626)
+</td>
+<td>
+c minor (0.652)
+</td>
+<td>
+c minor (0.558)
+</td>
+</tr>
+<tr>
+<th>
+40
+</th>
+<td>
+jugos114.krn
+</td>
+<td>
+C major (0.861)
+</td>
+<td>
+F major (0.576)
+</td>
+<td>
+F major (0.798)
+</td>
+<td>
+C major (0.804)
+</td>
+<td>
+F major (0.741)
+</td>
+</tr>
+<tr>
+<th>
+41
+</th>
+<td>
+jugos074.krn
+</td>
+<td>
+G major (0.636)
+</td>
+<td>
+G major (0.78)
+</td>
+<td>
+G major (0.647)
+</td>
+<td>
+G major (0.651)
+</td>
+<td>
+G major (0.651)
+</td>
+</tr>
+<tr>
+<th>
+42
+</th>
+<td>
+jugos060.krn
+</td>
+<td>
+g minor (0.627)
+</td>
+<td>
+d minor (0.573)
+</td>
+<td>
+F major (0.621)
+</td>
+<td>
+B- major (0.586)
+</td>
+<td>
+F major (0.664)
+</td>
+</tr>
+<tr>
+<th>
+43
+</th>
+<td>
+jugos048.krn
+</td>
+<td>
+F major (0.696)
+</td>
+<td>
+F major (0.687)
+</td>
+<td>
+F major (0.647)
+</td>
+<td>
+F major (0.589)
+</td>
+<td>
+F major (0.737)
+</td>
+</tr>
+<tr>
+<th>
+44
+</th>
+<td>
+jugos049.krn
+</td>
+<td>
+A major (0.821)
+</td>
+<td>
+A major (0.754)
+</td>
+<td>
+A major (0.707)
+</td>
+<td>
+A major (0.74)
+</td>
+<td>
+A major (0.738)
+</td>
+</tr>
+<tr>
+<th>
+45
+</th>
+<td>
+jugos061.krn
+</td>
+<td>
+C major (0.684)
+</td>
+<td>
+C major (0.716)
+</td>
+<td>
+F major (0.579)
+</td>
+<td>
+F major (0.68)
+</td>
+<td>
+C major (0.625)
+</td>
+</tr>
+<tr>
+<th>
+46
+</th>
+<td>
+jugos075.krn
+</td>
+<td>
+G major (0.896)
+</td>
+<td>
+G major (0.54)
+</td>
+<td>
+G major (0.814)
+</td>
+<td>
+G major (0.837)
+</td>
+<td>
+G major (0.829)
+</td>
+</tr>
+<tr>
+<th>
+47
+</th>
+<td>
+jugos115.krn
+</td>
+<td>
+G major (0.898)
+</td>
+<td>
+G major (0.835)
+</td>
+<td>
+G major (0.947)
+</td>
+<td>
+G major (0.939)
+</td>
+<td>
+G major (0.948)
+</td>
+</tr>
+<tr>
+<th>
+48
+</th>
+<td>
+jugos101.krn
+</td>
+<td>
+G major (0.819)
+</td>
+<td>
+G major (0.958)
+</td>
+<td>
+G major (0.777)
+</td>
+<td>
+G major (0.709)
+</td>
+<td>
+G major (0.856)
+</td>
+</tr>
+<tr>
+<th>
+49
+</th>
+<td>
+jugos117.krn
+</td>
+<td>
+C major (0.85)
+</td>
+<td>
+C major (0.89)
+</td>
+<td>
+C major (0.784)
+</td>
+<td>
+a minor (0.765)
+</td>
+<td>
+C major (0.893)
+</td>
+</tr>
+<tr>
+<th>
+50
+</th>
+<td>
+jugos103.krn
+</td>
+<td>
+G major (0.676)
+</td>
+<td>
+G major (0.862)
+</td>
+<td>
+G major (0.688)
+</td>
+<td>
+D major (0.62)
+</td>
+<td>
+G major (0.737)
+</td>
+</tr>
+<tr>
+<th>
+51
+</th>
+<td>
+jugos063.krn
+</td>
+<td>
+F major (0.572)
+</td>
+<td>
+d minor (0.775)
+</td>
+<td>
+F major (0.561)
+</td>
+<td>
+B- major (0.524)
+</td>
+<td>
+F major (0.635)
+</td>
+</tr>
+<tr>
+<th>
+52
+</th>
+<td>
+jugos077.krn
+</td>
+<td>
+a minor (0.622)
+</td>
+<td>
+a minor (0.648)
+</td>
+<td>
+G major (0.64)
+</td>
+<td>
+d minor (0.533)
+</td>
+<td>
+a minor (0.581)
+</td>
+</tr>
+<tr>
+<th>
+53
+</th>
+<td>
+jugos088.krn
+</td>
+<td>
+a minor (0.622)
+</td>
+<td>
+D major (0.689)
+</td>
+<td>
+D major (0.545)
+</td>
+<td>
+D major (0.564)
+</td>
+<td>
+A major (0.439)
+</td>
+</tr>
+<tr>
+<th>
+54
+</th>
+<td>
+jugos089.krn
+</td>
+<td>
+a minor (0.594)
+</td>
+<td>
+G major (0.506)
+</td>
+<td>
+G major (0.544)
+</td>
+<td>
+C major (0.583)
+</td>
+<td>
+G major (0.619)
+</td>
+</tr>
+<tr>
+<th>
+55
+</th>
+<td>
+jugos076.krn
+</td>
+<td>
+C major (0.828)
+</td>
+<td>
+C major (0.659)
+</td>
+<td>
+C major (0.733)
+</td>
+<td>
+C major (0.725)
+</td>
+<td>
+C major (0.809)
+</td>
+</tr>
+<tr>
+<th>
+56
+</th>
+<td>
+jugos062.krn
+</td>
+<td>
+G major (0.603)
+</td>
+<td>
+e minor (0.812)
+</td>
+<td>
+G major (0.594)
+</td>
+<td>
+C major (0.597)
+</td>
+<td>
+G major (0.622)
+</td>
+</tr>
+<tr>
+<th>
+57
+</th>
+<td>
+jugos102.krn
+</td>
+<td>
+a minor (0.495)
+</td>
+<td>
+G major (0.57)
+</td>
+<td>
+e minor (0.577)
+</td>
+<td>
+e minor (0.54)
+</td>
+<td>
+G major (0.602)
+</td>
+</tr>
+<tr>
+<th>
+58
+</th>
+<td>
+jugos116.krn
+</td>
+<td>
+G major (0.676)
+</td>
+<td>
+G major (0.651)
+</td>
+<td>
+G major (0.749)
+</td>
+<td>
+e minor (0.666)
+</td>
+<td>
+G major (0.774)
+</td>
+</tr>
+<tr>
+<th>
+59
+</th>
+<td>
+jugos047.krn
+</td>
+<td>
+G major (0.835)
+</td>
+<td>
+C major (0.834)
+</td>
+<td>
+C major (0.861)
+</td>
+<td>
+C major (0.834)
+</td>
+<td>
+C major (0.861)
+</td>
+</tr>
+<tr>
+<th>
+60
+</th>
+<td>
+jugos053.krn
+</td>
+<td>
+G major (0.903)
+</td>
+<td>
+G major (0.904)
+</td>
+<td>
+G major (0.786)
+</td>
+<td>
+G major (0.777)
+</td>
+<td>
+G major (0.859)
+</td>
+</tr>
+<tr>
+<th>
+61
+</th>
+<td>
+jugos084.krn
+</td>
+<td>
+D major (0.65)
+</td>
+<td>
+e minor (0.859)
+</td>
+<td>
+G major (0.685)
+</td>
+<td>
+D major (0.665)
+</td>
+<td>
+G major (0.708)
+</td>
+</tr>
+<tr>
+<th>
+62
+</th>
+<td>
+jugos090.krn
+</td>
+<td>
+a minor (0.925)
+</td>
+<td>
+a minor (0.695)
+</td>
+<td>
+a minor (0.79)
+</td>
+<td>
+a minor (0.774)
+</td>
+<td>
+a minor (0.838)
+</td>
+</tr>
+<tr>
+<th>
+63
+</th>
+<td>
+jugos091.krn
+</td>
+<td>
+E- major (0.711)
+</td>
+<td>
+E- major (0.868)
+</td>
+<td>
+E- major (0.666)
+</td>
+<td>
+E- major (0.632)
+</td>
+<td>
+E- major (0.726)
+</td>
+</tr>
+<tr>
+<th>
+64
+</th>
+<td>
+jugos085.krn
+</td>
+<td>
+G major (0.639)
+</td>
+<td>
+G major (0.739)
+</td>
+<td>
+G major (0.772)
+</td>
+<td>
+G major (0.665)
+</td>
+<td>
+G major (0.805)
+</td>
+</tr>
+<tr>
+<th>
+65
+</th>
+<td>
+jugos052.krn
+</td>
+<td>
+G major (0.769)
+</td>
+<td>
+G major (0.791)
+</td>
+<td>
+G major (0.701)
+</td>
+<td>
+e minor (0.708)
+</td>
+<td>
+G major (0.816)
+</td>
+</tr>
+<tr>
+<th>
+66
+</th>
+<td>
+jugos046.krn
+</td>
+<td>
+G major (0.872)
+</td>
+<td>
+G major (0.839)
+</td>
+<td>
+G major (0.769)
+</td>
+<td>
+G major (0.772)
+</td>
+<td>
+G major (0.835)
+</td>
+</tr>
+<tr>
+<th>
+67
+</th>
+<td>
+jugos118.krn
+</td>
+<td>
+b minor (0.878)
+</td>
+<td>
+G major (0.831)
+</td>
+<td>
+G major (0.801)
+</td>
+<td>
+G major (0.725)
+</td>
+<td>
+G major (0.86)
+</td>
+</tr>
+<tr>
+<th>
+68
+</th>
+<td>
+jugos078.krn
+</td>
+<td>
+g minor (0.705)
+</td>
+<td>
+g minor (0.907)
+</td>
+<td>
+F major (0.565)
+</td>
+<td>
+B- major (0.567)
+</td>
+<td>
+g minor (0.607)
+</td>
+</tr>
+<tr>
+<th>
+69
+</th>
+<td>
+jugos050.krn
+</td>
+<td>
+C major (0.82)
+</td>
+<td>
+F major (0.721)
+</td>
+<td>
+F major (0.951)
+</td>
+<td>
+F major (0.877)
+</td>
+<td>
+F major (0.894)
+</td>
+</tr>
+<tr>
+<th>
+70
+</th>
+<td>
+jugos044.krn
+</td>
+<td>
+G major (0.853)
+</td>
+<td>
+G major (0.93)
+</td>
+<td>
+G major (0.86)
+</td>
+<td>
+G major (0.825)
+</td>
+<td>
+G major (0.865)
+</td>
+</tr>
+<tr>
+<th>
+71
+</th>
+<td>
+jugos093.krn
+</td>
+<td>
+G major (0.729)
+</td>
+<td>
+G major (0.889)
+</td>
+<td>
+G major (0.657)
+</td>
+<td>
+G major (0.644)
+</td>
+<td>
+G major (0.712)
+</td>
+</tr>
+<tr>
+<th>
+72
+</th>
+<td>
+jugos087.krn
+</td>
+<td>
+a minor (0.585)
+</td>
+<td>
+G major (0.709)
+</td>
+<td>
+G major (0.55)
+</td>
+<td>
+C major (0.587)
+</td>
+<td>
+G major (0.611)
+</td>
+</tr>
+<tr>
+<th>
+73
+</th>
+<td>
+jugos086.krn
+</td>
+<td>
+b- minor (0.794)
+</td>
+<td>
+b- minor (0.632)
+</td>
+<td>
+b- minor (0.505)
+</td>
+<td>
+b- minor (0.583)
+</td>
+<td>
+b- minor (0.554)
+</td>
+</tr>
+<tr>
+<th>
+74
+</th>
+<td>
+jugos092.krn
+</td>
+<td>
+G major (0.621)
+</td>
+<td>
+G major (0.6)
+</td>
+<td>
+G major (0.686)
+</td>
+<td>
+D major (0.647)
+</td>
+<td>
+G major (0.727)
+</td>
+</tr>
+<tr>
+<th>
+75
+</th>
+<td>
+jugos045.krn
+</td>
+<td>
+G major (0.546)
+</td>
+<td>
+e minor (0.791)
+</td>
+<td>
+e minor (0.652)
+</td>
+<td>
+e minor (0.56)
+</td>
+<td>
+e minor (0.687)
+</td>
+</tr>
+<tr>
+<th>
+76
+</th>
+<td>
+jugos051.krn
+</td>
+<td>
+e minor (0.565)
+</td>
+<td>
+b minor (0.74)
+</td>
+<td>
+D major (0.566)
+</td>
+<td>
+G major (0.579)
+</td>
+<td>
+D major (0.589)
+</td>
+</tr>
+<tr>
+<th>
+77
+</th>
+<td>
+jugos079.krn
+</td>
+<td>
+G major (0.837)
+</td>
+<td>
+G major (0.555)
+</td>
+<td>
+G major (0.903)
+</td>
+<td>
+G major (0.832)
+</td>
+<td>
+G major (0.924)
+</td>
+</tr>
+<tr>
+<th>
+78
+</th>
+<td>
+jugos119.krn
+</td>
+<td>
+G major (0.778)
+</td>
+<td>
+G major (0.933)
+</td>
+<td>
+G major (0.778)
+</td>
+<td>
+G major (0.71)
+</td>
+<td>
+G major (0.858)
+</td>
+</tr>
+<tr>
+<th>
+79
+</th>
+<td>
+jugos109.krn
+</td>
+<td>
+G major (0.637)
+</td>
+<td>
+G major (0.883)
+</td>
+<td>
+G major (0.668)
+</td>
+<td>
+G major (0.583)
+</td>
+<td>
+G major (0.748)
+</td>
+</tr>
+<tr>
+<th>
+80
+</th>
+<td>
+jugos055.krn
+</td>
+<td>
+G major (0.868)
+</td>
+<td>
+G major (0.756)
+</td>
+<td>
+G major (0.816)
+</td>
+<td>
+G major (0.842)
+</td>
+<td>
+G major (0.796)
+</td>
+</tr>
+<tr>
+<th>
+81
+</th>
+<td>
+jugos041.krn
+</td>
+<td>
+G major (0.482)
+</td>
+<td>
+e minor (0.814)
+</td>
+<td>
+G major (0.55)
+</td>
+<td>
+G major (0.547)
+</td>
+<td>
+G major (0.546)
+</td>
+</tr>
+<tr>
+<th>
+82
+</th>
+<td>
+jugos069.krn
+</td>
+<td>
+a minor (0.686)
+</td>
+<td>
+G major (0.532)
+</td>
+<td>
+G major (0.719)
+</td>
+<td>
+C major (0.607)
+</td>
+<td>
+G major (0.716)
+</td>
+</tr>
+<tr>
+<th>
+83
+</th>
+<td>
+jugos096.krn
+</td>
+<td>
+G major (0.825)
+</td>
+<td>
+G major (0.805)
+</td>
+<td>
+G major (0.869)
+</td>
+<td>
+G major (0.815)
+</td>
+<td>
+G major (0.865)
+</td>
+</tr>
+<tr>
+<th>
+84
+</th>
+<td>
+jugos082.krn
+</td>
+<td>
+G major (0.705)
+</td>
+<td>
+G major (0.904)
+</td>
+<td>
+G major (0.733)
+</td>
+<td>
+C major (0.609)
+</td>
+<td>
+G major (0.806)
+</td>
+</tr>
+<tr>
+<th>
+85
+</th>
+<td>
+jugos083.krn
+</td>
+<td>
+D major (0.855)
+</td>
+<td>
+G major (0.864)
+</td>
+<td>
+G major (0.864)
+</td>
+<td>
+D major (0.8)
+</td>
+<td>
+G major (0.813)
+</td>
+</tr>
+<tr>
+<th>
+86
+</th>
+<td>
+jugos097.krn
+</td>
+<td>
+G major (0.617)
+</td>
+<td>
+G major (0.885)
+</td>
+<td>
+G major (0.637)
+</td>
+<td>
+D major (0.631)
+</td>
+<td>
+G major (0.638)
+</td>
+</tr>
+<tr>
+<th>
+87
+</th>
+<td>
+jugos068.krn
+</td>
+<td>
+G major (0.829)
+</td>
+<td>
+C major (0.666)
+</td>
+<td>
+C major (0.843)
+</td>
+<td>
+C major (0.77)
+</td>
+<td>
+C major (0.851)
+</td>
+</tr>
+<tr>
+<th>
+88
+</th>
+<td>
+jugos040.krn
+</td>
+<td>
+b minor (0.753)
+</td>
+<td>
+G major (0.907)
+</td>
+<td>
+G major (0.68)
+</td>
+<td>
+D major (0.606)
+</td>
+<td>
+G major (0.673)
+</td>
+</tr>
+<tr>
+<th>
+89
+</th>
+<td>
+jugos054.krn
+</td>
+<td>
+G major (0.838)
+</td>
+<td>
+G major (0.791)
+</td>
+<td>
+G major (0.824)
+</td>
+<td>
+G major (0.765)
+</td>
+<td>
+G major (0.869)
+</td>
+</tr>
+<tr>
+<th>
+90
+</th>
+<td>
+jugos108.krn
+</td>
+<td>
+a minor (0.504)
+</td>
+<td>
+d minor (0.905)
+</td>
+<td>
+d minor (0.585)
+</td>
+<td>
+d minor (0.553)
+</td>
+<td>
+d minor (0.566)
+</td>
+</tr>
+<tr>
+<th>
+91
+</th>
+<td>
+jugos042.krn
+</td>
+<td>
+G major (0.66)
+</td>
+<td>
+G major (0.597)
+</td>
+<td>
+G major (0.628)
+</td>
+<td>
+C major (0.622)
+</td>
+<td>
+G major (0.733)
+</td>
+</tr>
+<tr>
+<th>
+92
+</th>
+<td>
+jugos056.krn
+</td>
+<td>
+G major (0.874)
+</td>
+<td>
+G major (0.758)
+</td>
+<td>
+G major (0.854)
+</td>
+<td>
+G major (0.816)
+</td>
+<td>
+G major (0.874)
+</td>
+</tr>
+<tr>
+<th>
+93
+</th>
+<td>
+jugos081.krn
+</td>
+<td>
+G major (0.79)
+</td>
+<td>
+G major (0.916)
+</td>
+<td>
+G major (0.762)
+</td>
+<td>
+G major (0.682)
+</td>
+<td>
+G major (0.848)
+</td>
+</tr>
+<tr>
+<th>
+94
+</th>
+<td>
+jugos095.krn
+</td>
+<td>
+G major (0.792)
+</td>
+<td>
+G major (0.886)
+</td>
+<td>
+G major (0.771)
+</td>
+<td>
+G major (0.728)
+</td>
+<td>
+G major (0.836)
+</td>
+</tr>
+<tr>
+<th>
+95
+</th>
+<td>
+jugos094.krn
+</td>
+<td>
+g minor (0.771)
+</td>
+<td>
+g minor (0.796)
+</td>
+<td>
+g minor (0.745)
+</td>
+<td>
+g minor (0.713)
+</td>
+<td>
+g minor (0.734)
+</td>
+</tr>
+<tr>
+<th>
+96
+</th>
+<td>
+jugos080.krn
+</td>
+<td>
+G major (0.891)
+</td>
+<td>
+G major (0.734)
+</td>
+<td>
+C major (0.692)
+</td>
+<td>
+G major (0.738)
+</td>
+<td>
+G major (0.798)
+</td>
+</tr>
+<tr>
+<th>
+97
+</th>
+<td>
+jugos057.krn
+</td>
+<td>
+F major (0.861)
+</td>
+<td>
+F major (0.754)
+</td>
+<td>
+F major (0.836)
+</td>
+<td>
+F major (0.776)
+</td>
+<td>
+F major (0.89)
+</td>
+</tr>
+<tr>
+<th>
+98
+</th>
+<td>
+jugos043.krn
+</td>
+<td>
+b minor (0.735)
+</td>
+<td>
+G major (0.932)
+</td>
+<td>
+G major (0.823)
+</td>
+<td>
+D major (0.732)
+</td>
+<td>
+G major (0.855)
+</td>
+</tr>
+<tr>
+<th>
+99
+</th>
+<td>
+jugos018.krn
+</td>
+<td>
+b- minor (0.807)
+</td>
+<td>
+b- minor (0.934)
+</td>
+<td>
+b- minor (0.551)
+</td>
+<td>
+b- minor (0.588)
+</td>
+<td>
+b- minor (0.587)
+</td>
+</tr>
+<tr>
+<th>
+100
+</th>
+<td>
+jugos024.krn
+</td>
+<td>
+G major (0.824)
+</td>
+<td>
+G major (0.578)
+</td>
+<td>
+G major (0.873)
+</td>
+<td>
+G major (0.808)
+</td>
+<td>
+G major (0.895)
+</td>
+</tr>
+<tr>
+<th>
+101
+</th>
+<td>
+jugos030.krn
+</td>
+<td>
+G major (0.793)
+</td>
+<td>
+G major (0.968)
+</td>
+<td>
+G major (0.837)
+</td>
+<td>
+G major (0.85)
+</td>
+<td>
+G major (0.848)
+</td>
+</tr>
+<tr>
+<th>
+102
+</th>
+<td>
+jugos031.krn
+</td>
+<td>
+C major (0.797)
+</td>
+<td>
+F major (0.732)
+</td>
+<td>
+F major (0.823)
+</td>
+<td>
+C major (0.776)
+</td>
+<td>
+F major (0.804)
+</td>
+</tr>
+<tr>
+<th>
+103
+</th>
+<td>
+jugos025.krn
+</td>
+<td>
+C major (0.908)
+</td>
+<td>
+C major (0.89)
+</td>
+<td>
+C major (0.831)
+</td>
+<td>
+C major (0.811)
+</td>
+<td>
+C major (0.894)
+</td>
+</tr>
+<tr>
+<th>
+104
+</th>
+<td>
+jugos019.krn
+</td>
+<td>
+a minor (0.611)
+</td>
+<td>
+f# minor (0.879)
+</td>
+<td>
+a minor (0.53)
+</td>
+<td>
+a minor (0.544)
+</td>
+<td>
+a minor (0.504)
+</td>
+</tr>
+<tr>
+<th>
+105
+</th>
+<td>
+jugos033.krn
+</td>
+<td>
+D major (0.664)
+</td>
+<td>
+G major (0.488)
+</td>
+<td>
+G major (0.667)
+</td>
+<td>
+G major (0.635)
+</td>
+<td>
+G major (0.602)
+</td>
+</tr>
+<tr>
+<th>
+106
+</th>
+<td>
+jugos027.krn
+</td>
+<td>
+g minor (0.686)
+</td>
+<td>
+F major (0.685)
+</td>
+<td>
+F major (0.51)
+</td>
+<td>
+B- major (0.543)
+</td>
+<td>
+F major (0.549)
+</td>
+</tr>
+<tr>
+<th>
+107
+</th>
+<td>
+jugos026.krn
+</td>
+<td>
+G major (0.895)
+</td>
+<td>
+G major (0.592)
+</td>
+<td>
+G major (0.805)
+</td>
+<td>
+G major (0.791)
+</td>
+<td>
+G major (0.87)
+</td>
+</tr>
+<tr>
+<th>
+108
+</th>
+<td>
+jugos032.krn
+</td>
+<td>
+G major (0.936)
+</td>
+<td>
+G major (0.836)
+</td>
+<td>
+G major (0.878)
+</td>
+<td>
+G major (0.942)
+</td>
+<td>
+G major (0.913)
+</td>
+</tr>
+<tr>
+<th>
+109
+</th>
+<td>
+jugos036.krn
+</td>
+<td>
+b minor (0.715)
+</td>
+<td>
+G major (0.853)
+</td>
+<td>
+G major (0.81)
+</td>
+<td>
+G major (0.726)
+</td>
+<td>
+G major (0.787)
+</td>
+</tr>
+<tr>
+<th>
+110
+</th>
+<td>
+jugos022.krn
+</td>
+<td>
+D major (0.768)
+</td>
+<td>
+D major (0.88)
+</td>
+<td>
+D major (0.819)
+</td>
+<td>
+G major (0.781)
+</td>
+<td>
+D major (0.826)
+</td>
+</tr>
+<tr>
+<th>
+111
+</th>
+<td>
+jugos023.krn
+</td>
+<td>
+C major (0.601)
+</td>
+<td>
+F major (0.883)
+</td>
+<td>
+F major (0.704)
+</td>
+<td>
+C major (0.639)
+</td>
+<td>
+F major (0.714)
+</td>
+</tr>
+<tr>
+<th>
+112
+</th>
+<td>
+jugos037.krn
+</td>
+<td>
+G major (0.767)
+</td>
+<td>
+G major (0.822)
+</td>
+<td>
+G major (0.774)
+</td>
+<td>
+G major (0.724)
+</td>
+<td>
+G major (0.798)
+</td>
+</tr>
+<tr>
+<th>
+113
+</th>
+<td>
+jugos021.krn
+</td>
+<td>
+D major (0.688)
+</td>
+<td>
+e minor (0.806)
+</td>
+<td>
+D major (0.739)
+</td>
+<td>
+G major (0.731)
+</td>
+<td>
+G major (0.762)
+</td>
+</tr>
+<tr>
+<th>
+114
+</th>
+<td>
+jugos035.krn
+</td>
+<td>
+G major (0.881)
+</td>
+<td>
+G major (0.869)
+</td>
+<td>
+G major (0.952)
+</td>
+<td>
+G major (0.951)
+</td>
+<td>
+G major (0.938)
+</td>
+</tr>
+<tr>
+<th>
+115
+</th>
+<td>
+jugos009.krn
+</td>
+<td>
+C major (0.762)
+</td>
+<td>
+a minor (0.927)
+</td>
+<td>
+C major (0.752)
+</td>
+<td>
+C major (0.746)
+</td>
+<td>
+C major (0.814)
+</td>
+</tr>
+<tr>
+<th>
+116
+</th>
+<td>
+jugos008.krn
+</td>
+<td>
+G major (0.896)
+</td>
+<td>
+G major (0.77)
+</td>
+<td>
+G major (0.806)
+</td>
+<td>
+G major (0.806)
+</td>
+<td>
+G major (0.872)
+</td>
+</tr>
+<tr>
+<th>
+117
+</th>
+<td>
+jugos034.krn
+</td>
+<td>
+G major (0.897)
+</td>
+<td>
+G major (0.851)
+</td>
+<td>
+G major (0.779)
+</td>
+<td>
+G major (0.756)
+</td>
+<td>
+G major (0.866)
+</td>
+</tr>
+<tr>
+<th>
+118
+</th>
+<td>
+jugos020.krn
+</td>
+<td>
+G major (0.888)
+</td>
+<td>
+G major (0.861)
+</td>
+<td>
+G major (0.86)
+</td>
+<td>
+G major (0.892)
+</td>
+<td>
+G major (0.897)
+</td>
+</tr>
+</tbody>
+
+</table>
+</div>
+<section id="windows" class="level3">
+<h3 class="anchored" data-anchor-id="windows">Windows</h3>
+<p>Here, we can see the various windows of keys in a song:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> kern_file <span class="kw">in</span> file_list:</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  krum <span class="op">=</span> analysis.discrete.KrumhanslKessler(kern_file)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  krum_key <span class="op">=</span> krum.getSolution(kern_file)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  krum_key.correlationCoefficient</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  p <span class="op">=</span> graph.plot.WindowedKey(kern_file.parts[<span class="dv">0</span>])</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  p.run()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>One of these would look like this:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/k-s-windowed-example.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Windowed analysis using the K-S algorithm</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="audio-data" class="level2">
+<h2 class="anchored" data-anchor-id="audio-data">Audio Data</h2>
+<p>It might be worth having a look at some audio data now. For this, we will use the Spotify API and Ashley Burgoyne’s <code>compmus</code> package, and the <code>spotifyr</code> toolkit.</p>
+<section id="spotify" class="level3">
+<h3 class="anchored" data-anchor-id="spotify">Spotify</h3>
+<p>In order to explore the Spotify API, you will need a client ID and a client “secret”. You can find those <a href="https://developer.spotify.com/documentation/web-api/concepts/apps">here</a>.</p>
+<div class="cell" data-warnings="false">
+<div class="cell-output cell-output-stderr">
+<pre><code>corrplot 0.92 loaded</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>circshift <span class="ot">&lt;-</span> <span class="cf">function</span>(v, n) {</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (n <span class="sc">==</span> <span class="dv">0</span>) v <span class="cf">else</span> <span class="fu">c</span>(<span class="fu">tail</span>(v, n), <span class="fu">head</span>(v, <span class="sc">-</span>n))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># # </span><span class="al">###</span><span class="co"> uses the Krumhansl Schmuckler Profiles</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>major_key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">6.35</span>, <span class="fl">2.23</span>, <span class="fl">3.48</span>, <span class="fl">2.33</span>, <span class="fl">4.38</span>, <span class="fl">4.09</span>, <span class="fl">2.52</span>, <span class="fl">5.19</span>, <span class="fl">2.39</span>, <span class="fl">3.66</span>, <span class="fl">2.29</span>, <span class="fl">2.88</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>minor_key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">6.33</span>, <span class="fl">2.68</span>, <span class="fl">3.52</span>, <span class="fl">5.38</span>, <span class="fl">2.60</span>, <span class="fl">3.53</span>, <span class="fl">2.54</span>, <span class="fl">4.75</span>, <span class="fl">3.98</span>, <span class="fl">2.69</span>, <span class="fl">3.34</span>, <span class="fl">3.17</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="do">##sapp's simple weightings</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co"># major_key &lt;- c(2, 0, 1, 0, 1, 1, 0, 2, 0, 1, 0, 1)</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co"># minor_key &lt;- c(2, 0, 1, 1, 0, 1, 0, 2, 1, 0, 0.5, 0.5)</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>key_templates <span class="ot">&lt;-</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tribble</span>(</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span>name, <span class="sc">~</span>template,</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Gb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">6</span>),</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bb:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">10</span>),</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Db:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">1</span>),</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"F:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">5</span>),</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Ab:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">8</span>),</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">0</span>),</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Eb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">3</span>),</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"G:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">7</span>),</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">10</span>),</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"D:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">2</span>),</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"F:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">5</span>),</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"A:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">9</span>),</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">0</span>),</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"E:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">4</span>),</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"G:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">7</span>),</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">11</span>),</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"D:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">2</span>),</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"F#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">6</span>),</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">"A:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">9</span>),</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">1</span>),</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">"E:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">4</span>),</span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">"G#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">8</span>),</span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">11</span>),</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>    <span class="st">"D#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">3</span>)</span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s look at Lucy Dacus’s “Night Shift”.</p>
+<p>This grabs the track and does all the magic:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>night_shift <span class="ot">&lt;-</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_tidy_audio_analysis</span>(<span class="st">"1yYlpGuBiRRf33e1gY61bN"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compmus_align</span>(sections, segments) <span class="sc">%&gt;%</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(sections) <span class="sc">%&gt;%</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(sections) <span class="sc">%&gt;%</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">pitches =</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">map</span>(segments,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>          compmus_summarise, pitches,</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">method =</span> <span class="st">"mean"</span>, <span class="at">norm =</span> <span class="st">"manhattan"</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And this is just a plotting function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>night_shift <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compmus_match_pitch_template</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    key_templates,         <span class="co"># Change to chord_templates if descired</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"euclidean"</span>,  <span class="co"># Try different distance metrics</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">norm =</span> <span class="st">"manhattan"</span>     <span class="co"># Try different norms</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> start <span class="sc">+</span> duration <span class="sc">/</span> <span class="dv">2</span>, <span class="at">width =</span> duration, <span class="at">y =</span> name, <span class="at">fill =</span> d)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Time (s)"</span>, <span class="at">y =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week_4_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>night_shift <span class="ot">&lt;-</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_tidy_audio_analysis</span>(<span class="st">"1yYlpGuBiRRf33e1gY61bN"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compmus_align</span>(sections, segments) <span class="sc">%&gt;%</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(sections) <span class="sc">%&gt;%</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(sections) <span class="sc">%&gt;%</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">pitches =</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">map</span>(segments,</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>          compmus_summarise, pitches,</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">method =</span> <span class="st">"mean"</span>, <span class="at">norm =</span> <span class="st">"manhattan"</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s do some exercises:</p>
+<ol type="1">
+<li>Visualize a song with all of these weightings.
+<ol type="1">
+<li>How do the algorithms differ?</li>
+</ol></li>
+<li>Can you write a function that would call each weighting as an argument? What would that look like?</li>
+</ol>
+</section>
+</section>
+<section id="making-our-own" class="level2">
+<h2 class="anchored" data-anchor-id="making-our-own">Making our own</h2>
+<p>There are many different ways of calculating key, and what constitutes “tonality” can change quite a bit depending on how you approach it. If using a set of pitches from a corpus to define a key-profile, the question becomes “which corpus?”</p>
+<p>Today, we are going to look at what it means to generate a key-profile for more appropriate key-finding algorithms. We are going to break the class into a few separate sections:</p>
+<ol type="1">
+<li>Looking at getting a broad key-profile from a playlist.</li>
+<li>Breaking that into a major and minor key-profile (and discussing the issues and implications with this)</li>
+<li>Working on an in-class exercise that generates a key-profile from a corpus and then looks at</li>
+</ol>
+</section>
+<section id="whats-the-key-profile-for-indie-pop" class="level2">
+<h2 class="anchored" data-anchor-id="whats-the-key-profile-for-indie-pop">What’s the Key-Profile for “Indie-Pop”</h2>
+<p>The basic code for getting a key-profile from a playlist is below. The process is as follows:</p>
+<ol type="1">
+<li>Get the audio features from a playlist, and add the audio analysis onto the datafame.</li>
+<li>We then create a “segments” column by using a map function from the <code>tidyverse</code>. Map functions basically apply a function over each element in a list. Here, we are saying “apply the <code>compmus_c_transpose</code> function to the key and segments lists from the <code>add_audio_analysis</code> function.”
+<ol type="1">
+<li>What does the <code>compmus_c_transpose</code> function do? It takes all of the chroma vectors and transposes them to the key of C, so that we can construct a single set of weightings from pieces in different keys.</li>
+</ol></li>
+<li>We then only grab this transposed segments column and turn it into a more readable list with the <code>unnest</code> function.
+<ol type="1">
+<li>We then grab the start, duration, and pitches info.</li>
+</ol></li>
+<li>We then create a “pitches” column, and normalize these raw pitch counts. There are a few ways to do this, and there are different options for this.</li>
+<li>We then used the <code>compmus_gather_chroma</code> function to take all of those chroma vectors and turn them into a list.</li>
+<li>We then use the <code>group_by</code> and <code>summarise</code> functions from <code>tidyverse</code>, and get the mean count of each pitch class in the distribution.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="do">### grabs the key-profile of the indie-pop playlist.</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>indie_pop_key_profile <span class="ot">&lt;-</span> <span class="fu">get_playlist_audio_features</span>(<span class="st">""</span>, <span class="st">"37i9dQZF1DWWEcRhUVtL8n"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_audio_analysis</span>() <span class="sc">|&gt;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="do">## transpose all the chroma vectors to C.</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">segments =</span> <span class="fu">map2</span>(segments, key, compmus_c_transpose)) <span class="sc">|&gt;</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="do">## grab the segments data and unnest it, then only grabbing the start, duration, and pitches info.</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(segments) <span class="sc">|&gt;</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(segments) <span class="sc">|&gt;</span> </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(start, duration, pitches) <span class="sc">|&gt;</span> </span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pitches =</span> <span class="fu">map</span>(pitches, compmus_normalise, <span class="st">"euclidean"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compmus_gather_chroma</span>() <span class="sc">|&gt;</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(pitch_class) <span class="sc">|&gt;</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_value =</span> <span class="fu">mean</span>(value)) </span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>indie_pop_key_profile</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ideally, we’d be able to turn this into a more reusable function. Below we’ve just turned made the playlist URI an argument:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>get_key_profile_broad <span class="ot">&lt;-</span> <span class="cf">function</span>(uri){</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">get_playlist_audio_features</span>(<span class="st">""</span>, uri) <span class="sc">|&gt;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">add_audio_analysis</span>() <span class="sc">|&gt;</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>   <span class="do">## transpose all the chroma vectors to C. (have I mentioned how great Burgoyne's library is??)</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">segments =</span> <span class="fu">map2</span>(segments, key, compmus_c_transpose)) <span class="sc">|&gt;</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>   <span class="do">## grab the segments data and unnest it, then only grabbing the start, duration, and pitches info.</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(segments) <span class="sc">|&gt;</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">unnest</span>(segments) <span class="sc">|&gt;</span> </span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(start, duration, pitches) <span class="sc">|&gt;</span> </span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">pitches =</span> <span class="fu">map</span>(pitches, compmus_normalise, <span class="st">"euclidean"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>   <span class="fu">compmus_gather_chroma</span>() <span class="sc">|&gt;</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(pitch_class) <span class="sc">|&gt;</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>   <span class="fu">summarise</span>(<span class="at">mean_value =</span> <span class="fu">mean</span>(value)) </span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And now we can just run the function like so:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>indie_pop <span class="ot">&lt;-</span> <span class="fu">get_key_profile_broad</span>(<span class="st">"37i9dQZF1DWWEcRhUVtL8n"</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>indie_pop</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>and we can plot it in a pretty straightforward way:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(indie_pop<span class="sc">$</span>mean_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>So we can look at other genres pretty easily. Here is me looking at Spotify’s “EDM 2023” playlist:</p>
+</section>
+<section id="whats-the-key-profile-for-edm" class="level2">
+<h2 class="anchored" data-anchor-id="whats-the-key-profile-for-edm">What’s the Key Profile for EDM?</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>edm <span class="ot">&lt;-</span> <span class="fu">get_key_profile_broad</span>(<span class="st">"37i9dQZF1DX1kCIzMYtzum"</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>edm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 2
+   pitch_class mean_value
+   &lt;fct&gt;            &lt;dbl&gt;
+ 1 C                0.301
+ 2 C#|Db            0.182
+ 3 D                0.230
+ 4 D#|Eb            0.219
+ 5 E                0.208
+ 6 F                0.226
+ 7 F#|Gb            0.193
+ 8 G                0.273
+ 9 G#|Ab            0.205
+10 A                0.201
+11 A#|Bb            0.206
+12 B                0.218</code></pre>
+</div>
+</div>
+<p>and once again we can plot it:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(edm<span class="sc">$</span>mean_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week_4_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="some-points-of-interest" class="level3">
+<h3 class="anchored" data-anchor-id="some-points-of-interest">Some points of interest</h3>
+<ol type="1">
+<li>For both of these distributions, we see a strong showing for scale degrees 1 and 5 (they aren’t really labeled in these quickie plots, but it would be the first and seventh column, respectively).</li>
+<li>With the “Indie Pop” plot, we see a strong showing of scale degrees 1 and 5, and are followed by the diatonic pitches, but with the “EDM” list, scale degrees 2, flat 3, and 3 occur with pretty much the same frequency. It might be worth splitting the major and minor pieces up a bit?</li>
+</ol>
+</section>
+</section>
+<section id="getting-separate-major-and-minor-key-profiles" class="level2">
+<h2 class="anchored" data-anchor-id="getting-separate-major-and-minor-key-profiles">Getting separate major and minor key-profiles</h2>
+<p>We could break this into a few parts for our own comfort. Let’s start by just creating a function that grabs the data. As that’s the one that’s quite time intensive, and calls to the API, let’s try to run it only once.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>grab_playlist_info <span class="ot">&lt;-</span> <span class="cf">function</span>(uri){</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">get_playlist_audio_features</span>(<span class="st">""</span>, uri) <span class="sc">|&gt;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">add_audio_analysis</span>() </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Once we have that in place, we can create a variable, and then subset it from there. Here, I’m saving the full list, and then creating a major and a minor variable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>playlist <span class="ot">&lt;-</span> <span class="fu">grab_playlist_info</span>(<span class="st">"37i9dQZF1DX1kCIzMYtzum"</span>)  </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>minor <span class="ot">&lt;-</span> playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>major <span class="ot">&lt;-</span> playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>get_pitch_list <span class="ot">&lt;-</span> <span class="cf">function</span>(input){</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>   input <span class="sc">|&gt;</span>     </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">segments =</span> <span class="fu">map2</span>(segments, key, compmus_c_transpose)) <span class="sc">|&gt;</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>   <span class="do">## grab the segments data and unnest it, then only grabbing the start, duration, and pitches info.</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(segments) <span class="sc">|&gt;</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">unnest</span>(segments) <span class="sc">|&gt;</span> </span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(start, duration, pitches) <span class="sc">|&gt;</span> </span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">pitches =</span> <span class="fu">map</span>(pitches, compmus_normalise, <span class="st">"euclidean"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>   <span class="fu">compmus_gather_chroma</span>() <span class="sc">|&gt;</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(pitch_class) <span class="sc">|&gt;</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>   <span class="fu">summarise</span>(<span class="at">mean_value =</span> <span class="fu">mean</span>(value))</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And now we can get separate pitch lists for major and minor:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>minor_key <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(minor)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>major_key <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(major)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>and then of course we can use these to inform our own key mapping.</p>
+<p>We can start by putting this all into a super quick and inefficient function like this (hoping to improve it as we go along):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>key_plotter <span class="ot">&lt;-</span> <span class="cf">function</span>(uri, major, minor){</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>   major_key <span class="ot">&lt;-</span> major</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>   minor_key <span class="ot">&lt;-</span> minor</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>   key_templates <span class="ot">&lt;-</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">tribble</span>(</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span>name, <span class="sc">~</span>template,</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Gb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">6</span>),</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Bb:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">10</span>),</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Db:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">1</span>),</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">"F:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">5</span>),</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Ab:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">8</span>),</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">"C:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">0</span>),</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Eb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">3</span>),</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">"G:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">7</span>),</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Bb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">10</span>),</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">"D:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">2</span>),</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>      <span class="st">"F:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">5</span>),</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>      <span class="st">"A:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">9</span>),</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>      <span class="st">"C:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">0</span>),</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>      <span class="st">"E:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">4</span>),</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>      <span class="st">"G:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">7</span>),</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>      <span class="st">"B:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">11</span>),</span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>      <span class="st">"D:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">2</span>),</span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">"F#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">6</span>),</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>      <span class="st">"A:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">9</span>),</span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>      <span class="st">"C#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">1</span>),</span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>      <span class="st">"E:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">4</span>),</span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>      <span class="st">"G#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">8</span>),</span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>      <span class="st">"B:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">11</span>),</span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>      <span class="st">"D#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">3</span>)</span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a>tune <span class="ot">&lt;-</span></span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_tidy_audio_analysis</span>(uri) <span class="sc">%&gt;%</span></span>
+<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compmus_align</span>(sections, segments) <span class="sc">%&gt;%</span></span>
+<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(sections) <span class="sc">%&gt;%</span></span>
+<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(sections) <span class="sc">%&gt;%</span></span>
+<span id="cb30-38"><a href="#cb30-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb30-39"><a href="#cb30-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">pitches =</span></span>
+<span id="cb30-40"><a href="#cb30-40" aria-hidden="true" tabindex="-1"></a>      <span class="fu">map</span>(segments,</span>
+<span id="cb30-41"><a href="#cb30-41" aria-hidden="true" tabindex="-1"></a>          compmus_summarise, pitches,</span>
+<span id="cb30-42"><a href="#cb30-42" aria-hidden="true" tabindex="-1"></a>          <span class="at">method =</span> <span class="st">"mean"</span>, <span class="at">norm =</span> <span class="st">"manhattan"</span></span>
+<span id="cb30-43"><a href="#cb30-43" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb30-44"><a href="#cb30-44" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb30-45"><a href="#cb30-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-46"><a href="#cb30-46" aria-hidden="true" tabindex="-1"></a>tune <span class="sc">|&gt;</span> <span class="fu">compmus_match_pitch_template</span>(</span>
+<span id="cb30-47"><a href="#cb30-47" aria-hidden="true" tabindex="-1"></a>    key_templates,         <span class="co"># Change to chord_templates if descired</span></span>
+<span id="cb30-48"><a href="#cb30-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"euclidean"</span>,  <span class="co"># Try different distance metrics</span></span>
+<span id="cb30-49"><a href="#cb30-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">norm =</span> <span class="st">"manhattan"</span>     <span class="co"># Try different norms</span></span>
+<span id="cb30-50"><a href="#cb30-50" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb30-51"><a href="#cb30-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb30-52"><a href="#cb30-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> start <span class="sc">+</span> duration <span class="sc">/</span> <span class="dv">2</span>, <span class="at">width =</span> duration, <span class="at">y =</span> name, <span class="at">fill =</span> d)</span>
+<span id="cb30-53"><a href="#cb30-53" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb30-54"><a href="#cb30-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb30-55"><a href="#cb30-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb30-56"><a href="#cb30-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb30-57"><a href="#cb30-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Time (s)"</span>, <span class="at">y =</span> <span class="st">""</span>)</span>
+<span id="cb30-58"><a href="#cb30-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-59"><a href="#cb30-59" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="one-piece-and-many-key-profiles" class="level2">
+<h2 class="anchored" data-anchor-id="one-piece-and-many-key-profiles">One Piece and Many Key Profiles</h2>
+<p>Looking at Lucy Dacus’s “Night Shift” with EDM Key Profiles:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>edm_major_key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.2949827</span>,<span class="fl">0.1842662</span>, <span class="fl">0.2249348</span>, <span class="fl">0.1796559</span>, <span class="fl">0.2532545</span>, <span class="fl">0.2391564</span>, <span class="fl">0.2028676</span>, <span class="fl">0.2607747</span>, <span class="fl">0.1765553</span>, <span class="fl">0.2105823</span>, <span class="fl">0.1806760</span>, <span class="fl">0.2562869</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>edm_minor_key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.3247214</span>, <span class="fl">0.1767437</span>, <span class="fl">0.2066454</span>, <span class="fl">0.2482824</span>, <span class="fl">0.1811887</span>, <span class="fl">0.2263670</span>, <span class="fl">0.1830838</span>, <span class="fl">0.2662832</span>, <span class="fl">0.2340293</span>, <span class="fl">0.1888321</span>, <span class="fl">0.2203257</span>, <span class="fl">0.2047107</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="fu">key_plotter</span>(<span class="st">"1yYlpGuBiRRf33e1gY61bN"</span>, edm_major_key, edm_minor_key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week_4_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>And here is the piece with the more traditional Krumhansl-Schmuckler key profiles:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">key_plotter</span>(<span class="st">"1yYlpGuBiRRf33e1gY61bN"</span>, ks_major_key, ks_minor_key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week_4_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can load our “indie pop” but now in major and minor:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>playlist <span class="ot">&lt;-</span> <span class="fu">grab_playlist_info</span>(<span class="st">"37i9dQZF1DWWEcRhUVtL8n"</span>)  </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>indie_minor <span class="ot">&lt;-</span> playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>indie_major <span class="ot">&lt;-</span> playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>indie_minor <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(indie_minor)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>indie_major <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(indie_major)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And then we put these weightings into the plotter:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">key_plotter</span>(<span class="st">"1yYlpGuBiRRf33e1gY61bN"</span>, ks_major_key, ks_minor_key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week_4_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="exercise" class="level2">
+<h2 class="anchored" data-anchor-id="exercise">Exercise:</h2>
+<ol type="1">
+<li>Pick one piece and construct a genre-specific key-profile that might be used to explain its tonal make-up.
+<ol type="1">
+<li>Explain this musically.</li>
+</ol></li>
+</ol>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../class_notes/week_3.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 3: Data Analysis, Time, Cadences, Phrases, <em>etc.</em></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">© Copyright 2024, Daniel Shanahan</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>

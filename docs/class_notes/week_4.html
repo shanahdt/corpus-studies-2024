@@ -99,6 +99,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <meta property="og:title" content="Corpus Studies in Music - Week 4: Conceptual Debates (Key-Finding, Entropy, etc.)">
+<meta property="og:description" content="">
 <meta property="og:image" content="https://shanahdt.github.io/corpus-studies-2024/images/nokia.png">
 <meta property="og:site-name" content="Corpus Studies in Music">
 <meta property="og:image:height" content="292">
@@ -247,6 +248,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#getting-separate-major-and-minor-key-profiles" id="toc-getting-separate-major-and-minor-key-profiles" class="nav-link" data-scroll-target="#getting-separate-major-and-minor-key-profiles">Getting separate major and minor key-profiles</a></li>
   <li><a href="#one-piece-and-many-key-profiles" id="toc-one-piece-and-many-key-profiles" class="nav-link" data-scroll-target="#one-piece-and-many-key-profiles">One Piece and Many Key Profiles</a></li>
   <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise">Exercise:</a></li>
+  </ul></li>
+  <li><a href="#wednesday" id="toc-wednesday" class="nav-link" data-scroll-target="#wednesday">Wednesday</a>
+  <ul class="collapse">
+  <li><a href="#exploring-spotify" id="toc-exploring-spotify" class="nav-link" data-scroll-target="#exploring-spotify">Exploring Spotify</a></li>
+  <li><a href="#grabbing-dans-discover-playlist" id="toc-grabbing-dans-discover-playlist" class="nav-link" data-scroll-target="#grabbing-dans-discover-playlist">Grabbing Dan’s “Discover” Playlist</a>
+  <ul class="collapse">
+  <li><a href="#getting-the-key-for-each-song" id="toc-getting-the-key-for-each-song" class="nav-link" data-scroll-target="#getting-the-key-for-each-song">Getting the Key for Each Song</a></li>
+  </ul></li>
+  <li><a href="#gold-medal-question" id="toc-gold-medal-question" class="nav-link" data-scroll-target="#gold-medal-question">Gold Medal Question</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/shanahdt/corpus-studies-2024/edit/main/class_notes/week_4.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/shanahdt/corpus-studies-2024/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
@@ -3701,10 +3711,10 @@ G major (0.897)
 <p>This grabs the track and does all the magic:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>night_shift <span class="ot">&lt;-</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_tidy_audio_analysis</span>(<span class="st">"1yYlpGuBiRRf33e1gY61bN"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compmus_align</span>(sections, segments) <span class="sc">%&gt;%</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(sections) <span class="sc">%&gt;%</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(sections) <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_tidy_audio_analysis</span>(<span class="st">"1yYlpGuBiRRf33e1gY61bN"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compmus_align</span>(sections, segments) <span class="sc">|&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(sections) <span class="sc">|&gt;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(sections) <span class="sc">|&gt;</span></span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">pitches =</span></span>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">map</span>(segments,</span>
@@ -3715,12 +3725,12 @@ G major (0.897)
 </div>
 <p>And this is just a plotting function:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>night_shift <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>night_shift <span class="sc">|&gt;</span> </span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compmus_match_pitch_template</span>(</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    key_templates,         <span class="co"># Change to chord_templates if descired</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"euclidean"</span>,  <span class="co"># Try different distance metrics</span></span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">norm =</span> <span class="st">"manhattan"</span>     <span class="co"># Try different norms</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> start <span class="sc">+</span> duration <span class="sc">/</span> <span class="dv">2</span>, <span class="at">width =</span> duration, <span class="at">y =</span> name, <span class="at">fill =</span> d)</span>
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
@@ -3734,10 +3744,10 @@ G major (0.897)
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>night_shift <span class="ot">&lt;-</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_tidy_audio_analysis</span>(<span class="st">"1yYlpGuBiRRf33e1gY61bN"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compmus_align</span>(sections, segments) <span class="sc">%&gt;%</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(sections) <span class="sc">%&gt;%</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(sections) <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_tidy_audio_analysis</span>(<span class="st">"1yYlpGuBiRRf33e1gY61bN"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compmus_align</span>(sections, segments) <span class="sc">|&gt;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(sections) <span class="sc">|&gt;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(sections) <span class="sc">|&gt;</span></span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">pitches =</span></span>
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">map</span>(segments,</span>
@@ -3814,7 +3824,7 @@ G major (0.897)
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">pitches =</span> <span class="fu">map</span>(pitches, compmus_normalise, <span class="st">"euclidean"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>   <span class="fu">compmus_gather_chroma</span>() <span class="sc">|&gt;</span></span>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(pitch_class) <span class="sc">|&gt;</span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>   <span class="fu">summarise</span>(<span class="at">mean_value =</span> <span class="fu">mean</span>(value)) </span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>   <span class="fu">summarise</span>(<span class="at">mean_value =</span> <span class="fu">median</span>(value)) </span>
 <span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And now we can just run the function like so:</p>
@@ -3837,18 +3847,18 @@ G major (0.897)
 <pre><code># A tibble: 12 × 2
    pitch_class mean_value
    &lt;fct&gt;            &lt;dbl&gt;
- 1 C                0.301
- 2 C#|Db            0.182
- 3 D                0.230
- 4 D#|Eb            0.219
- 5 E                0.208
- 6 F                0.226
- 7 F#|Gb            0.193
- 8 G                0.273
- 9 G#|Ab            0.205
-10 A                0.201
-11 A#|Bb            0.206
-12 B                0.218</code></pre>
+ 1 C                0.243
+ 2 C#|Db            0.143
+ 3 D                0.185
+ 4 D#|Eb            0.169
+ 5 E                0.159
+ 6 F                0.169
+ 7 F#|Gb            0.152
+ 8 G                0.224
+ 9 G#|Ab            0.150
+10 A                0.158
+11 A#|Bb            0.153
+12 B                0.172</code></pre>
 </div>
 </div>
 <p>and once again we can plot it:</p>
@@ -3901,7 +3911,7 @@ G major (0.897)
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>major_key <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(major)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and then of course we can use these to inform our own key mapping.</p>
-<p>We can start by putting this all into a super quick and inefficient function like this (hoping to improve it as we go along):</p>
+<p>We can start by putting this all into a super quick but inefficient function like this (hoping to improve it as we go along):</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>key_plotter <span class="ot">&lt;-</span> <span class="cf">function</span>(uri, major, minor){</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>   major_key <span class="ot">&lt;-</span> major</span>
@@ -3936,10 +3946,10 @@ G major (0.897)
 <span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a>tune <span class="ot">&lt;-</span></span>
-<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_tidy_audio_analysis</span>(uri) <span class="sc">%&gt;%</span></span>
-<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compmus_align</span>(sections, segments) <span class="sc">%&gt;%</span></span>
-<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(sections) <span class="sc">%&gt;%</span></span>
-<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(sections) <span class="sc">%&gt;%</span></span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_tidy_audio_analysis</span>(uri) <span class="sc">|&gt;</span></span>
+<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compmus_align</span>(sections, segments) <span class="sc">|&gt;</span></span>
+<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(sections) <span class="sc">|&gt;</span></span>
+<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(sections) <span class="sc">|&gt;</span></span>
 <span id="cb30-38"><a href="#cb30-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb30-39"><a href="#cb30-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">pitches =</span></span>
 <span id="cb30-40"><a href="#cb30-40" aria-hidden="true" tabindex="-1"></a>      <span class="fu">map</span>(segments,</span>
@@ -3952,7 +3962,7 @@ G major (0.897)
 <span id="cb30-47"><a href="#cb30-47" aria-hidden="true" tabindex="-1"></a>    key_templates,         <span class="co"># Change to chord_templates if descired</span></span>
 <span id="cb30-48"><a href="#cb30-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"euclidean"</span>,  <span class="co"># Try different distance metrics</span></span>
 <span id="cb30-49"><a href="#cb30-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">norm =</span> <span class="st">"manhattan"</span>     <span class="co"># Try different norms</span></span>
-<span id="cb30-50"><a href="#cb30-50" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb30-50"><a href="#cb30-50" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
 <span id="cb30-51"><a href="#cb30-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
 <span id="cb30-52"><a href="#cb30-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> start <span class="sc">+</span> duration <span class="sc">/</span> <span class="dv">2</span>, <span class="at">width =</span> duration, <span class="at">y =</span> name, <span class="at">fill =</span> d)</span>
 <span id="cb30-53"><a href="#cb30-53" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
@@ -4007,6 +4017,299 @@ G major (0.897)
 <li>Explain this musically.</li>
 </ol></li>
 </ol>
+</section>
+</section>
+<section id="wednesday" class="level1">
+<h1>Wednesday</h1>
+<p>Some goals for today:</p>
+<ol type="1">
+<li>Let’s try to explore the Spotify API a bit</li>
+<li>Let’s create a key-profile based on Dan’s “Discover” playlist (how embarrassing).</li>
+<li>How might we evaluate our key-finding algorithm?</li>
+</ol>
+<section id="exploring-spotify" class="level2">
+<h2 class="anchored" data-anchor-id="exploring-spotify">Exploring Spotify</h2>
+<p>By now, you should have an API key and secret. Also download the <code>spotifyr</code> package and the <code>compmus</code> package if you haven’t already.</p>
+</section>
+<section id="grabbing-dans-discover-playlist" class="level2">
+<h2 class="anchored" data-anchor-id="grabbing-dans-discover-playlist">Grabbing Dan’s “Discover” Playlist</h2>
+<p>The first step will be to get the audio features of the playlist, and run it all into an audio analysis tool. Here’s what that will give us.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">get_playlist_audio_features</span>(<span class="st">""</span>, <span class="st">"37i9dQZEVXcIDdjTZ1FKnJ"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_audio_analysis</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then we create a segments variable, and use the “c transpose” toolkit from compmus. I then take the segments, unnest it (it is a nested list), and then grab the pitches (and unnest that).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">segments =</span> <span class="fu">map2</span>(segments, key, compmus_c_transpose)) <span class="sc">|&gt;</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(segments) <span class="sc">|&gt;</span> <span class="fu">unnest</span>(segments) <span class="sc">|&gt;</span> <span class="fu">select</span>(pitches) <span class="sc">|&gt;</span> <span class="fu">unnest</span>(pitches) <span class="sc">|&gt;</span> </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 1
+   pitches
+     &lt;dbl&gt;
+ 1   0.314
+ 2   0.198
+ 3   0.52 
+ 4   1    
+ 5   0.392
+ 6   0.486
+ 7   0.317
+ 8   0.276
+ 9   0.467
+10   0.22 
+11   0.316
+12   0.38 </code></pre>
+</div>
+</div>
+<p>Here, I’ve just taken a specific moment. This shows us that Spotify is the most confident the pitch “4” is this pitch at the moment we’re looking at.</p>
+<p>If we want to grab the “key profile” of my playlist, we can use the following code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="do">### grabs the key-profile of the indie-pop playlist.</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">|&gt;</span> </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## transpose all the chroma vectors to C.</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">segments =</span> <span class="fu">map2</span>(segments, key, compmus_c_transpose)) <span class="sc">|&gt;</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">## grab the segments data and unnest it, then only grabbing the start, duration, and pitches info.</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(segments) <span class="sc">|&gt;</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(segments) <span class="sc">|&gt;</span> </span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(start, duration, pitches) <span class="sc">|&gt;</span> </span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pitches =</span> <span class="fu">map</span>(pitches, compmus_normalise, <span class="st">"euclidean"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compmus_gather_chroma</span>() <span class="sc">|&gt;</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(pitch_class) <span class="sc">|&gt;</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_value =</span> <span class="fu">mean</span>(value)) </span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>dans_discover</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note how it grabs the audio, normalizes the pitches, grabs all of the chroma, and then runs a <code>group_by</code> and a <code>summarise</code> for each of the pitches.</p>
+<section id="getting-the-key-for-each-song" class="level3">
+<h3 class="anchored" data-anchor-id="getting-the-key-for-each-song">Getting the Key for Each Song</h3>
+<p>This will give us a list of keys and a sum of their weights. We can then take the list in descending order and grab one of them.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>tune <span class="ot">&lt;-</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_tidy_audio_analysis</span>(<span class="st">"1yYlpGuBiRRf33e1gY61bN"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compmus_align</span>(sections, segments) <span class="sc">|&gt;</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(sections) <span class="sc">|&gt;</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(sections) <span class="sc">|&gt;</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">pitches =</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">map</span>(segments,</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>          compmus_summarise, pitches,</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">method =</span> <span class="st">"mean"</span>, <span class="at">norm =</span> <span class="st">"manhattan"</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>    tune <span class="sc">|&gt;</span> <span class="fu">compmus_match_pitch_template</span>(</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>    key_templates,         <span class="co"># Change to chord_templates if descired</span></span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"pearson"</span>,  <span class="co"># Try different distance metrics</span></span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">norm =</span> <span class="st">"manhattan"</span>     <span class="co"># Try different norms</span></span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(name)  <span class="sc">|&gt;</span></span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">weight =</span> <span class="fu">sum</span>(d)) <span class="sc">|&gt;</span> </span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 24 × 2
+   name   weight
+   &lt;fct&gt;   &lt;dbl&gt;
+ 1 A:maj    5.36
+ 2 D:maj    7.22
+ 3 D:min    9.56
+ 4 F#:min   9.97
+ 5 A:min   10.3 
+ 6 B:min   12.0 
+ 7 C#:min  12.0 
+ 8 E:maj   12.9 
+ 9 G:maj   13.5 
+10 E:min   15.3 
+# ℹ 14 more rows</code></pre>
+</div>
+</div>
+<p>Here we want the lowest number, and it seems to make sense. This piece is in A major and perhaps D major? Our algorithm did a pretty good job.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>night_shift <span class="ot">&lt;-</span> <span class="fu">get_track_audio_features</span>(<span class="st">"1yYlpGuBiRRf33e1gY61bN"</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>night_shift<span class="sc">$</span>key</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 9</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>night_shift<span class="sc">$</span>mode</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+</div>
+<p>Spotify says it’s in A major!</p>
+<p>The code above uses something called <code>key_templates</code> which (you might remember) we can define with out key profiles.</p>
+<p>So we can add our own here! We start with the Krumansl-Schmuckler weightings, but here are Sapps as well (just comment out the first and uncomment the second).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>major_key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">6.35</span>, <span class="fl">2.23</span>, <span class="fl">3.48</span>, <span class="fl">2.33</span>, <span class="fl">4.38</span>, <span class="fl">4.09</span>, <span class="fl">2.52</span>, <span class="fl">5.19</span>, <span class="fl">2.39</span>, <span class="fl">3.66</span>, <span class="fl">2.29</span>, <span class="fl">2.88</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>minor_key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">6.33</span>, <span class="fl">2.68</span>, <span class="fl">3.52</span>, <span class="fl">5.38</span>, <span class="fl">2.60</span>, <span class="fl">3.53</span>, <span class="fl">2.54</span>, <span class="fl">4.75</span>, <span class="fl">3.98</span>, <span class="fl">2.69</span>, <span class="fl">3.34</span>, <span class="fl">3.17</span>)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="co">#sapp's simple weightings</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="co"># major_key &lt;- c(2, 0, 1, 0, 1, 1, 0, 2, 0, 1, 0, 1)</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="co"># minor_key &lt;- c(2, 0, 1, 1, 0, 1, 0, 2, 1, 0, 0.5, 0.5)</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>key_templates <span class="ot">&lt;-</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tribble</span>(</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span>name, <span class="sc">~</span>template,</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Gb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">6</span>),</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bb:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">10</span>),</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Db:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">1</span>),</span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"F:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">5</span>),</span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Ab:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">8</span>),</span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">0</span>),</span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Eb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">3</span>),</span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"G:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">7</span>),</span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">10</span>),</span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"D:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">2</span>),</span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"F:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">5</span>),</span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"A:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">9</span>),</span>
+<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">0</span>),</span>
+<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"E:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">4</span>),</span>
+<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"G:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">7</span>),</span>
+<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">11</span>),</span>
+<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"D:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">2</span>),</span>
+<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"F#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">6</span>),</span>
+<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"A:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">9</span>),</span>
+<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">1</span>),</span>
+<span id="cb45-31"><a href="#cb45-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"E:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">4</span>),</span>
+<span id="cb45-32"><a href="#cb45-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"G#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">8</span>),</span>
+<span id="cb45-33"><a href="#cb45-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">11</span>),</span>
+<span id="cb45-34"><a href="#cb45-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"D#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">3</span>)</span>
+<span id="cb45-35"><a href="#cb45-35" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If I rerun this code with Sapp’s simple weightings, it thinks it’s in D major:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>    tune <span class="sc">|&gt;</span> <span class="fu">compmus_match_pitch_template</span>(</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    key_templates,         <span class="co"># Change to chord_templates if descired</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"pearson"</span>,  <span class="co"># Try different distance metrics</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">norm =</span> <span class="st">"manhattan"</span>     <span class="co"># Try different norms</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(name)  <span class="sc">|&gt;</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">weight =</span> <span class="fu">sum</span>(d)) <span class="sc">|&gt;</span> </span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 24 × 2
+   name   weight
+   &lt;fct&gt;   &lt;dbl&gt;
+ 1 A:maj    5.36
+ 2 D:maj    7.22
+ 3 D:min    9.56
+ 4 F#:min   9.97
+ 5 A:min   10.3 
+ 6 B:min   12.0 
+ 7 C#:min  12.0 
+ 8 E:maj   12.9 
+ 9 G:maj   13.5 
+10 E:min   15.3 
+# ℹ 14 more rows</code></pre>
+</div>
+</div>
+<p>Maybe it is in D major?</p>
+<p>What if I use my indie pop profile?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>indie_pop_playlist <span class="ot">&lt;-</span> <span class="fu">grab_playlist_info</span>(<span class="st">"37i9dQZF1DX1kCIzMYtzum"</span>)  </span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>minor <span class="ot">&lt;-</span> indie_pop_playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>major <span class="ot">&lt;-</span> indie_pop_playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>indie_pop_minor <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(minor) <span class="sc">|&gt;</span> <span class="fu">select</span>(mean_value)</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>indie_pop_major <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(major) <span class="sc">|&gt;</span> <span class="fu">select</span>(mean_value) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>I can take the key profiles given above and put them in the code below. While I’m at it though, I’m going to also grab the key profile from my discover playlist!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>dan_discover_playlist <span class="ot">&lt;-</span> <span class="fu">grab_playlist_info</span>(<span class="st">"37i9dQZEVXcIDdjTZ1FKnJ"</span>)  </span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>minor <span class="ot">&lt;-</span> dan_discover_playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>major <span class="ot">&lt;-</span> dan_discover_playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>dan_minor <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(minor) <span class="sc">|&gt;</span> <span class="fu">select</span>(mean_value)</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>dan_major <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(major) <span class="sc">|&gt;</span> <span class="fu">select</span>(mean_value) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># major_key &lt;- c(6.35, 2.23, 3.48, 2.33, 4.38, 4.09, 2.52, 5.19, 2.39, 3.66, 2.29, 2.88)</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="co"># minor_key &lt;- c(6.33, 2.68, 3.52, 5.38, 2.60, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17)</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="co">#sapp's simple weightings</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="co"># major_key &lt;- c(2, 0, 1, 0, 1, 1, 0, 2, 0, 1, 0, 1)</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="co"># minor_key &lt;- c(2, 0, 1, 1, 0, 1, 0, 2, 1, 0, 0.5, 0.5)</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a><span class="do">## my indie pop profile</span></span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>major_key <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">unlist</span>(indie_pop_major))</span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>minor_key <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">unlist</span>(indie_pop_minor))</span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a><span class="do">## dan's discover playlist</span></span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a><span class="co"># major_key &lt;- as.numeric(unlist(dan_major))</span></span>
+<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a><span class="co"># minor_key &lt;- as.numeric(unlist(dan_minor))</span></span>
+<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-17"><a href="#cb50-17" aria-hidden="true" tabindex="-1"></a>key_templates <span class="ot">&lt;-</span></span>
+<span id="cb50-18"><a href="#cb50-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tribble</span>(</span>
+<span id="cb50-19"><a href="#cb50-19" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span>name, <span class="sc">~</span>template,</span>
+<span id="cb50-20"><a href="#cb50-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Gb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">6</span>),</span>
+<span id="cb50-21"><a href="#cb50-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bb:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">10</span>),</span>
+<span id="cb50-22"><a href="#cb50-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Db:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">1</span>),</span>
+<span id="cb50-23"><a href="#cb50-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"F:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">5</span>),</span>
+<span id="cb50-24"><a href="#cb50-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Ab:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">8</span>),</span>
+<span id="cb50-25"><a href="#cb50-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">0</span>),</span>
+<span id="cb50-26"><a href="#cb50-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Eb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">3</span>),</span>
+<span id="cb50-27"><a href="#cb50-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"G:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">7</span>),</span>
+<span id="cb50-28"><a href="#cb50-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">10</span>),</span>
+<span id="cb50-29"><a href="#cb50-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"D:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">2</span>),</span>
+<span id="cb50-30"><a href="#cb50-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"F:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">5</span>),</span>
+<span id="cb50-31"><a href="#cb50-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"A:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">9</span>),</span>
+<span id="cb50-32"><a href="#cb50-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">0</span>),</span>
+<span id="cb50-33"><a href="#cb50-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"E:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">4</span>),</span>
+<span id="cb50-34"><a href="#cb50-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"G:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">7</span>),</span>
+<span id="cb50-35"><a href="#cb50-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">11</span>),</span>
+<span id="cb50-36"><a href="#cb50-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">"D:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">2</span>),</span>
+<span id="cb50-37"><a href="#cb50-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">"F#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">6</span>),</span>
+<span id="cb50-38"><a href="#cb50-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">"A:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">9</span>),</span>
+<span id="cb50-39"><a href="#cb50-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">1</span>),</span>
+<span id="cb50-40"><a href="#cb50-40" aria-hidden="true" tabindex="-1"></a>    <span class="st">"E:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">4</span>),</span>
+<span id="cb50-41"><a href="#cb50-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">"G#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">8</span>),</span>
+<span id="cb50-42"><a href="#cb50-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">11</span>),</span>
+<span id="cb50-43"><a href="#cb50-43" aria-hidden="true" tabindex="-1"></a>    <span class="st">"D#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">3</span>)</span>
+<span id="cb50-44"><a href="#cb50-44" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb50-45"><a href="#cb50-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-46"><a href="#cb50-46" aria-hidden="true" tabindex="-1"></a>    tune <span class="sc">|&gt;</span> <span class="fu">compmus_match_pitch_template</span>(</span>
+<span id="cb50-47"><a href="#cb50-47" aria-hidden="true" tabindex="-1"></a>    key_templates,         <span class="co"># Change to chord_templates if descired</span></span>
+<span id="cb50-48"><a href="#cb50-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"pearson"</span>,  <span class="co"># Try different distance metrics</span></span>
+<span id="cb50-49"><a href="#cb50-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">norm =</span> <span class="st">"manhattan"</span>     <span class="co"># Try different norms</span></span>
+<span id="cb50-50"><a href="#cb50-50" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb50-51"><a href="#cb50-51" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(name)  <span class="sc">|&gt;</span></span>
+<span id="cb50-52"><a href="#cb50-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">weight =</span> <span class="fu">sum</span>(d)) <span class="sc">|&gt;</span> </span>
+<span id="cb50-53"><a href="#cb50-53" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 24 × 2
+   name   weight
+   &lt;fct&gt;   &lt;dbl&gt;
+ 1 D:maj    6.52
+ 2 A:maj    7.51
+ 3 D:min    9.12
+ 4 F#:min   9.57
+ 5 A:min   10.4 
+ 6 B:min   11.9 
+ 7 G:maj   12.5 
+ 8 C#:min  12.7 
+ 9 E:min   13.4 
+10 C:maj   14.5 
+# ℹ 14 more rows</code></pre>
+</div>
+</div>
+<p>So this shows that my “indie pop” score agrees more with the Sapp simple weightings than either the Krumhansl Schmuckler or the Spotify algoithm. Indie Pop and Sapp think it’s D major, but Spotify and Krumhansl think A major. When I used my discover playlist, it also says A major (see below).</p>
+<div class="cell">
+<pre class="text cell-code"><code>   name   weight
+   &lt;fct&gt;   &lt;dbl&gt;
+ 1 A:maj    5.75
+ 2 D:maj    6.60
+ 3 B:min    8.65
+ 4 D:min   11.0 
+ 5 F#:min  11.3 
+ 6 C#:min  11.4 
+ 7 A:min   12.1 
+ 8 G:maj   12.2 
+ 9 E:maj   15.1 
+10 E:min   15.5 </code></pre>
+</div>
+</section>
+</section>
+<section id="gold-medal-question" class="level2">
+<h2 class="anchored" data-anchor-id="gold-medal-question">Gold Medal Question</h2>
+<p>Can you write a function that compares multiple keys given many profiles of a whole playlist?</p>
+<p>Steps: 1. Grab a playlist from Spotify 2. Grab the key profile 3. Include and argument that allows you to match keys with many key profiles. 4. Output this comparison as a table.</p>
 
 
 </section>

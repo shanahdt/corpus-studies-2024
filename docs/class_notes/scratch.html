@@ -21705,6 +21705,1142 @@ humdrum.spineParser: WARNING: Error in parsing event ('*MX') at position 12 for 
 <p><img src="scratch_files/figure-html/cell-57-output-12.png" class="img-fluid"></p>
 </div>
 </div>
+<div class="cell" data-execution_count="92">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>krum_kess <span class="op">=</span> []</span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>aarden_essen <span class="op">=</span> []</span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>temperley_kp <span class="op">=</span> []</span>
+<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a>bellman_budge <span class="op">=</span> []</span>
+<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a>sapp_weighted <span class="op">=</span> []</span>
+<span id="cb90-8"><a href="#cb90-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-9"><a href="#cb90-9" aria-hidden="true" tabindex="-1"></a>titles <span class="op">=</span> []</span>
+<span id="cb90-10"><a href="#cb90-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> file_list:</span>
+<span id="cb90-11"><a href="#cb90-11" aria-hidden="true" tabindex="-1"></a>  titles.append(<span class="bu">file</span>.split(<span class="st">"/"</span>)[<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb90-12"><a href="#cb90-12" aria-hidden="true" tabindex="-1"></a>  melody <span class="op">=</span> converter.parse(<span class="bu">file</span>) </span>
+<span id="cb90-13"><a href="#cb90-13" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb90-14"><a href="#cb90-14" aria-hidden="true" tabindex="-1"></a>  krum <span class="op">=</span> analysis.discrete.KrumhanslKessler(melody)</span>
+<span id="cb90-15"><a href="#cb90-15" aria-hidden="true" tabindex="-1"></a>  krum_key <span class="op">=</span> krum.getSolution(melody)</span>
+<span id="cb90-16"><a href="#cb90-16" aria-hidden="true" tabindex="-1"></a>  coef_krum <span class="op">=</span> <span class="bu">round</span>(krum_key.correlationCoefficient, <span class="dv">3</span>)</span>
+<span id="cb90-17"><a href="#cb90-17" aria-hidden="true" tabindex="-1"></a>  krum_kess.append(<span class="ss">f'</span><span class="sc">{</span>krum_key<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>coef_krum<span class="sc">}</span><span class="ss">)'</span>)</span>
+<span id="cb90-18"><a href="#cb90-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-19"><a href="#cb90-19" aria-hidden="true" tabindex="-1"></a>  aarden <span class="op">=</span> analysis.discrete.AardenEssen(melody)</span>
+<span id="cb90-20"><a href="#cb90-20" aria-hidden="true" tabindex="-1"></a>  coef_aarden <span class="op">=</span> <span class="bu">round</span>(aarden_key.correlationCoefficient, <span class="dv">3</span>)</span>
+<span id="cb90-21"><a href="#cb90-21" aria-hidden="true" tabindex="-1"></a>  aarden_key <span class="op">=</span> aarden.getSolution(melody)</span>
+<span id="cb90-22"><a href="#cb90-22" aria-hidden="true" tabindex="-1"></a>  aarden_essen.append(<span class="ss">f'</span><span class="sc">{</span>aarden_key<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>coef_aarden<span class="sc">}</span><span class="ss">)'</span>)</span>
+<span id="cb90-23"><a href="#cb90-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb90-24"><a href="#cb90-24" aria-hidden="true" tabindex="-1"></a>  bellman <span class="op">=</span> analysis.discrete.BellmanBudge(melody)</span>
+<span id="cb90-25"><a href="#cb90-25" aria-hidden="true" tabindex="-1"></a>  bellman_key <span class="op">=</span> bellman.getSolution(melody)</span>
+<span id="cb90-26"><a href="#cb90-26" aria-hidden="true" tabindex="-1"></a>  coef_bellman <span class="op">=</span> <span class="bu">round</span>(bellman_key.correlationCoefficient, <span class="dv">3</span>)</span>
+<span id="cb90-27"><a href="#cb90-27" aria-hidden="true" tabindex="-1"></a>  bellman_budge.append(<span class="ss">f'</span><span class="sc">{</span>bellman_key<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>coef_bellman<span class="sc">}</span><span class="ss">)'</span>)</span>
+<span id="cb90-28"><a href="#cb90-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-29"><a href="#cb90-29" aria-hidden="true" tabindex="-1"></a>  sapp <span class="op">=</span> analysis.discrete.SimpleWeights(melody)</span>
+<span id="cb90-30"><a href="#cb90-30" aria-hidden="true" tabindex="-1"></a>  sapp_key <span class="op">=</span> sapp.getSolution(melody)</span>
+<span id="cb90-31"><a href="#cb90-31" aria-hidden="true" tabindex="-1"></a>  coef_sapp <span class="op">=</span> <span class="bu">round</span>(sapp_key.correlationCoefficient, <span class="dv">3</span>)</span>
+<span id="cb90-32"><a href="#cb90-32" aria-hidden="true" tabindex="-1"></a>  sapp_weighted.append(<span class="ss">f'</span><span class="sc">{</span>sapp_key<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>coef_sapp<span class="sc">}</span><span class="ss">)'</span>)</span>
+<span id="cb90-33"><a href="#cb90-33" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb90-34"><a href="#cb90-34" aria-hidden="true" tabindex="-1"></a>  temperley <span class="op">=</span> analysis.discrete.TemperleyKostkaPayne(melody)</span>
+<span id="cb90-35"><a href="#cb90-35" aria-hidden="true" tabindex="-1"></a>  temperley_key <span class="op">=</span> temperley.getSolution(melody)</span>
+<span id="cb90-36"><a href="#cb90-36" aria-hidden="true" tabindex="-1"></a>  coef_temperley <span class="op">=</span> <span class="bu">round</span>(temperley_key.correlationCoefficient, <span class="dv">3</span>)</span>
+<span id="cb90-37"><a href="#cb90-37" aria-hidden="true" tabindex="-1"></a>  temperley_kp.append(<span class="ss">f'</span><span class="sc">{</span>temperley_key<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>coef_temperley<span class="sc">}</span><span class="ss">)'</span>)</span>
+<span id="cb90-38"><a href="#cb90-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-39"><a href="#cb90-39" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">'max_rows'</span>, <span class="dv">371</span>)</span>
+<span id="cb90-40"><a href="#cb90-40" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(<span class="bu">list</span>(<span class="bu">zip</span>(titles, krum_kess, aarden_essen, bellman_budge, sapp_weighted, temperley_kp)), columns<span class="op">=</span> [<span class="st">'Chorale'</span>,<span class="st">'Krumhansl-Kessler'</span>, <span class="st">'Aarden-Essen'</span>, <span class="st">'Bellman-Budge'</span>, <span class="st">'Sapp Weighted'</span>, <span class="st">'Temperley-KP'</span>])</span>
+<span id="cb90-41"><a href="#cb90-41" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="92">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Chorale</th>
+<th data-quarto-table-cell-role="th">Krumhansl-Kessler</th>
+<th data-quarto-table-cell-role="th">Aarden-Essen</th>
+<th data-quarto-table-cell-role="th">Bellman-Budge</th>
+<th data-quarto-table-cell-role="th">Sapp Weighted</th>
+<th data-quarto-table-cell-role="th">Temperley-KP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>jugos039.krn</td>
+<td>b minor (0.64)</td>
+<td>G major (0.848)</td>
+<td>G major (0.653)</td>
+<td>e minor (0.663)</td>
+<td>G major (0.693)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>jugos005.krn</td>
+<td>G major (0.765)</td>
+<td>G major (0.793)</td>
+<td>G major (0.79)</td>
+<td>D major (0.711)</td>
+<td>G major (0.827)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>jugos011.krn</td>
+<td>D major (0.839)</td>
+<td>D major (0.887)</td>
+<td>D major (0.757)</td>
+<td>D major (0.753)</td>
+<td>D major (0.839)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>jugos010.krn</td>
+<td>A- major (0.762)</td>
+<td>A- major (0.83)</td>
+<td>A- major (0.773)</td>
+<td>C# major (0.692)</td>
+<td>A- major (0.838)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>jugos004.krn</td>
+<td>F major (0.618)</td>
+<td>g minor (0.886)</td>
+<td>F major (0.727)</td>
+<td>B- major (0.686)</td>
+<td>F major (0.715)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>jugos038.krn</td>
+<td>G major (0.598)</td>
+<td>e minor (0.827)</td>
+<td>e minor (0.636)</td>
+<td>G major (0.587)</td>
+<td>G major (0.688)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>jugos012.krn</td>
+<td>G major (0.858)</td>
+<td>G major (0.727)</td>
+<td>G major (0.688)</td>
+<td>C major (0.716)</td>
+<td>G major (0.789)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>jugos006.krn</td>
+<td>C major (0.705)</td>
+<td>C major (0.753)</td>
+<td>C major (0.594)</td>
+<td>C major (0.582)</td>
+<td>C major (0.696)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>jugos007.krn</td>
+<td>F major (0.768)</td>
+<td>B- major (0.685)</td>
+<td>B- major (0.787)</td>
+<td>F major (0.801)</td>
+<td>B- major (0.82)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>jugos013.krn</td>
+<td>D major (0.822)</td>
+<td>G major (0.882)</td>
+<td>G major (0.859)</td>
+<td>G major (0.796)</td>
+<td>G major (0.826)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>jugos017.krn</td>
+<td>A- major (0.696)</td>
+<td>f minor (0.906)</td>
+<td>f minor (0.586)</td>
+<td>A- major (0.575)</td>
+<td>A- major (0.672)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>jugos003.krn</td>
+<td>B major (0.815)</td>
+<td>E major (0.683)</td>
+<td>E major (0.793)</td>
+<td>B major (0.817)</td>
+<td>E major (0.781)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>jugos002.krn</td>
+<td>F major (0.837)</td>
+<td>F major (0.858)</td>
+<td>B- major (0.828)</td>
+<td>B- major (0.884)</td>
+<td>B- major (0.806)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>jugos016.krn</td>
+<td>D major (0.829)</td>
+<td>G major (0.77)</td>
+<td>G major (0.843)</td>
+<td>D major (0.77)</td>
+<td>G major (0.851)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>jugos014.krn</td>
+<td>G major (0.797)</td>
+<td>G major (0.907)</td>
+<td>G major (0.784)</td>
+<td>G major (0.708)</td>
+<td>G major (0.857)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>jugos028.krn</td>
+<td>a minor (0.547)</td>
+<td>g minor (0.902)</td>
+<td>F major (0.667)</td>
+<td>d minor (0.547)</td>
+<td>F major (0.659)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>jugos029.krn</td>
+<td>C major (0.64)</td>
+<td>C major (0.787)</td>
+<td>C major (0.616)</td>
+<td>C major (0.577)</td>
+<td>C major (0.682)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17</td>
+<td>jugos015.krn</td>
+<td>G major (0.744)</td>
+<td>G major (0.675)</td>
+<td>G major (0.611)</td>
+<td>G major (0.616)</td>
+<td>G major (0.709)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18</td>
+<td>jugos001.krn</td>
+<td>b minor (0.733)</td>
+<td>G major (0.688)</td>
+<td>G major (0.703)</td>
+<td>e minor (0.725)</td>
+<td>G major (0.809)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">19</td>
+<td>jugos112.krn</td>
+<td>b minor (0.66)</td>
+<td>G major (0.84)</td>
+<td>G major (0.511)</td>
+<td>e minor (0.617)</td>
+<td>G major (0.576)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">20</td>
+<td>jugos106.krn</td>
+<td>F major (0.872)</td>
+<td>F major (0.649)</td>
+<td>B- major (0.777)</td>
+<td>B- major (0.843)</td>
+<td>F major (0.795)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">21</td>
+<td>jugos066.krn</td>
+<td>g minor (0.771)</td>
+<td>g minor (0.763)</td>
+<td>g minor (0.745)</td>
+<td>g minor (0.713)</td>
+<td>g minor (0.734)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">22</td>
+<td>jugos072.krn</td>
+<td>a minor (0.818)</td>
+<td>F major (0.734)</td>
+<td>F major (0.702)</td>
+<td>F major (0.566)</td>
+<td>F major (0.692)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">23</td>
+<td>jugos099.krn</td>
+<td>G major (0.662)</td>
+<td>a minor (0.773)</td>
+<td>G major (0.767)</td>
+<td>G major (0.719)</td>
+<td>G major (0.752)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">24</td>
+<td>jugos098.krn</td>
+<td>b minor (0.697)</td>
+<td>G major (0.847)</td>
+<td>G major (0.499)</td>
+<td>e minor (0.568)</td>
+<td>G major (0.568)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">25</td>
+<td>jugos073.krn</td>
+<td>a minor (0.677)</td>
+<td>F major (0.642)</td>
+<td>F major (0.619)</td>
+<td>d minor (0.578)</td>
+<td>F major (0.648)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">26</td>
+<td>jugos067.krn</td>
+<td>D major (0.619)</td>
+<td>e minor (0.746)</td>
+<td>G major (0.663)</td>
+<td>G major (0.628)</td>
+<td>G major (0.694)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">27</td>
+<td>jugos107.krn</td>
+<td>G major (0.696)</td>
+<td>G major (0.718)</td>
+<td>G major (0.82)</td>
+<td>G major (0.708)</td>
+<td>G major (0.833)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">28</td>
+<td>jugos113.krn</td>
+<td>G major (0.788)</td>
+<td>G major (0.932)</td>
+<td>G major (0.662)</td>
+<td>C major (0.699)</td>
+<td>G major (0.737)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">29</td>
+<td>jugos105.krn</td>
+<td>G major (0.782)</td>
+<td>G major (0.678)</td>
+<td>G major (0.854)</td>
+<td>G major (0.745)</td>
+<td>G major (0.866)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">30</td>
+<td>jugos111.krn</td>
+<td>G major (0.765)</td>
+<td>G major (0.943)</td>
+<td>G major (0.684)</td>
+<td>C major (0.719)</td>
+<td>G major (0.75)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">31</td>
+<td>jugos059.krn</td>
+<td>F major (0.81)</td>
+<td>F major (0.723)</td>
+<td>F major (0.823)</td>
+<td>F major (0.729)</td>
+<td>F major (0.877)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">32</td>
+<td>jugos071.krn</td>
+<td>F major (0.771)</td>
+<td>F major (0.929)</td>
+<td>F major (0.888)</td>
+<td>F major (0.82)</td>
+<td>F major (0.832)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">33</td>
+<td>jugos065.krn</td>
+<td>F major (0.627)</td>
+<td>F major (0.908)</td>
+<td>F major (0.577)</td>
+<td>B- major (0.631)</td>
+<td>F major (0.662)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">34</td>
+<td>jugos064.krn</td>
+<td>g minor (0.797)</td>
+<td>g minor (0.668)</td>
+<td>g minor (0.836)</td>
+<td>g minor (0.775)</td>
+<td>g minor (0.822)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">35</td>
+<td>jugos070.krn</td>
+<td>F major (0.84)</td>
+<td>F major (0.824)</td>
+<td>F major (0.832)</td>
+<td>F major (0.822)</td>
+<td>F major (0.867)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">36</td>
+<td>jugos058.krn</td>
+<td>F major (0.819)</td>
+<td>F major (0.901)</td>
+<td>F major (0.777)</td>
+<td>F major (0.709)</td>
+<td>F major (0.856)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">37</td>
+<td>jugos110.krn</td>
+<td>C major (0.756)</td>
+<td>C major (0.89)</td>
+<td>C major (0.713)</td>
+<td>C major (0.791)</td>
+<td>C major (0.735)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">38</td>
+<td>jugos104.krn</td>
+<td>G major (0.641)</td>
+<td>e minor (0.597)</td>
+<td>g minor (0.492)</td>
+<td>G major (0.568)</td>
+<td>G major (0.509)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">39</td>
+<td>jugos100.krn</td>
+<td>g minor (0.691)</td>
+<td>C major (0.476)</td>
+<td>C major (0.626)</td>
+<td>c minor (0.652)</td>
+<td>c minor (0.558)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">40</td>
+<td>jugos114.krn</td>
+<td>C major (0.861)</td>
+<td>F major (0.576)</td>
+<td>F major (0.798)</td>
+<td>C major (0.804)</td>
+<td>F major (0.741)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">41</td>
+<td>jugos074.krn</td>
+<td>G major (0.636)</td>
+<td>G major (0.78)</td>
+<td>G major (0.647)</td>
+<td>G major (0.651)</td>
+<td>G major (0.651)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">42</td>
+<td>jugos060.krn</td>
+<td>g minor (0.627)</td>
+<td>d minor (0.573)</td>
+<td>F major (0.621)</td>
+<td>B- major (0.586)</td>
+<td>F major (0.664)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">43</td>
+<td>jugos048.krn</td>
+<td>F major (0.696)</td>
+<td>F major (0.687)</td>
+<td>F major (0.647)</td>
+<td>F major (0.589)</td>
+<td>F major (0.737)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">44</td>
+<td>jugos049.krn</td>
+<td>A major (0.821)</td>
+<td>A major (0.754)</td>
+<td>A major (0.707)</td>
+<td>A major (0.74)</td>
+<td>A major (0.738)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">45</td>
+<td>jugos061.krn</td>
+<td>C major (0.684)</td>
+<td>C major (0.716)</td>
+<td>F major (0.579)</td>
+<td>F major (0.68)</td>
+<td>C major (0.625)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">46</td>
+<td>jugos075.krn</td>
+<td>G major (0.896)</td>
+<td>G major (0.54)</td>
+<td>G major (0.814)</td>
+<td>G major (0.837)</td>
+<td>G major (0.829)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">47</td>
+<td>jugos115.krn</td>
+<td>G major (0.898)</td>
+<td>G major (0.835)</td>
+<td>G major (0.947)</td>
+<td>G major (0.939)</td>
+<td>G major (0.948)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">48</td>
+<td>jugos101.krn</td>
+<td>G major (0.819)</td>
+<td>G major (0.958)</td>
+<td>G major (0.777)</td>
+<td>G major (0.709)</td>
+<td>G major (0.856)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">49</td>
+<td>jugos117.krn</td>
+<td>C major (0.85)</td>
+<td>C major (0.89)</td>
+<td>C major (0.784)</td>
+<td>a minor (0.765)</td>
+<td>C major (0.893)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">50</td>
+<td>jugos103.krn</td>
+<td>G major (0.676)</td>
+<td>G major (0.862)</td>
+<td>G major (0.688)</td>
+<td>D major (0.62)</td>
+<td>G major (0.737)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">51</td>
+<td>jugos063.krn</td>
+<td>F major (0.572)</td>
+<td>d minor (0.775)</td>
+<td>F major (0.561)</td>
+<td>B- major (0.524)</td>
+<td>F major (0.635)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">52</td>
+<td>jugos077.krn</td>
+<td>a minor (0.622)</td>
+<td>a minor (0.648)</td>
+<td>G major (0.64)</td>
+<td>d minor (0.533)</td>
+<td>a minor (0.581)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">53</td>
+<td>jugos088.krn</td>
+<td>a minor (0.622)</td>
+<td>D major (0.689)</td>
+<td>D major (0.545)</td>
+<td>D major (0.564)</td>
+<td>A major (0.439)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">54</td>
+<td>jugos089.krn</td>
+<td>a minor (0.594)</td>
+<td>G major (0.506)</td>
+<td>G major (0.544)</td>
+<td>C major (0.583)</td>
+<td>G major (0.619)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">55</td>
+<td>jugos076.krn</td>
+<td>C major (0.828)</td>
+<td>C major (0.659)</td>
+<td>C major (0.733)</td>
+<td>C major (0.725)</td>
+<td>C major (0.809)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">56</td>
+<td>jugos062.krn</td>
+<td>G major (0.603)</td>
+<td>e minor (0.812)</td>
+<td>G major (0.594)</td>
+<td>C major (0.597)</td>
+<td>G major (0.622)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">57</td>
+<td>jugos102.krn</td>
+<td>a minor (0.495)</td>
+<td>G major (0.57)</td>
+<td>e minor (0.577)</td>
+<td>e minor (0.54)</td>
+<td>G major (0.602)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">58</td>
+<td>jugos116.krn</td>
+<td>G major (0.676)</td>
+<td>G major (0.651)</td>
+<td>G major (0.749)</td>
+<td>e minor (0.666)</td>
+<td>G major (0.774)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">59</td>
+<td>jugos047.krn</td>
+<td>G major (0.835)</td>
+<td>C major (0.834)</td>
+<td>C major (0.861)</td>
+<td>C major (0.834)</td>
+<td>C major (0.861)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">60</td>
+<td>jugos053.krn</td>
+<td>G major (0.903)</td>
+<td>G major (0.904)</td>
+<td>G major (0.786)</td>
+<td>G major (0.777)</td>
+<td>G major (0.859)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">61</td>
+<td>jugos084.krn</td>
+<td>D major (0.65)</td>
+<td>e minor (0.859)</td>
+<td>G major (0.685)</td>
+<td>D major (0.665)</td>
+<td>G major (0.708)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">62</td>
+<td>jugos090.krn</td>
+<td>a minor (0.925)</td>
+<td>a minor (0.695)</td>
+<td>a minor (0.79)</td>
+<td>a minor (0.774)</td>
+<td>a minor (0.838)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">63</td>
+<td>jugos091.krn</td>
+<td>E- major (0.711)</td>
+<td>E- major (0.868)</td>
+<td>E- major (0.666)</td>
+<td>E- major (0.632)</td>
+<td>E- major (0.726)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">64</td>
+<td>jugos085.krn</td>
+<td>G major (0.639)</td>
+<td>G major (0.739)</td>
+<td>G major (0.772)</td>
+<td>G major (0.665)</td>
+<td>G major (0.805)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">65</td>
+<td>jugos052.krn</td>
+<td>G major (0.769)</td>
+<td>G major (0.791)</td>
+<td>G major (0.701)</td>
+<td>e minor (0.708)</td>
+<td>G major (0.816)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">66</td>
+<td>jugos046.krn</td>
+<td>G major (0.872)</td>
+<td>G major (0.839)</td>
+<td>G major (0.769)</td>
+<td>G major (0.772)</td>
+<td>G major (0.835)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">67</td>
+<td>jugos118.krn</td>
+<td>b minor (0.878)</td>
+<td>G major (0.831)</td>
+<td>G major (0.801)</td>
+<td>G major (0.725)</td>
+<td>G major (0.86)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">68</td>
+<td>jugos078.krn</td>
+<td>g minor (0.705)</td>
+<td>g minor (0.907)</td>
+<td>F major (0.565)</td>
+<td>B- major (0.567)</td>
+<td>g minor (0.607)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">69</td>
+<td>jugos050.krn</td>
+<td>C major (0.82)</td>
+<td>F major (0.721)</td>
+<td>F major (0.951)</td>
+<td>F major (0.877)</td>
+<td>F major (0.894)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">70</td>
+<td>jugos044.krn</td>
+<td>G major (0.853)</td>
+<td>G major (0.93)</td>
+<td>G major (0.86)</td>
+<td>G major (0.825)</td>
+<td>G major (0.865)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">71</td>
+<td>jugos093.krn</td>
+<td>G major (0.729)</td>
+<td>G major (0.889)</td>
+<td>G major (0.657)</td>
+<td>G major (0.644)</td>
+<td>G major (0.712)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">72</td>
+<td>jugos087.krn</td>
+<td>a minor (0.585)</td>
+<td>G major (0.709)</td>
+<td>G major (0.55)</td>
+<td>C major (0.587)</td>
+<td>G major (0.611)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">73</td>
+<td>jugos086.krn</td>
+<td>b- minor (0.794)</td>
+<td>b- minor (0.632)</td>
+<td>b- minor (0.505)</td>
+<td>b- minor (0.583)</td>
+<td>b- minor (0.554)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">74</td>
+<td>jugos092.krn</td>
+<td>G major (0.621)</td>
+<td>G major (0.6)</td>
+<td>G major (0.686)</td>
+<td>D major (0.647)</td>
+<td>G major (0.727)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">75</td>
+<td>jugos045.krn</td>
+<td>G major (0.546)</td>
+<td>e minor (0.791)</td>
+<td>e minor (0.652)</td>
+<td>e minor (0.56)</td>
+<td>e minor (0.687)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">76</td>
+<td>jugos051.krn</td>
+<td>e minor (0.565)</td>
+<td>b minor (0.74)</td>
+<td>D major (0.566)</td>
+<td>G major (0.579)</td>
+<td>D major (0.589)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">77</td>
+<td>jugos079.krn</td>
+<td>G major (0.837)</td>
+<td>G major (0.555)</td>
+<td>G major (0.903)</td>
+<td>G major (0.832)</td>
+<td>G major (0.924)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">78</td>
+<td>jugos119.krn</td>
+<td>G major (0.778)</td>
+<td>G major (0.933)</td>
+<td>G major (0.778)</td>
+<td>G major (0.71)</td>
+<td>G major (0.858)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">79</td>
+<td>jugos109.krn</td>
+<td>G major (0.637)</td>
+<td>G major (0.883)</td>
+<td>G major (0.668)</td>
+<td>G major (0.583)</td>
+<td>G major (0.748)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">80</td>
+<td>jugos055.krn</td>
+<td>G major (0.868)</td>
+<td>G major (0.756)</td>
+<td>G major (0.816)</td>
+<td>G major (0.842)</td>
+<td>G major (0.796)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">81</td>
+<td>jugos041.krn</td>
+<td>G major (0.482)</td>
+<td>e minor (0.814)</td>
+<td>G major (0.55)</td>
+<td>G major (0.547)</td>
+<td>G major (0.546)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">82</td>
+<td>jugos069.krn</td>
+<td>a minor (0.686)</td>
+<td>G major (0.532)</td>
+<td>G major (0.719)</td>
+<td>C major (0.607)</td>
+<td>G major (0.716)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">83</td>
+<td>jugos096.krn</td>
+<td>G major (0.825)</td>
+<td>G major (0.805)</td>
+<td>G major (0.869)</td>
+<td>G major (0.815)</td>
+<td>G major (0.865)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">84</td>
+<td>jugos082.krn</td>
+<td>G major (0.705)</td>
+<td>G major (0.904)</td>
+<td>G major (0.733)</td>
+<td>C major (0.609)</td>
+<td>G major (0.806)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">85</td>
+<td>jugos083.krn</td>
+<td>D major (0.855)</td>
+<td>G major (0.864)</td>
+<td>G major (0.864)</td>
+<td>D major (0.8)</td>
+<td>G major (0.813)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">86</td>
+<td>jugos097.krn</td>
+<td>G major (0.617)</td>
+<td>G major (0.885)</td>
+<td>G major (0.637)</td>
+<td>D major (0.631)</td>
+<td>G major (0.638)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">87</td>
+<td>jugos068.krn</td>
+<td>G major (0.829)</td>
+<td>C major (0.666)</td>
+<td>C major (0.843)</td>
+<td>C major (0.77)</td>
+<td>C major (0.851)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">88</td>
+<td>jugos040.krn</td>
+<td>b minor (0.753)</td>
+<td>G major (0.907)</td>
+<td>G major (0.68)</td>
+<td>D major (0.606)</td>
+<td>G major (0.673)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">89</td>
+<td>jugos054.krn</td>
+<td>G major (0.838)</td>
+<td>G major (0.791)</td>
+<td>G major (0.824)</td>
+<td>G major (0.765)</td>
+<td>G major (0.869)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">90</td>
+<td>jugos108.krn</td>
+<td>a minor (0.504)</td>
+<td>d minor (0.905)</td>
+<td>d minor (0.585)</td>
+<td>d minor (0.553)</td>
+<td>d minor (0.566)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">91</td>
+<td>jugos042.krn</td>
+<td>G major (0.66)</td>
+<td>G major (0.597)</td>
+<td>G major (0.628)</td>
+<td>C major (0.622)</td>
+<td>G major (0.733)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">92</td>
+<td>jugos056.krn</td>
+<td>G major (0.874)</td>
+<td>G major (0.758)</td>
+<td>G major (0.854)</td>
+<td>G major (0.816)</td>
+<td>G major (0.874)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">93</td>
+<td>jugos081.krn</td>
+<td>G major (0.79)</td>
+<td>G major (0.916)</td>
+<td>G major (0.762)</td>
+<td>G major (0.682)</td>
+<td>G major (0.848)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">94</td>
+<td>jugos095.krn</td>
+<td>G major (0.792)</td>
+<td>G major (0.886)</td>
+<td>G major (0.771)</td>
+<td>G major (0.728)</td>
+<td>G major (0.836)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">95</td>
+<td>jugos094.krn</td>
+<td>g minor (0.771)</td>
+<td>g minor (0.796)</td>
+<td>g minor (0.745)</td>
+<td>g minor (0.713)</td>
+<td>g minor (0.734)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">96</td>
+<td>jugos080.krn</td>
+<td>G major (0.891)</td>
+<td>G major (0.734)</td>
+<td>C major (0.692)</td>
+<td>G major (0.738)</td>
+<td>G major (0.798)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">97</td>
+<td>jugos057.krn</td>
+<td>F major (0.861)</td>
+<td>F major (0.754)</td>
+<td>F major (0.836)</td>
+<td>F major (0.776)</td>
+<td>F major (0.89)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">98</td>
+<td>jugos043.krn</td>
+<td>b minor (0.735)</td>
+<td>G major (0.932)</td>
+<td>G major (0.823)</td>
+<td>D major (0.732)</td>
+<td>G major (0.855)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">99</td>
+<td>jugos018.krn</td>
+<td>b- minor (0.807)</td>
+<td>b- minor (0.934)</td>
+<td>b- minor (0.551)</td>
+<td>b- minor (0.588)</td>
+<td>b- minor (0.587)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">100</td>
+<td>jugos024.krn</td>
+<td>G major (0.824)</td>
+<td>G major (0.578)</td>
+<td>G major (0.873)</td>
+<td>G major (0.808)</td>
+<td>G major (0.895)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">101</td>
+<td>jugos030.krn</td>
+<td>G major (0.793)</td>
+<td>G major (0.968)</td>
+<td>G major (0.837)</td>
+<td>G major (0.85)</td>
+<td>G major (0.848)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">102</td>
+<td>jugos031.krn</td>
+<td>C major (0.797)</td>
+<td>F major (0.732)</td>
+<td>F major (0.823)</td>
+<td>C major (0.776)</td>
+<td>F major (0.804)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">103</td>
+<td>jugos025.krn</td>
+<td>C major (0.908)</td>
+<td>C major (0.89)</td>
+<td>C major (0.831)</td>
+<td>C major (0.811)</td>
+<td>C major (0.894)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">104</td>
+<td>jugos019.krn</td>
+<td>a minor (0.611)</td>
+<td>f# minor (0.879)</td>
+<td>a minor (0.53)</td>
+<td>a minor (0.544)</td>
+<td>a minor (0.504)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">105</td>
+<td>jugos033.krn</td>
+<td>D major (0.664)</td>
+<td>G major (0.488)</td>
+<td>G major (0.667)</td>
+<td>G major (0.635)</td>
+<td>G major (0.602)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">106</td>
+<td>jugos027.krn</td>
+<td>g minor (0.686)</td>
+<td>F major (0.685)</td>
+<td>F major (0.51)</td>
+<td>B- major (0.543)</td>
+<td>F major (0.549)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">107</td>
+<td>jugos026.krn</td>
+<td>G major (0.895)</td>
+<td>G major (0.592)</td>
+<td>G major (0.805)</td>
+<td>G major (0.791)</td>
+<td>G major (0.87)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">108</td>
+<td>jugos032.krn</td>
+<td>G major (0.936)</td>
+<td>G major (0.836)</td>
+<td>G major (0.878)</td>
+<td>G major (0.942)</td>
+<td>G major (0.913)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">109</td>
+<td>jugos036.krn</td>
+<td>b minor (0.715)</td>
+<td>G major (0.853)</td>
+<td>G major (0.81)</td>
+<td>G major (0.726)</td>
+<td>G major (0.787)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">110</td>
+<td>jugos022.krn</td>
+<td>D major (0.768)</td>
+<td>D major (0.88)</td>
+<td>D major (0.819)</td>
+<td>G major (0.781)</td>
+<td>D major (0.826)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">111</td>
+<td>jugos023.krn</td>
+<td>C major (0.601)</td>
+<td>F major (0.883)</td>
+<td>F major (0.704)</td>
+<td>C major (0.639)</td>
+<td>F major (0.714)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">112</td>
+<td>jugos037.krn</td>
+<td>G major (0.767)</td>
+<td>G major (0.822)</td>
+<td>G major (0.774)</td>
+<td>G major (0.724)</td>
+<td>G major (0.798)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">113</td>
+<td>jugos021.krn</td>
+<td>D major (0.688)</td>
+<td>e minor (0.806)</td>
+<td>D major (0.739)</td>
+<td>G major (0.731)</td>
+<td>G major (0.762)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">114</td>
+<td>jugos035.krn</td>
+<td>G major (0.881)</td>
+<td>G major (0.869)</td>
+<td>G major (0.952)</td>
+<td>G major (0.951)</td>
+<td>G major (0.938)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">115</td>
+<td>jugos009.krn</td>
+<td>C major (0.762)</td>
+<td>a minor (0.927)</td>
+<td>C major (0.752)</td>
+<td>C major (0.746)</td>
+<td>C major (0.814)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">116</td>
+<td>jugos008.krn</td>
+<td>G major (0.896)</td>
+<td>G major (0.77)</td>
+<td>G major (0.806)</td>
+<td>G major (0.806)</td>
+<td>G major (0.872)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">117</td>
+<td>jugos034.krn</td>
+<td>G major (0.897)</td>
+<td>G major (0.851)</td>
+<td>G major (0.779)</td>
+<td>G major (0.756)</td>
+<td>G major (0.866)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">118</td>
+<td>jugos020.krn</td>
+<td>G major (0.888)</td>
+<td>G major (0.861)</td>
+<td>G major (0.86)</td>
+<td>G major (0.892)</td>
+<td>G major (0.897)</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
 
 
 

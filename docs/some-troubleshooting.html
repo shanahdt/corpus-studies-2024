@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Corpus Studies in Music - Corpus Studies and Music</title>
+<title>Corpus Studies in Music - Some Troubleshooting</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,6 +64,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./class_notes/week_1.html" rel="next">
+<link href="./course-schedule.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -63,7 +99,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<meta property="og:title" content="Corpus Studies in Music - Corpus Studies and Music">
+<meta property="og:title" content="Corpus Studies in Music - Some Troubleshooting">
 <meta property="og:description" content="">
 <meta property="og:site-name" content="Corpus Studies in Music">
 </head>
@@ -77,9 +113,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      Corpus Studies in Music
-      </li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./course-syllabus.html">Resources</a></li><li class="breadcrumb-item"><a href="./some-troubleshooting.html">Some Troubleshooting</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -130,7 +164,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./some-troubleshooting.html" class="sidebar-item-text sidebar-link">
+  <a href="./some-troubleshooting.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Some Troubleshooting</span></a>
   </div>
 </li>
@@ -193,16 +227,16 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">Welcome!</a></li>
+  <li><a href="#my-toolkit-isnt-finding-the-files" id="toc-my-toolkit-isnt-finding-the-files" class="nav-link active" data-scroll-target="#my-toolkit-isnt-finding-the-files">My Toolkit isn’t Finding the Files!</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/shanahdt/corpus-studies-2024/edit/main/index.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/shanahdt/corpus-studies-2024/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/shanahdt/corpus-studies-2024/edit/main/some-troubleshooting.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/shanahdt/corpus-studies-2024/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Corpus Studies and Music</h1>
+<h1 class="title">Some Troubleshooting</h1>
 </div>
 
 
@@ -217,9 +251,18 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="welcome" class="level1">
-<h1>Welcome!</h1>
-<p>Welcome to the Corpus Studies and Music class.</p>
+<section id="my-toolkit-isnt-finding-the-files" class="level1">
+<h1>My Toolkit isn’t Finding the Files!</h1>
+<p>This is most often a <code>path</code> issue. Make sure that the code is looking for the data where the data is.</p>
+<p>For example, if you download a file to your “Downloads” folder, on a Mac or Linux the code would read something like:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>happy_birthday <span class="ot">&lt;-</span> <span class="fu">readHumdrum</span>(<span class="st">"~/Downloads/happy_birthday.krn"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that the tilde (“~”) is a shortcut for “/Users/MyName/” etc.</p>
+<p>On a Windows machine, it’s a bit different, but R should read the file correctly. Sometimes you will need to escape the file, it might be something like:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>happy_birthday <span class="ot">&lt;-</span> <span class="fu">readHumdrum</span>(<span class="st">"C:</span><span class="sc">\\</span><span class="st">Downloads</span><span class="sc">\\</span><span class="st">happy_birthday.krn"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 </section>
@@ -573,6 +616,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./course-schedule.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Schedule</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./class_notes/week_1.html" class="pagination-link">
+        <span class="nav-page-text">Week 1: Representing Musical Data</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">

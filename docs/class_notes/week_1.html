@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Corpus Studies in Music - Week 1: Representing Musical Data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../class_notes/week_2.html" rel="next">
+<link href="../some-troubleshooting.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<meta property="og:title" content="Corpus Studies in Music - Week 1: Representing Musical Data">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://shanahdt.github.io/corpus-studies-2024/images/happy-birthday.png">
+<meta property="og:site-name" content="Corpus Studies in Music">
+<meta property="og:image:height" content="778">
+<meta property="og:image:width" content="2234">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../class_notes/week_1.html">Class Notes</a></li><li class="breadcrumb-item"><a href="../class_notes/week_1.html">Week 1: Representing Musical Data</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Corpus Studies in Music</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Resources</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course-syllabus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Syllabus</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course-schedule.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Schedule</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../some-troubleshooting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Some Troubleshooting</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Class Notes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../class_notes/week_1.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Week 1: Representing Musical Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../class_notes/week_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2: Melodic and Harmonic Intervals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../class_notes/week_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 3: Data Analysis, Time, Cadences, Phrases, <em>etc.</em></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../class_notes/week_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4: Conceptual Debates (Key-Finding, Entropy, etc.)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../class_notes/week_5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5: Practicing with Spotify</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../class_notes/week_6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5: Regression and Clustering</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#representing-musical-information" id="toc-representing-musical-information" class="nav-link" data-scroll-target="#representing-musical-information">Representing Musical Information</a>
+  <ul class="collapse">
+  <li><a href="#with-darms-19661980ish" id="toc-with-darms-19661980ish" class="nav-link" data-scroll-target="#with-darms-19661980ish">With DARMS (1966–1980ish)</a></li>
+  <li><a href="#with-mustran-19671980ish" id="toc-with-mustran-19671980ish" class="nav-link" data-scroll-target="#with-mustran-19671980ish">With MUSTRAN (1967–1980ish)</a></li>
+  <li><a href="#humdrum-1985present-ish" id="toc-humdrum-1985present-ish" class="nav-link" data-scroll-target="#humdrum-1985present-ish">Humdrum (1985–present-ish)</a></li>
+  </ul></li>
+  <li><a href="#counting-pitches" id="toc-counting-pitches" class="nav-link" data-scroll-target="#counting-pitches">Counting Pitches</a>
+  <ul class="collapse">
+  <li><a href="#counting-by-scale-degree" id="toc-counting-by-scale-degree" class="nav-link" data-scroll-target="#counting-by-scale-degree">Counting By Scale Degree</a></li>
+  <li><a href="#a-more-complicated-example" id="toc-a-more-complicated-example" class="nav-link" data-scroll-target="#a-more-complicated-example">A More Complicated Example</a></li>
+  <li><a href="#reflecting" id="toc-reflecting" class="nav-link" data-scroll-target="#reflecting">Reflecting</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/shanahdt/corpus-studies-2024/edit/main/class_notes/week_1.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/shanahdt/corpus-studies-2024/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Week 1: Representing Musical Data</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="overview" class="level1">
+<h1>Overview</h1>
+<p>This week, we will be working through what it means to represent musical ideas through text.</p>
+<p>It’s also probably worth having another look at the <a href="../course-syllabus.html">syllabus</a> and the <a href="../course-schedule.html">course structure</a>.</p>
+<p>Going forward, it might be worth adding a few things to your computer: I would recommend downloading <a href="https://www.r-project.org/about.html">R</a> and <a href="https://posit.co/download/rstudio-desktop/">RStudio</a> onto your personal machine, as soon as you can.</p>
+<p>We will also be doing a lot of in-class examples in R, specifically with the <a href="https://computational-cognitive-musicology-lab.github.io/humdrumR/">HumdrumR toolkit</a>. Some of you may prefer using Python or even the command line for projects, and that’s fine, but in class we will mainly be working with R.</p>
+<p>In the code below, we install the necessary library. As you can see, you will need to install <code>devtools</code>, which will allow you to install packages that aren’t on CRAN from github.</p>
+</section>
+<section id="representing-musical-information" class="level1">
+<h1>Representing Musical Information</h1>
+<p>Music, as an object, is a fairly difficult thing to represent. We can represent soundwaves, pitch, loudness, timbre, <em>etc .</em>, but those are just components of this thing that we call “music”. We have to consider the sonic, the notated, and also broader aspects of structure (and logic).</p>
+<p>In this class, we will start by looking at notated scores, which themselves are an abstraction of “the musical object.” (For example, Ryan Adams playing a Taylor Swift song might look identical on the score to Taylor Swift’s version, but they are markedly different.) Even if we decide to begin with musical notation, however, we face some issues.</p>
+<p>Let’s take the “Happy Birthday” for example:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/happy-birthday.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Happy Birthday</figcaption>
+</figure>
+</div>
+<section id="with-darms-19661980ish" class="level2">
+<h2 class="anchored" data-anchor-id="with-darms-19661980ish">With DARMS (1966–1980ish)</h2>
+<p>DARMs was a project in in the 1960s and 1970s, spearheaded by Stefan Bauer-Mengelberg. It was also called the Ford-Columbia encoding language, and was intended to make it affordable and manageable for anyone to have their own scores, and to be able to print them cheaply. It was also the hope that non-musicians would be able to encode scores, which would make the process more affordable to all.</p>
+<p>As such, notes were just encoded by a spatial point.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/darms_grid.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption class="figure-caption">The DARMS Grid</figcaption>
+</figure>
+</div>
+<p>So to encode something like “Happy Birthday” in DARMS, we might approach it something like this:</p>
+<pre><code>!G
+!M3:4
+20E.U 20SU / 21QU 20QU 23QU / 22QU 20E.U 20SU / 
+21QU 20QU 24QU / 23HU 20E.U 20SU /
+27QD 25QD 23QU / 22LQU 21LQU 19E.U 19SU /
+25QD 23QU 24QU 23H.U //
+</code></pre>
+<p>There are a number of different codes and tags that can be included, ranging from key signatures to instruments to articulations. Rhythms are encoded as follows:</p>
+<pre><code>W whole 
+H half 
+Q quarter
+E eighth 
+S sixteenth 
+T thirty-second 
+X sixty-fourth 
+Y 128th
+Z 256th</code></pre>
+<p>As you can imagine, this can get a little cumbersome. Here’s an example by Stephen Dydo using DARMS, with the input code below. Try to parse it as best you can:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/dydo_darms_example.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Dydo’s DARMS Example</figcaption>
+</figure>
+</div>
+</section>
+<section id="with-mustran-19671980ish" class="level2">
+<h2 class="anchored" data-anchor-id="with-mustran-19671980ish">With MUSTRAN (1967–1980ish)</h2>
+<p>Here is what “Happy Birthday” would look like as encoded with MUSTRAN:</p>
+<pre><code>GS,K*F+,3=4,8D.,16D,/,4E,4D,4G,/,2*F,8D.,16D,/,
+4E,4D,4A,/,2G,,8D.,16D,/,4D+,4B,4G,/,4*F,4E,8D.,16D,/,
+4B,4G,4A,/,2H.G//,END
+</code></pre>
+<p>MUSTRAN was created with the goal of encoding non-Western musics, and was inherently extensible. Notice here how one can encode indeterminate pitches, breath marks, and microtones.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/wenker_p497.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">MUSTRAN Example</figcaption>
+</figure>
+</div>
+</section>
+<section id="humdrum-1985present-ish" class="level2">
+<h2 class="anchored" data-anchor-id="humdrum-1985present-ish">Humdrum (1985–present-ish)</h2>
+<p>Here is how we might encode it in the commonly used kern format, for use with the <a href="https://www.humdrum.org/">Humdrum Toolkit:</a></p>
+<pre><code>!!!OTL: Happy Birthday
+**kern
+*M3/4
+*G:
+*k[f#]
+L8.d
+16dJ
+=
+4e
+4d
+4g
+=
+2f#
+L8.d
+16dJ
+=
+4e
+4d
+4a
+=
+2g
+L8.d
+16dJ
+=
+4dd
+4b
+4g
+=
+(4f#
+4e)
+L8.c
+16cJ
+=
+4b
+4g
+4a
+=
+2g.
+==
+*-</code></pre>
+<p>Some points worth mentioning:</p>
+<ul>
+<li>There is a distinction between metadata and musical data (the exclamation marks serve as comments of sorts).</li>
+<li>Notice how pitches are given specific octaves: <code>d</code> is seperate from <code>dd</code> which is separate from <code>D</code>.</li>
+<li>Pitches are grouped with <code>L</code> and <code>J</code> to indicate beaming, and slurs are indicated with parentheses.</li>
+<li>There are score-wide elements, such as the meter (<code>*M3/4</code>), and a key signature (<code>*k[f#]</code>).</li>
+<li>There is also a syntax for providing musical data that might not actually exist in the score. For example, with a key signature of one sharp, it could be G major, but it could also be in E minor. So an explicit mentioning of the key is helpful.</li>
+<li>Perhaps more abstractly, notice that this is a two dimensional score of sorts: every moment of time is a new line, meaning one can search by line to find specific instances. This is particularly useful with <em>polyphonic</em> music.</li>
+</ul>
+<p>You can try this out at the <a href="https://verovio.humdrum.org/">Verovio Humdrum Viewer Website</a></p>
+</section>
+</section>
+<section id="counting-pitches" class="level1">
+<h1>Counting Pitches</h1>
+<p>For the discussion post this week, you will be asked to encode a melody and count events in that melody. We can look at it with three specific ways:</p>
+<ol type="1">
+<li>Humdrum, which is a series of UNIX tools that allow you to conduct analysis by piping together specific tools.</li>
+<li>HumdrumR, which is a newer updating of the original Humdrum but using R.</li>
+<li>music21, which might be of interest to some.</li>
+</ol>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Optional Humdrum Installation</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">HumdrumR Installation</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>Although not necessary at all for this class, some of you might be interested in downloading the original Humdrum to your UNIX-based computers <a href="https://github.com/humdrum-tools/humdrum-tools">and installing it</a>. If you use a Windows machine, there are also Cygwin options.</p>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>Then, we install the package (you can uncomment these installation lines as necessary for you.</p>
+<div class="cell" data-warnings="false">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">### installing everything as needed</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"Computational-Cognitive-Musicology-Lab/humdrumR"</span>, <span class="at">build_vignettes =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Once that installation has worked, you can try to load the library:</p>
+<div class="cell" data-warnings="false">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(humdrumR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Humdrum</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">HumdrumR</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">music21</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<pre><code>pitch -x happy_birthday.krn | rid -GLId | grep -v '=' | sortcount</code></pre>
+<p>This will give us a list of pitches and a count:</p>
+<pre><code>8       D4
+5       G4
+3       E4
+2       F#4
+2       B4
+2       A4
+2       C4
+1       D5</code></pre>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<p>First we load the data in to a variable:</p>
+<div class="cell" data-warnings="false">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>happy_birthday <span class="ot">&lt;-</span> <span class="fu">readHumdrum</span>(<span class="st">"class_notes/happy_birthday.krn"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>There is a <code>count</code> function in HumdrumR, which would allow for something like:</p>
+<p><code>happy_birthday |&gt; count()</code></p>
+<p>Unfortunately there seems to be a bug with it reading my Happy Birthday, so I’ve just done it the longer way:</p>
+<div class="cell" data-warnings="false">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>happy_birthday <span class="sc">|&gt;</span> <span class="fu">pitch</span>() <span class="sc">|&gt;</span> <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span> <span class="fu">group_by</span>(V1) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice that I could look at things other than pitch, if I wanted to use <code>deg</code> instead of <code>pitch</code> for example (this also would work in Humdrum)</p>
+</div>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
+<p>Here is the python code that will get the same thing:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get unique pitches</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> converter</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Parse the kern file and extract all the pitches</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>score <span class="op">=</span> converter.parse(<span class="st">'happy_birthday.krn'</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>all_pitches <span class="op">=</span> score.pitches</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Count occurrences of each pitch</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>pitch_counter <span class="op">=</span> Counter(<span class="bu">str</span>(p) <span class="cf">for</span> p <span class="kw">in</span> all_pitches)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Print results and sort!</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Pitch counts:"</span>)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pitch_name, count <span class="kw">in</span> pitch_counter.most_common():</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>pitch_name<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>count<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<section id="counting-by-scale-degree" class="level2">
+<h2 class="anchored" data-anchor-id="counting-by-scale-degree">Counting By Scale Degree</h2>
+<p>Pitches sometimes contain meaning when looked at simply as pitches, but other times they need to be normalized in some way, such as by a scale degree. This allows us to see the pitch in relation to the braoder key.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Humdrum</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">HumdrumR</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-3" role="tab" aria-controls="tabset-3-3" aria-selected="false">music21</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<pre><code>deg -x happy_birthday.krn | rid -GLId | grep -v '=' | sortcount</code></pre>
+<p>This will give us a list of scale degrees and a count:</p>
+<pre><code>9       5
+5       1
+3       6
+2       7
+2       4
+2       2
+2       3</code></pre>
+<p>If we didn’t use the <code>-a</code> flag, it would include the scale degrees and whether it was ascending or descending.</p>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<p>First we load the data in to a variable:</p>
+<div class="cell" data-warnings="false">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>happy_birthday <span class="ot">&lt;-</span> <span class="fu">readHumdrum</span>(<span class="st">"class_notes/happy_birthday.krn"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>There is a <code>count</code> function in HumdrumR, which would allow for something like:</p>
+<p><code>happy_birthday |&gt; count()</code></p>
+<p>Unfortunately there seems to be a bug with it reading my Happy Birthday, so I’ve just done it the longer way:</p>
+<div class="cell" data-warnings="false">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>happy_birthday <span class="sc">|&gt;</span> <span class="fu">deg</span>(<span class="at">simple =</span>T) <span class="sc">|&gt;</span> <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span> <span class="fu">group_by</span>(V1) <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Much like the <code>-a</code> flag in Humdrum, <code>simple=T</code> provides us with only scale degrees, and no information about the movement of the pitch.</p>
+</div>
+<div id="tabset-3-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> converter, pitch, analysis</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># import (parse) the kern file</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>score <span class="op">=</span> converter.parse(<span class="st">'happy_birthday.krn'</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co"># figure out the key</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>pitch_count <span class="op">=</span> analysis.discrete.KrumhanslKessler(score)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>key <span class="op">=</span> pitch_count.getSolution(score)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Count scale degrees for each note</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> score.flat.notes:</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    scale_degree <span class="op">=</span> key.getScaleDegreeFromPitch(n.pitch)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    scale_degree_counter[scale_degree] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Print results</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> scale_degree, count <span class="kw">in</span> Counter.most_common():</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Scale Degree </span><span class="sc">{</span>scale_degree<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>count<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="a-more-complicated-example" class="level2">
+<h2 class="anchored" data-anchor-id="a-more-complicated-example">A More Complicated Example</h2>
+<p>In the code below, you can see how we load all of the Chopin files into a <code>preludes</code> variable with the <code>readHumdrum</code> function.</p>
+<p>Then we subset it by <em>spines</em>. We are interested in various ways of calculating pitch, so we looked at <code>pc</code> (pitch class), as well as <code>solfa</code> and <code>deg</code>, which gave us solfege syllables and scale degrees, respectively.</p>
+<p>We then plot this data in a barplot. Note the <code>|&gt;</code> or “pipe” that we are using. The older tidyverse-style pipe (<code>%&gt;%</code>) will also work here.</p>
+<div class="cell" data-warnings="false">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Load in Chopin preludes, grab the left hand and see all the scale degrees.</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>preludes <span class="ot">&lt;-</span> <span class="fu">readHumdrum</span>(<span class="st">"data/humdrum_scores/Chopin/Preludes/*.krn"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>left_hand <span class="ot">&lt;-</span> <span class="fu">subset</span>(preludes, Spine <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="do">###solfa, deg, pc</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>table_data <span class="ot">&lt;-</span> <span class="fu">with</span>(left_hand, <span class="fu">deg</span>(Token,<span class="at">simple=</span><span class="cn">TRUE</span>)) <span class="sc">|&gt;</span> <span class="fu">table</span>() </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(table_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here we see that scale degrees 1 and 5 are the most common in the left hand of the Chopin <em>Préludes</em>, and we were able to do it with only a couple of lines of code. Note that the <code>Spine</code> is ordered in ascending order, with the lower staves on the left (and listed as 1).</p>
+</section>
+<section id="reflecting" class="level2">
+<h2 class="anchored" data-anchor-id="reflecting">Reflecting</h2>
+<ol type="1">
+<li>We might think about the choices made in encoding musical information.
+<ol type="1">
+<li>What decisions does one have to make?</li>
+<li>What information is lost in these decisions?</li>
+</ol></li>
+<li>What notational parameters would you need to represent in order to encode some of your favorite music?
+<ol type="1">
+<li>How would it be encoded?</li>
+</ol></li>
+</ol>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../some-troubleshooting.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Some Troubleshooting</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../class_notes/week_2.html" class="pagination-link">
+        <span class="nav-page-text">Week 2: Melodic and Harmonic Intervals</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">© Copyright 2024, Daniel Shanahan</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>

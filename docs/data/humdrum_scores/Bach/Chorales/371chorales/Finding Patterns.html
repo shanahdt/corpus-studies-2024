@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Corpus Studies in Music - Corpus Studies and Music</title>
+<title>Corpus Studies in Music - Creating a DataFrame</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,27 +20,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../../../">
+<script src="../../../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -63,7 +97,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<meta property="og:title" content="Corpus Studies in Music - Corpus Studies and Music">
+<meta property="og:title" content="Corpus Studies in Music - Creating a DataFrame">
 <meta property="og:description" content="">
 <meta property="og:site-name" content="Corpus Studies in Music">
 </head>
@@ -94,7 +128,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Corpus Studies in Music</a> 
+      <a href="../../../../../">Corpus Studies in Music</a> 
         <div class="sidebar-tools-main">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
@@ -118,19 +152,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course-syllabus.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../course-syllabus.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Syllabus</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course-schedule.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../course-schedule.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Schedule</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./some-troubleshooting.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../some-troubleshooting.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Some Troubleshooting</span></a>
   </div>
 </li>
@@ -147,37 +181,37 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./class_notes/week_1.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../class_notes/week_1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week 1: Representing Musical Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./class_notes/week_2.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../class_notes/week_2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week 2: Melodic and Harmonic Intervals</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./class_notes/week_3.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../class_notes/week_3.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week 3: Data Analysis, Time, Cadences, Phrases, <em>etc.</em></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./class_notes/week_4.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../class_notes/week_4.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week 4: Conceptual Debates (Key-Finding, Entropy, etc.)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./class_notes/week_5.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../class_notes/week_5.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week 5: Practicing with Spotify</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./class_notes/week_6.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../../../class_notes/week_6.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Week 5: Regression and Clustering</span></a>
   </div>
 </li>
@@ -193,16 +227,19 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">Welcome!</a></li>
+  <li><a href="#our-first-question-la-sol-fi-sol" id="toc-our-first-question-la-sol-fi-sol" class="nav-link active" data-scroll-target="#our-first-question-la-sol-fi-sol">Our First Question: La-Sol-Fi-Sol</a>
+  <ul class="collapse">
+  <li><a href="#step-1-create-a-pattern-file." id="toc-step-1-create-a-pattern-file." class="nav-link" data-scroll-target="#step-1-create-a-pattern-file.">Step #1: Create a pattern file.</a></li>
+  </ul></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/shanahdt/corpus-studies-2024/edit/main/index.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/shanahdt/corpus-studies-2024/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/shanahdt/corpus-studies-2024/blob/main/data/humdrum_scores/Bach/Chorales/371chorales/Finding Patterns.ipynb" class="toc-action">Edit this page</a></p><p><a href="https://github.com/shanahdt/corpus-studies-2024/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Corpus Studies and Music</h1>
+<h1 class="title">Creating a DataFrame</h1>
 </div>
 
 
@@ -217,11 +254,78 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="welcome" class="level1">
-<h1>Welcome!</h1>
-<p>Welcome to the Corpus Studies and Music class.</p>
+<p>Today, it’d be worth discussing a few points regarding how we might turn these cool things we’re learning into something that can be placed into your data analysis software of your choice (R, Python, R, Matlab, or R). We will also talk about a few other important tools today that will help, such as:</p>
+<ul>
+<li>patt</li>
+<li>pattern</li>
+<li>yank</li>
+<li>assemble</li>
+<li>cleave</li>
+</ul>
+<section id="our-first-question-la-sol-fi-sol" class="level2">
+<h2 class="anchored" data-anchor-id="our-first-question-la-sol-fi-sol">Our First Question: La-Sol-Fi-Sol</h2>
+<p>Here, we might ask a rather silly question: <em>How often does the la-sol-fi-sol motive (as discussed in Byros, 2009) occur in the Bach Chorales (those old chestnuts)</em>??</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file <span class="kw">in</span> <span class="pp">*</span>.krn</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">do</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">solfa</span> <span class="at">-x</span> <span class="va">$file</span> <span class="op">&gt;</span> <span class="va">$file</span>.solfa</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.
+solfa: ERROR: Cannot process pitches without key information.</code></pre>
+</div>
+</div>
+<section id="step-1-create-a-pattern-file." class="level3">
+<h3 class="anchored" data-anchor-id="step-1-create-a-pattern-file.">Step #1: Create a pattern file.</h3>
+<p>Our first step would be to use the <strong>patt</strong> tool to find any specific patterns. There are a few ways to do this, but my favorite way is to create a file that lists specific pattern, and then to use <strong>patt -f</strong> to search for that template in a file.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

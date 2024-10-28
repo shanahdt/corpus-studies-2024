@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Corpus Studies in Music - Week 3: Data Analysis, Time, Cadences, Phrases, etc.</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../class_notes/week_4.html" rel="next">
+<link href="../class_notes/week_2.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<meta property="og:title" content="Corpus Studies in Music - Week 3: Data Analysis, Time, Cadences, Phrases, etc.">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://shanahdt.github.io/corpus-studies-2024/class_notes/week_3_files/figure-html/unnamed-chunk-15-1.png">
+<meta property="og:site-name" content="Corpus Studies in Music">
+<meta property="og:image:height" content="960">
+<meta property="og:image:width" content="1344">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../class_notes/week_1.html">Class Notes</a></li><li class="breadcrumb-item"><a href="../class_notes/week_3.html">Week 3: Data Analysis, Time, Cadences, Phrases, <em>etc.</em></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Corpus Studies in Music</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Resources</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course-syllabus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Syllabus</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../course-schedule.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Schedule</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../some-troubleshooting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Some Troubleshooting</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Class Notes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../class_notes/week_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 1: Representing Musical Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../class_notes/week_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 2: Melodic and Harmonic Intervals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../class_notes/week_3.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Week 3: Data Analysis, Time, Cadences, Phrases, <em>etc.</em></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../class_notes/week_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 4: Conceptual Debates (Key-Finding, Entropy, etc.)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../class_notes/week_5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5: Practicing with Spotify</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../class_notes/week_6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5: Regression and Clustering</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a>
+  <ul class="collapse">
+  <li><a href="#getting-the-data" id="toc-getting-the-data" class="nav-link" data-scroll-target="#getting-the-data">Getting the data</a></li>
+  <li><a href="#some-research-questions-for-the-day" id="toc-some-research-questions-for-the-day" class="nav-link" data-scroll-target="#some-research-questions-for-the-day">Some Research Questions for the Day</a></li>
+  <li><a href="#compiling-the-data" id="toc-compiling-the-data" class="nav-link" data-scroll-target="#compiling-the-data">Compiling the Data</a></li>
+  <li><a href="#time-signature-and-key-relationships" id="toc-time-signature-and-key-relationships" class="nav-link" data-scroll-target="#time-signature-and-key-relationships">Time Signature and Key Relationships</a></li>
+  <li><a href="#cadence-types" id="toc-cadence-types" class="nav-link" data-scroll-target="#cadence-types">Cadence Types</a></li>
+  <li><a href="#using-dcmls-harmonic-representations" id="toc-using-dcmls-harmonic-representations" class="nav-link" data-scroll-target="#using-dcmls-harmonic-representations">Using DCML’s Harmonic Representations</a></li>
+  <li><a href="#classifying-larger-progressions" id="toc-classifying-larger-progressions" class="nav-link" data-scroll-target="#classifying-larger-progressions">Classifying larger progressions</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/shanahdt/corpus-studies-2024/edit/main/class_notes/week_3.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/shanahdt/corpus-studies-2024/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Week 3: Data Analysis, Time, Cadences, Phrases, <em>etc.</em></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="overview" class="level1 page-columns page-full">
+<h1>Overview</h1>
+<p>This week, we begin by focusing on some aspects of data analysis. We’ve spent so long extracting data from scores, that it’s probably time to think about analyzing data, and some interesting questions we might ask of that data.</p>
+<p><strong>On Monday</strong>, we discussed the homework, and some possible project ideas. We then broke into groups and analyzed some preprocessed data (everyone used Spotify data, anticipating where we will go later this quarter).</p>
+<p><strong>On Wednesday</strong>, we are going to talk about a few aspects of time and structure in music. Specifically, we will look at:</p>
+<ol type="1">
+<li>Meter and Key relationships</li>
+<li>Cadence types in songs</li>
+<li>Phrases</li>
+<li>Re-examine chord-to-chord transitions
+<ol type="1">
+<li>Various ways we might codify this data</li>
+</ol></li>
+</ol>
+<p>We will begin by looking at some data from the Digital and Cognitive Musicology Lab (DCML) at EPFL in Lausanne, Switzerland. The scholars at DCML have meticulously analyzed score data and provided easy-to-analyze tsv and json files. It’s worth looking at their <a href="https://dcmlab.github.io/standards/build/html/onboarding.html">annotation standards</a> to see how the data was encoded, and what the best practices for this project are.</p>
+<p>An example of how some of the data is encoded can be found <a href="https://dcmlab.github.io/standards/build/html/reference/specs.html">here</a>.</p>
+<section id="getting-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="getting-the-data">Getting the data</h2>
+<p>The <a href="https://github.com/DCMLab/dcml_corpora">DCML github repo</a> has many corpora that can be explored and downloaded. Each song has chord data, harmony data, measure data (with some timing information),rhythm and duration information, and much more.</p>
+<p>From this already-processed data, we can explore some research questions. I have put two folders on canva: one of Schumann’s <em>Kinderszenen</em> (op.15), and another of Tchaikovsky’s <em>Seasons</em> (op. 37a).</p>
+</section>
+<section id="some-research-questions-for-the-day" class="level2">
+<h2 class="anchored" data-anchor-id="some-research-questions-for-the-day">Some Research Questions for the Day</h2>
+<ol type="1">
+<li>How do key’s interact with time signature?</li>
+<li>What types of cadences are present in the these songs?</li>
+<li>How do chord progressions work in this corpus?</li>
+</ol>
+</section>
+<section id="compiling-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="compiling-the-data">Compiling the Data</h2>
+<p>The first step will be taking all of these files and putting them into a single dataframe. We will work with both R and Python here. Note that we will be using neither <code>HumdrumR</code> nor <code>music21</code> today; our data is already extracted.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Python</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>I’m going to use two libraries here–tidyverse and data.table. Typically people use one or the other of these. This opening code just uses one bit from data.table (<code>list.files</code>).</p>
+<p>I set my working directory here to where my files are (yours will be different). After putting all of the data into a list, I’ve stored it in a variable called <code>files</code>, and I then use base R’s <code>lapply</code> function to basically loop over all files and read the tsvs into a single data frame. I’ve also created a column called <code>song</code> in which I can put my file names. This will help me group by piece as needed.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## load my libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"~/gitcloud/corpora/dcml_corpora/schumann_kinderszenen/harmonies"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># all the files I want to use in my folder.</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># here I'm using json.</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">pattern =</span> <span class="st">"*.tsv"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Read files and add filename column called "song"</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">lapply</span>(files, <span class="cf">function</span>(x) {</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="at">file =</span> x)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  df<span class="sc">$</span>song <span class="ot">&lt;-</span> x</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(df)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(data, <span class="at">fill =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>The Python code is the same as the R, basically. Here we are using the <code>Pandas</code> library (it’s fantastic; learn more <a href="https://pandas.pydata.org/">here</a>). The os and glob functions are allowing me to read directories from my machine and put the file names together, respectively.</p>
+<p>NB: The one difference I noticed between R and Python here was that Python didn’t really have a native ability to expand the <code>~</code> operator, as is common in Unix machines (like Macs). Instead I wrote out my pathname explicitly here.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> glob</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Set working directory</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>os.chdir(<span class="st">"/Users/danielshanahan/gitcloud/corpora/dcml_corpora/schumann_kinderszenen/harmonies"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Use glob to get all TSV files in the directory</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>files <span class="op">=</span> glob.glob(<span class="st">"*.tsv"</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Read files and add filename column called "song"</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># create an empty list called data</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> []</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">## loop over all of the files, appending to the dataframe.</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> files:</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.read_csv(<span class="bu">file</span>, sep<span class="op">=</span><span class="st">'</span><span class="ch">\t</span><span class="st">'</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'song'</span>] <span class="op">=</span> <span class="bu">file</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    data.append(df)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine all of the files into one (actually many pandas data frames into one)</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>combined_data <span class="op">=</span> pd.concat(data, ignore_index<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<p>Now that we have all of our data, we can begin to ask some research questions of it.</p>
+</section>
+<section id="time-signature-and-key-relationships" class="level2">
+<h2 class="anchored" data-anchor-id="time-signature-and-key-relationships">Time Signature and Key Relationships</h2>
+<p>Is there a relationship between time signature and key?</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Python</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<p>Tidyverse gives us a nice tool called <code>distinct</code> that will basically delete rows between objects. Here, I’ve taken the song, the global key signature, and the time signature and asked for it to look for distinct ones. As every file is names something different, it means I’ll get one per song (this would change if I wasn’t looking at <em>global</em> key signatures).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">distinct</span>(song, globalkey, timesig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 song globalkey timesig
+               &lt;char&gt;    &lt;char&gt;  &lt;char&gt;
+ 1: n01.harmonies.tsv         G     2/4
+ 2: n02.harmonies.tsv         D     3/4
+ 3: n03.harmonies.tsv         b     2/4
+ 4: n04.harmonies.tsv         D     2/4
+ 5: n05.harmonies.tsv         D     2/4
+ 6: n06.harmonies.tsv         A     3/4
+ 7: n07.harmonies.tsv     FALSE     4/4
+ 8: n08.harmonies.tsv     FALSE     2/4
+ 9: n09.harmonies.tsv         C     3/4
+10: n10.harmonies.tsv        g#     2/8
+11: n11.harmonies.tsv         e     2/4
+12: n12.harmonies.tsv         e     2/4
+13: n13.harmonies.tsv         G     4/4</code></pre>
+</div>
+</div>
+<p>I actually find it a bit better to define a variable and then run a table on it, like so:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">distinct</span>(song, globalkey, timesig) </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(x<span class="sc">$</span>globalkey, x<span class="sc">$</span>timesig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       
+        2/4 2/8 3/4 4/4
+  A       0   0   1   0
+  b       1   0   0   0
+  C       0   0   1   0
+  D       2   0   1   0
+  e       2   0   0   0
+  FALSE   1   0   0   1
+  G       1   0   0   1
+  g#      0   1   0   0</code></pre>
+</div>
+</div>
+<p>So here we can see that there is only one piece in C major, and it is in 3/4, 2 pieces in E-minor, and there are both in 2/4, <em>etc.</em></p>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># instead of distinct, we can just use Pandas' drop_duplicates function.</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> combined_data.drop_duplicates(subset<span class="op">=</span>[<span class="st">'song'</span>, <span class="st">'globalkey'</span>, <span class="st">'timesig'</span>])</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># intead of table, we can use "crosstab"</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>my_table <span class="op">=</span> pd.crosstab(x[<span class="st">'globalkey'</span>], x[<span class="st">'timesig'</span>])</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>timesig    2/4  2/8  3/4  4/4
+globalkey                    
+A            0    0    1    0
+C            0    0    1    0
+D            2    0    1    0
+F            1    0    0    1
+G            1    0    0    1
+b            1    0    0    0
+e            2    0    0    0
+g#           0    1    0    0</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="cadence-types" class="level2">
+<h2 class="anchored" data-anchor-id="cadence-types">Cadence Types</h2>
+<p>The dataset also provides us with annotations of cadences in each song. There are a few different types of cadences:</p>
+<ol type="1">
+<li>Perfect Authentic Cadences</li>
+<li>Imperfect Authentic Cadences</li>
+<li>Half Cadences</li>
+<li>Evaded Cadences</li>
+<li>Deceptive Cadences</li>
+<li>Plagal Cadences</li>
+</ol>
+<p>Each of these is written as an abbreviation: PAC, IAC, <em>etc.</em>. Each of them is labeled with a “C” at the end, so I just decided to filter for lines that had that, which return the onset of the cadence.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Python</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<p>The code below usees tools we’ve already seen before:</p>
+<ol type="1">
+<li>Filter and grep grabs everything from the cadence column that ends with a “C”.</li>
+<li>The select only grabs the columns I want (here the filename and the cadence column)</li>
+<li>I then count all the cadences</li>
+<li>I use <code>mutate</code> from the tidyverse to create a percentage column.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"C"</span>, cadence)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(song, cadence) <span class="sc">|&gt;</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">group_by</span>(song) <span class="sc">|&gt;</span> </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">count</span>(cadence, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">percentage =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 27 × 4
+# Groups:   song [13]
+   song              cadence     n percentage
+   &lt;chr&gt;             &lt;chr&gt;   &lt;int&gt;      &lt;dbl&gt;
+ 1 n11.harmonies.tsv HC          7       77.8
+ 2 n12.harmonies.tsv HC          6       85.7
+ 3 n06.harmonies.tsv PAC         5      100  
+ 4 n02.harmonies.tsv IAC         4       40  
+ 5 n02.harmonies.tsv PAC         4       40  
+ 6 n03.harmonies.tsv PAC         4       66.7
+ 7 n04.harmonies.tsv HC          4       66.7
+ 8 n08.harmonies.tsv IAC         4       50  
+ 9 n08.harmonies.tsv PAC         4       50  
+10 n10.harmonies.tsv HC          4       50  
+# ℹ 17 more rows</code></pre>
+</div>
+</div>
+<p>So this tells us some interesting information! Number 11 seems full of half cadences! Number 6 only has perfect authentic cadences (which is kind of strange!).</p>
+<p>What if I’m actually interested in the metric placement of these cadences?</p>
+<p>In these annotations, “0” means the downbeat, and the fractions (I think?) are distance from that downbeat.</p>
+<p>So we could group by cadence type, and add the <code>mn_onset</code> data if we’re interested in cross-referencing the onset data with the cadence type, we get some interesting information!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">"C"</span>, cadence)) <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">select</span>(cadence, mn_onset) <span class="sc">|&gt;</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">group_by</span>(cadence) <span class="sc">|&gt;</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">count</span>(cadence, mn_onset, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">percentage =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 15 × 4
+# Groups:   cadence [4]
+   cadence mn_onset     n percentage
+   &lt;chr&gt;   &lt;chr&gt;    &lt;int&gt;      &lt;dbl&gt;
+ 1 HC      1/4         19      57.6 
+ 2 PAC     1/4         17      54.8 
+ 3 PAC     0           10      32.3 
+ 4 IAC     0            8      57.1 
+ 5 IAC     1/4          5      35.7 
+ 6 PAC     1/2          4      12.9 
+ 7 HC      0            3       9.09
+ 8 HC      7/16         3       9.09
+ 9 HC      1/2          2       6.06
+10 HC      3/16         2       6.06
+11 HC      3/8          2       6.06
+12 EC      0            1     100   
+13 HC      1/8          1       3.03
+14 HC      3/4          1       3.03
+15 IAC     3/4          1       7.14</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows where 'cadence' contains 'C'</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>cadences <span class="op">=</span> combined_data[combined_data[<span class="st">'cadence'</span>].<span class="bu">str</span>.contains(<span class="st">'C'</span>, na<span class="op">=</span><span class="va">False</span>)]</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Select only 'song' and 'cadence' columns</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>selected_columns <span class="op">=</span> cadences[[<span class="st">'song'</span>, <span class="st">'cadence'</span>]]</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by 'song' and 'cadence', count occurrences, and reset index</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>grouped_data <span class="op">=</span> selected_columns.groupby([<span class="st">'song'</span>, <span class="st">'cadence'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'n'</span>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort values by count in descending order</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>df_sorted <span class="op">=</span> grouped_data.sort_values(<span class="st">'n'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co"># getting the percentage</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co"># note that I'm using similar functions as with tidyverse!</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>df_result <span class="op">=</span> df_sorted.copy()</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>df_result[<span class="st">'total'</span>] <span class="op">=</span> df_result.groupby(<span class="st">'song'</span>)[<span class="st">'n'</span>].transform(<span class="st">'sum'</span>)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>df_result[<span class="st">'percentage'</span>] <span class="op">=</span> (df_result[<span class="st">'n'</span>] <span class="op">/</span> df_result[<span class="st">'total'</span>]) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>df_result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 song cadence  n  total  percentage
+20  n11.harmonies.tsv      HC  7      9   77.777778
+23  n12.harmonies.tsv      HC  6      7   85.714286
+10  n06.harmonies.tsv     PAC  5      5  100.000000
+18  n10.harmonies.tsv      HC  4      8   50.000000
+2   n02.harmonies.tsv     IAC  4     10   40.000000
+3   n02.harmonies.tsv     PAC  4     10   40.000000
+5   n03.harmonies.tsv     PAC  4      6   66.666667
+6   n04.harmonies.tsv      HC  4      6   66.666667
+19  n10.harmonies.tsv     PAC  4      8   50.000000
+14  n08.harmonies.tsv     IAC  4      8   50.000000
+15  n08.harmonies.tsv     PAC  4      8   50.000000
+0   n01.harmonies.tsv     IAC  3      3  100.000000
+8   n05.harmonies.tsv      HC  3      4   75.000000
+11  n07.harmonies.tsv      HC  3      6   50.000000
+24  n13.harmonies.tsv      HC  2      5   40.000000
+21  n11.harmonies.tsv     PAC  2      9   22.222222
+13  n07.harmonies.tsv     PAC  2      6   33.333333
+1   n02.harmonies.tsv      HC  2     10   20.000000
+7   n04.harmonies.tsv     PAC  2      6   33.333333
+4   n03.harmonies.tsv      HC  2      6   33.333333
+26  n13.harmonies.tsv     PAC  2      5   40.000000
+17  n09.harmonies.tsv     PAC  1      2   50.000000
+16  n09.harmonies.tsv     IAC  1      2   50.000000
+12  n07.harmonies.tsv     IAC  1      6   16.666667
+9   n05.harmonies.tsv     PAC  1      4   25.000000
+22  n12.harmonies.tsv      EC  1      7   14.285714
+25  n13.harmonies.tsv     IAC  1      5   20.000000</code></pre>
+</div>
+</div>
+<p>So this tells us some interesting information! Number 11 seems full of half cadences! Number 6 only has perfect authentic cadences (which is kind of strange!).</p>
+<p>What if I’m actually interested in the metric placement of these cadences?</p>
+<p>In these annotations, “0” means the downbeat, and the fractions (I think?) are distance from that downbeat.</p>
+<p>So we could group by cadence type, and add the <code>mn_onset</code> data if we’re interested in cross-referencing the onset data with the cadence type, we get some interesting information!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows where 'cadence' contains 'C', note that I just get rid of NAs here.</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>cadences <span class="op">=</span> combined_data[combined_data[<span class="st">'cadence'</span>].<span class="bu">str</span>.contains(<span class="st">'C'</span>, na<span class="op">=</span><span class="va">False</span>)]</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Select only 'song' and 'cadence' columns</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>selected_columns <span class="op">=</span> cadences[[<span class="st">'mn_onset'</span>, <span class="st">'cadence'</span>]]</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by 'song' and 'cadence', count occurrences, and reset index</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>grouped_data <span class="op">=</span> selected_columns.groupby([<span class="st">'mn_onset'</span>, <span class="st">'cadence'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'n'</span>)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort values by count in descending order</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>df_sorted <span class="op">=</span> grouped_data.sort_values(<span class="st">'n'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co"># getting the percentage</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co"># note that I'm using similar functions as with tidyverse!</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>df_result <span class="op">=</span> df_sorted.copy()</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>df_result[<span class="st">'total'</span>] <span class="op">=</span> df_result.groupby(<span class="st">'cadence'</span>)[<span class="st">'n'</span>].transform(<span class="st">'sum'</span>)</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>df_result[<span class="st">'percentage'</span>] <span class="op">=</span> (df_result[<span class="st">'n'</span>] <span class="op">/</span> df_result[<span class="st">'total'</span>]) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>df_result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   mn_onset cadence   n  total  percentage
+6       1/4      HC  19     33   57.575758
+8       1/4     PAC  17     31   54.838710
+3         0     PAC  10     31   32.258065
+2         0     IAC   8     14   57.142857
+7       1/4     IAC   5     14   35.714286
+5       1/2     PAC   4     31   12.903226
+1         0      HC   3     33    9.090909
+14     7/16      HC   3     33    9.090909
+4       1/2      HC   2     33    6.060606
+10     3/16      HC   2     33    6.060606
+13      3/8      HC   2     33    6.060606
+0         0      EC   1      1  100.000000
+9       1/8      HC   1     33    3.030303
+11      3/4      HC   1     33    3.030303
+12      3/4     IAC   1     14    7.142857</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="using-dcmls-harmonic-representations" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="using-dcmls-harmonic-representations">Using DCML’s Harmonic Representations</h2>
+<p>The harmonic representations in the DCML corpus are notated in a couple of ways. There’s:</p>
+<ol type="1">
+<li>a chord label</li>
+<li>a roman numeral</li>
+<li>a figured bass notation</li>
+<li>a bass note</li>
+<li>a root note</li>
+<li>all chord tones present</li>
+<li>chord types (major, minor, <em>etc.</em>)</li>
+</ol>
+<p>For now, let’s just use Roman numerals to explore progressions in the corpus.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset page-columns page-full">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">R</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">Python</a></li></ul>
+<div class="tab-content page-columns page-full">
+<div id="tabset-4-1" class="tab-pane active page-columns page-full" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<p>We can use all of our previous tools to just count the top chord progression. Here we use <code>select</code>, <code>mutate</code>, <code>lead</code>, and <code>count</code>. Again, the select tool grabs the column, the mutate tool in combination with the lead tool gets us bigrams, adn the count gives us a total count of the combination.</p>
+<p>The <code>head</code> function is just grabbing the top of the list to show (just for clarity’s sake here).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">select</span>(numeral) <span class="sc">|&gt;</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">next_numeral =</span> <span class="fu">lead</span>(numeral)) <span class="sc">|&gt;</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">count</span>(numeral, next_numeral) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   numeral next_numeral     n
+    &lt;char&gt;       &lt;char&gt; &lt;int&gt;
+1:    #vii         #vii     6
+2:    #vii            V     3
+3:    #vii            i     8
+4:    #vii           ii     3
+5:    #vii          iii     4
+6:    #vii           vi     4</code></pre>
+</div>
+</div>
+<p>I could get a bit more specific by looking at only downbeats by adding a filter for “0”:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a> df <span class="sc">|&gt;</span> <span class="fu">filter</span>(mn_onset <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> <span class="fu">select</span>(numeral) <span class="sc">|&gt;</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">next_numeral =</span> <span class="fu">lead</span>(numeral)) <span class="sc">|&gt;</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">count</span>(numeral, next_numeral) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   numeral next_numeral     n
+    &lt;char&gt;       &lt;char&gt; &lt;int&gt;
+1:    #vii         #vii     3
+2:    #vii            I     4
+3:    #vii            V     2
+4:    #vii            i     2
+5:       I            I    18
+6:       I           IV    10</code></pre>
+</div>
+</div>
+<p>We could get fancier still by turning our code into a function. Here I’ve added a function declaration with three arguments: the data frame, the beat strength, and whether I want to calculate the percentage.</p>
+<p>Note that whether I calculate the percentage is governed by a conditional if/else statement.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>harmonic_bigrams <span class="ot">&lt;-</span> <span class="cf">function</span>(data, <span class="at">beat_strength=</span><span class="dv">0</span>, <span class="at">percentage=</span><span class="cn">FALSE</span>){</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">### my default is false, just the raw counts.</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(percentage <span class="sc">==</span> <span class="cn">FALSE</span>){</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    df_count <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">filter</span>(mn_onset <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> <span class="fu">select</span>(numeral) <span class="sc">|&gt;</span> </span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">next_numeral =</span> <span class="fu">lead</span>(numeral)) <span class="sc">|&gt;</span> </span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">count</span>(numeral, next_numeral)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="do">## otherwise, give me a percentage!</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span>{</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    df_count <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">filter</span>(mn_onset <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> <span class="fu">select</span>(numeral) <span class="sc">|&gt;</span> </span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">next_numeral =</span> <span class="fu">lead</span>(numeral)) <span class="sc">|&gt;</span> </span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">count</span>(numeral, next_numeral) <span class="sc">|&gt;</span> <span class="fu">group_by</span>(numeral) <span class="sc">|&gt;</span> </span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">percentage =</span> <span class="fu">round</span>(n <span class="sc">/</span> <span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>, <span class="at">digits=</span><span class="dv">2</span>)) </span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(df_count)</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>bigram_data <span class="ot">&lt;-</span> <span class="fu">harmonic_bigrams</span>(<span class="at">data=</span>df, <span class="at">percentage=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Once I’ve <code>defined that function</code> by running it, I can call it with my data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>bigram_data <span class="ot">&lt;-</span> <span class="fu">harmonic_bigrams</span>(<span class="at">data=</span>df, <span class="at">percentage=</span><span class="cn">TRUE</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>bigram_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 68 × 4
+# Groups:   numeral [15]
+   numeral next_numeral     n percentage
+   &lt;chr&gt;   &lt;chr&gt;        &lt;int&gt;      &lt;dbl&gt;
+ 1 #vii    #vii             3      27.3 
+ 2 #vii    I                4      36.4 
+ 3 #vii    V                2      18.2 
+ 4 #vii    i                2      18.2 
+ 5 I       I               18      19.4 
+ 6 I       IV              10      10.8 
+ 7 I       V               47      50.5 
+ 8 I       i                4       4.3 
+ 9 I       ii               4       4.3 
+10 I       iii              1       1.08
+# ℹ 58 more rows</code></pre>
+</div>
+</div>
+<p>Here, I’ve put it into a variable in case I want to use it later.</p>
+<section id="plotting-the-data" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="plotting-the-data">Plotting the data</h3>
+<p>Here, I’ve created another function, this time plotting a matrix of either raw count of percentage. Note that I’m using another conditional here. The main difference between the two conditions is whether I use “n” or “percentage” as the fill.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>matrix_plotter <span class="ot">&lt;-</span> <span class="cf">function</span>(data_for_matrix, <span class="at">pct=</span><span class="cn">FALSE</span>){</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(pct<span class="sc">==</span><span class="cn">FALSE</span>){</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(data_for_matrix, <span class="fu">aes</span>(<span class="at">x =</span> next_numeral, <span class="at">y =</span> numeral, <span class="at">fill =</span> n)) <span class="sc">+</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">"white"</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">linetype =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> n), <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_fixed</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()}</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>   <span class="cf">else</span>{</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ggplot</span>(data_for_matrix, <span class="fu">aes</span>(<span class="at">x =</span> next_numeral, <span class="at">y =</span> numeral, <span class="at">fill =</span> percentage)) <span class="sc">+</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">"white"</span>,</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>                <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>                <span class="at">linetype =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">as.numeric</span>(percentage)), <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">coord_fixed</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()}</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="column-page quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix_plotter</span>(bigram_data, <span class="at">pct=</span>F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week_3_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix_plotter</span>(bigram_data, <span class="at">pct=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week_3_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+<p>Note how we might interpret meaning a bit differently based on whether we normalize the percentages of the chords.</p>
+</section>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<p>We can use all of our previous tools to just count the top chord progression. Here we use various elements of <code>Pandas</code>, including <code>groupby</code>, <em>etc.</em> Notice that we are using <code>shift</code> in place of <code>lead</code> in Tidyverse.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">### just grabbing the select column.</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>combined_data_selected <span class="op">=</span> combined_data[[<span class="st">'numeral'</span>]]</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># note that we can use shift here instead of lead.</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>combined_data_selected[<span class="st">'next_numeral'</span>] <span class="op">=</span> combined_data_selected[<span class="st">'numeral'</span>].shift(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by 'numeral' and 'next_numeral', count occurrences</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>/Users/danielshanahan/Library/r-miniconda/envs/r-reticulate/bin/python:1: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>df_grouped <span class="op">=</span> combined_data_selected.groupby([<span class="st">'numeral'</span>, <span class="st">'next_numeral'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'n'</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_grouped)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   numeral next_numeral   n
+0     #vii         #vii   6
+1     #vii            V   3
+2     #vii            i   8
+3     #vii           ii   3
+4     #vii          iii   4
+..     ...          ...  ..
+71     vii           IV   4
+72     vii            V  23
+73     vii           ii   1
+74     vii           iv   1
+75     vii          vii   2
+
+[76 rows x 3 columns]</code></pre>
+</div>
+</div>
+<p>Like with the R code, we can make it a bit fancier:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">### just grabbing the select column.</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>combined_data_selected <span class="op">=</span> combined_data[combined_data[<span class="st">'mn_onset'</span>] <span class="op">==</span> <span class="st">"0"</span>][[<span class="st">'numeral'</span>]]</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># note that we can use shift here instead of lead.</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>combined_data_selected[<span class="st">'next_numeral'</span>] <span class="op">=</span> combined_data_selected[<span class="st">'numeral'</span>].shift(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by 'numeral' and 'next_numeral', count occurrences</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>df_grouped <span class="op">=</span> combined_data_selected.groupby([<span class="st">'numeral'</span>, <span class="st">'next_numeral'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'n'</span>)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_grouped)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   numeral next_numeral   n
+0     #vii         #vii   3
+1     #vii            I   4
+2     #vii            V   2
+3     #vii            i   2
+4        I            I  17
+..     ...          ...  ..
+58     vii         #vii   1
+59     vii            I   1
+60     vii            V   2
+61     vii           ii   2
+62     vii          vii   2
+
+[63 rows x 3 columns]</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> harmonic_bigrams(df, beat_strength<span class="op">=</span><span class="dv">0</span>, percentage<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">""" </span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Filter rows where mn_onset is 0 and select 'numeral' column</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co">    For some reason 0 is numeric in R, but in Python it is actually</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="co">    in quotes? I'm not really sure why.</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    df_filtered <span class="op">=</span> df[df[<span class="st">'mn_onset'</span>] <span class="op">==</span> <span class="st">"0"</span>][[<span class="st">'numeral'</span>]]</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create the 'next_numeral' column by shifting the 'numeral' column</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    df_filtered[<span class="st">'next_numeral'</span>] <span class="op">=</span> df_filtered[<span class="st">'numeral'</span>].shift(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># count everything up with the N.</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>    df_count <span class="op">=</span> df_filtered.groupby([<span class="st">'numeral'</span>, <span class="st">'next_numeral'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'n'</span>)</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">### notice that this is actually a bit more elegant than the R code?</span></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> percentage:</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calculate percentage if percentage is True</span></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>        df_count[<span class="st">'percentage'</span>] <span class="op">=</span> <span class="bu">round</span>(df_count[<span class="st">'n'</span>] <span class="op">/</span> df_count.groupby(<span class="st">'numeral'</span>)[<span class="st">'n'</span>].transform(<span class="st">'sum'</span>) <span class="op">*</span> <span class="dv">100</span>, <span class="dv">2</span>)</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df_count</span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a><span class="co"># using my function...</span></span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>bigram_data <span class="op">=</span> harmonic_bigrams(df<span class="op">=</span>combined_data, percentage<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(bigram_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   numeral next_numeral   n  percentage
+0     #vii         #vii   3       27.27
+1     #vii            I   4       36.36
+2     #vii            V   2       18.18
+3     #vii            i   2       18.18
+4        I            I  17       19.32
+..     ...          ...  ..         ...
+58     vii         #vii   1       12.50
+59     vii            I   1       12.50
+60     vii            V   2       25.00
+61     vii           ii   2       25.00
+62     vii          vii   2       25.00
+
+[63 rows x 4 columns]</code></pre>
+</div>
+</div>
+<p>This code does the same as the R code, but the Quarto web framework isn’t really letting me plot Seaborn plots for some reason.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> matrix_plotter(data_for_matrix, pct<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> pct:</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Plot for counts</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>        heatmap <span class="op">=</span> sns.heatmap(data_for_matrix.pivot(<span class="st">'numeral'</span>, <span class="st">'next_numeral'</span>, <span class="st">'n'</span>),</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>                              annot<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>                              fmt<span class="op">=</span><span class="st">'d'</span>, </span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>                              cmap<span class="op">=</span><span class="st">'Blues'</span>, </span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>                              linewidths<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>                              cbar_kws<span class="op">=</span>{<span class="st">'label'</span>: <span class="st">'Count'</span>})</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Plot for percentages</span></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>        heatmap <span class="op">=</span> sns.heatmap(data_for_matrix.pivot(<span class="st">'numeral'</span>, <span class="st">'next_numeral'</span>, <span class="st">'percentage'</span>),</span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>                              annot<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>                              fmt<span class="op">=</span><span class="st">'.2f'</span>, </span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>                              cmap<span class="op">=</span><span class="st">'Blues'</span>, </span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>                              linewidths<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>                              cbar_kws<span class="op">=</span>{<span class="st">'label'</span>: <span class="st">'Percentage'</span>})</span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'Matrix Plot'</span>)</span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Next Numeral'</span>)</span>
+<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Numeral'</span>)</span>
+<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb35-29"><a href="#cb35-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Adjust the aspect ratio to make it square</span></span>
+<span id="cb35-30"><a href="#cb35-30" aria-hidden="true" tabindex="-1"></a>    plt.gca().set_aspect(<span class="st">'equal'</span>, <span class="st">'box'</span>)</span>
+<span id="cb35-31"><a href="#cb35-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb35-32"><a href="#cb35-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Set the theme to be similar to theme_bw() in R</span></span>
+<span id="cb35-33"><a href="#cb35-33" aria-hidden="true" tabindex="-1"></a>    sns.set_style(<span class="st">"whitegrid"</span>)</span>
+<span id="cb35-34"><a href="#cb35-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb35-35"><a href="#cb35-35" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb35-36"><a href="#cb35-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-37"><a href="#cb35-37" aria-hidden="true" tabindex="-1"></a>matrix_plotter(bigram_data, pct<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/seaborn_harmony_matrix.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">A Matrix generated from Python of Percentages</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="classifying-larger-progressions" class="level2">
+<h2 class="anchored" data-anchor-id="classifying-larger-progressions">Classifying larger progressions</h2>
+<p>In R, we can use the <code>case_when</code> tool to classify chords, as well.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>stability <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(song, numeral) <span class="sc">|&gt;</span> </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">stable =</span> <span class="fu">case_when</span>(</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    numeral <span class="sc">==</span> <span class="st">"V"</span> <span class="sc">~</span> <span class="st">"unstable"</span>,</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    numeral <span class="sc">==</span> <span class="st">"vii"</span> <span class="sc">~</span> <span class="st">"unstable"</span>,</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    numeral <span class="sc">==</span> <span class="st">"III"</span> <span class="sc">~</span> <span class="st">"stable"</span>,</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    numeral <span class="sc">==</span> <span class="st">"vi"</span> <span class="sc">~</span> <span class="st">"stable"</span>,</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    numeral <span class="sc">==</span> <span class="st">"ii"</span> <span class="sc">~</span> <span class="st">"in motion"</span>,</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    numeral <span class="sc">==</span> <span class="st">"iv"</span> <span class="sc">~</span> <span class="st">"in motion"</span>,</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    numeral <span class="sc">==</span> <span class="st">"IV"</span> <span class="sc">~</span> <span class="st">"in motion"</span>,</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    numeral <span class="sc">==</span> <span class="st">"v"</span> <span class="sc">~</span> <span class="st">"unstable"</span>,</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    numeral <span class="sc">==</span> <span class="st">"I"</span> <span class="sc">~</span> <span class="st">"stable"</span>,</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"other"</span>  <span class="co"># This catches all other cases</span></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>stability <span class="sc">|&gt;</span> <span class="fu">select</span>(stable) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">stable2 =</span> <span class="fu">lead</span>(stable)) <span class="sc">|&gt;</span> </span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(stable, stable2, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percentage =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       stable   stable2     n percentage
+       &lt;char&gt;    &lt;char&gt; &lt;int&gt;      &lt;num&gt;
+ 1:  unstable  unstable   220 23.2067511
+ 2:  unstable    stable   134 14.1350211
+ 3:    stable  unstable   103 10.8649789
+ 4: in motion  unstable    91  9.5991561
+ 5:  unstable     other    66  6.9620253
+ 6:    stable    stable    58  6.1181435
+ 7:    stable in motion    46  4.8523207
+ 8:     other  unstable    41  4.3248945
+ 9:     other     other    38  4.0084388
+10:  unstable in motion    35  3.6919831
+11: in motion in motion    30  3.1645570
+12:     other in motion    28  2.9535865
+13:     other    stable    21  2.2151899
+14:    stable     other    18  1.8987342
+15: in motion    stable    12  1.2658228
+16: in motion     other     6  0.6329114
+17:    stable      &lt;NA&gt;     1  0.1054852</code></pre>
+</div>
+</div>
+<p>In Python, it might be best to do with conditionals?</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../class_notes/week_2.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Week 2: Melodic and Harmonic Intervals</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../class_notes/week_4.html" class="pagination-link">
+        <span class="nav-page-text">Week 4: Conceptual Debates (Key-Finding, Entropy, etc.)</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">© Copyright 2024, Daniel Shanahan</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>

@@ -1,0 +1,547 @@
+---
+title: "Week 6: Regression and Clustering"
+---
+
+---
+title: "Week 5: Regression and Clustering"
+---
+
+```{r, echo=FALSE, message=FALSE}
+library(spotifyr)
+library(compmus)
+library(tidyverse)
+
+access_token <- get_spotify_access_token()
+```
+
+
+# Plan for the Week
+
+This week, we will be going over:
+
+- testing some basic hypotheses of continuous data with linear regression
+- testing some basic hypotheses of categorical data with logistic regressions
+- evaluating model fits
+
+# Testing a Hypothesis with Continuous Data
+
+Although we've spent a fair bit of time going over the mechanics of the Spotify data, and how to extract information from it, we haven't spent much time actually discussing testing hypotheses with your data. As many of you are doing hypothesis-based work for your final project, it might be a good time to step back and look some approaches to this.
+
+# Hypothesis 1: Do Billy Joel's Songs Get Slower Over Time?
+
+I think that Billy Joel's songs are getting slower over time. Let's test it.
+
+We'll start by grabbing our data. The spotify API seems to have changed recently, which broke the `get_artist_audio_features` function in `spotifyR`. Note how I had to fix it with the less-than-ideal artist URI.
+```{r}
+billy_joel <- get_artist_audio_features('6zFYqv1mOsgBRQbae3JJ9e')
+```
+
+## Looking at tempo over time
+
+We can start by eyeballing the data. Here is how we'd do it with base R (no ggplot/tidyverse):
+
+```{r}
+plot(tempo ~ album_release_year, data=billy_joel)
+abline(lm(tempo ~ album_release_year, data=billy_joel), col="red")
+```
+
+If we'd like to use `ggplot` it can give us some confidence bars (the default here is a 95% confidence interval):
+
+```{r}
+ggplot(billy_joel, aes(album_release_year, tempo) ) + geom_point() +
+  stat_smooth(method = lm) +
+  theme_bw()
+```
+
+So it looks promising. We can run a linear regression with a simple `lm` command. Here we can get a `summary` of the model pretty easily, as well.
+
+```{r}
+summary(lm(tempo ~ album_release_year, data=billy_joel))
+```
+
+So, as we can see from the results here, it's not significant (p > .001), but it really doesn't account for much of the variance (an adjusted R-squared of -.0004).
+
+### Post-Hoc Analyses
+
+Perhaps we can look at how other variables might be predictive of the year of the recording. 
+
+Let's look at how tempo, danceability, valence, speechiness, and energy might improve the model. 
+
+```{r}
+summary(lm(album_release_year ~ tempo + danceability + valence + speechiness + energy, data=billy_joel))
+```
+
+So we have a more predictive model, with an adjusted R-squared of about .32. 
+
+There are some remaining questions, however. Firstly, is there covariance at play?
+
+We can use the variance inflation factor (VIF) to look at this. Typically, each variable should be less than 5. 
+
+```{r}
+library(car)
+billy_joel_model <- lm(album_release_year ~ tempo + danceability + valence + speechiness + energy, data=billy_joel)
+vif(billy_joel_model)
+```
+
+A correlation plot can help us to visualize this a bit more.
+
+```{r}
+library(corrplot)
+
+piano_man <- billy_joel |> 
+    select(c("acousticness", "liveness", "danceability", "loudness", "speechiness", "valence"))
+  x <- as.matrix(cor(piano_man))
+  round(x, 2)
+  corrplot(x, method="pie")
+```
+
+## Sidenote: Is/Are the data normal?
+
+We can test to see if the tempo data is normally distributed:
+```{r}
+qqnorm(billy_joel$tempo)
+hist(billy_joel$tempo)
+shapiro.test(billy_joel$tempo)
+ks.test(billy_joel$tempo, "pnorm")
+```
+
+At the moment, it doesn't seem to be...
+
+## Stepwise Entry Regression
+
+```{r}
+summary(step(lm(album_release_year ~ danceability + 
+          tempo + acousticness + 
+          speechiness + valence, data=billy_joel), 
+     direction="backward"))
+
+summary(step(lm(album_release_year ~ danceability + 
+          tempo + acousticness + 
+          speechiness + valence, data=billy_joel), 
+     direction="forward"))
+
+```
+
+## Comparing Fits:
+We could construct a few models
+But how can we tell which of these is more predictable? For this, we can look at **Akaike's ‘An Information Criterion’**(or AIC). The lower number is better, and any difference of more than 2 is considered a statistically significant difference fit.
+
+```{r}
+dance_model <- lm(danceability ~ album_release_year, data=billy_joel)
+acoustic_model <- lm(acousticness ~ album_release_year, data=billy_joel)
+speech_model <- lm(speechiness ~ album_release_year, data=billy_joel)
+valence_model <- lm(valence ~ album_release_year, data=billy_joel)
+tempo_model <- lm(tempo ~ album_release_year, data=billy_joel)
+combined_model <- lm(album_release_year ~ tempo + acousticness + speechiness + valence, data=billy_joel)
+
+
+AIC(dance_model, 
+    acoustic_model, 
+    tempo_model,
+    speech_model, 
+    valence_model, 
+    combined_model)
+```
+
+The combined model doesn't seem to do terribly well here, which seems to muddy the question up a bit. There are some interesting points here with tempo, valence, acoustic, and speech, though.
+
+## Is a linear model the best approach?
+
+We can adjust how we are viewing this data (linear or polynomial fit) a bit with the code below. Here we can plot our data as a line:
+```{r}
+
+ggplot(billy_joel, aes(album_release_year, tempo) ) + geom_point() +
+  stat_smooth(method = lm, formula = y ~ poly(x, 1, raw = TRUE)) +
+  theme_bw()
+```
+
+And here we have it as a second order polynomial:
+```{r}
+ggplot(billy_joel, aes(album_release_year, tempo) ) + geom_point() +
+  stat_smooth(method = lm, formula = y ~ poly(x, 2, raw = TRUE)) +
+  theme_bw()
+```
+
+
+And we can compare fits here:
+```{r}
+linear <- lm(album_release_year ~ tempo, data = billy_joel)
+poly_2 <- lm(album_release_year ~ tempo + I(album_release_year^2), data = billy_joel)
+
+AIC(linear, 
+    poly_2)
+```
+
+So it looks like a polynomial fit is a better one, but still isn't that great.
+
+## Predicting a categorical variable
+
+What does it look like to predict a categorical variable in R? We might explore this question by hypothesizing that musical features might be predictive of mode (labeled in Spotify as major or minor: 1 or 0).
+
+Here is what a binomial logistic regression would look like:
+```{r}
+billy_joel.log <- glm(mode ~ tempo + danceability + valence +
+                     speechiness + acousticness, family = binomial, data = billy_joel)
+```
+
+And it looks like "speechiness" is the most predictive of mode here.
+```{r}
+summary(billy_joel.log)
+```
+
+We can plot the log odds ratios as well:
+```{r}
+CI <- exp(confint(billy_joel.log))[-1,]
+sjPlot::plot_model(billy_joel.log,
+                   axis.lim = c(min(CI), max(CI)),
+                   auto.label = F,
+                   show.values = T) +
+                   theme_bw()
+```
+
+
+# Wednesday
+
+## Clustering
+
+Cluster analysis is a form of statistical data analysis in which
+subsets (called "clusters") are formed according to some notion of
+similarity. There are many different variants of cluster analysis, but
+most are hierarchical--in which low-level clusters are successively
+joined together to make larger clusters, and so on, until everything
+is clustered into one large group. The result is a cluster tree or
+*dendrogram*.
+
+### How does the R hclust function work?
+
+The **hclust** function is part of the default package in R, and it clusters based on dissimilarities in the data. There are different algorithms it can use, but the default is [Ward's minimum variance](https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/hclust). It requires some distance to be calculated first, so the [_dist_](https://www.rdocumentation.org/packages/stats/versions/3.5.3/topics/dist) function is used on the data. Again there are many options here, but the default is to simply calculate the Euclidean distance between the values.
+
+The documentation states:
+
+> This function performs a hierarchical cluster analysis using a set of 
+> dissimilarities for the *n* objects being clustered. Initially, each object is 
+> assigned to its own cluster and then the algorithm proceeds iteratively, at each 
+> stage joining the two most similar clusters, continuing until there is just a 
+> single cluster. At each stage distances between clusters are recomputed by the 
+> Lance–Williams dissimilarity update formula according to the particular 
+> clustering method being used.
+
+
+The default is Ward's minimum variance method, which:
+
+> aims at finding compact, spherical clusters. The complete linkage method 
+> finds similar clusters. 
+
+Another method is the "single linkage method". 
+
+> The single linkage method (which is closely related to 
+> the minimal spanning tree) adopts a ‘friends of friends’ clustering strategy. 
+> The other methods can be regarded as aiming for clusters with characteristics 
+> somewhere between the single and complete link methods. Note however, that 
+> methods "median" and "centroid" are not leading to a monotone distance measure, 
+> or equivalently the resulting dendrograms can have so called inversions or 
+> reversals which are hard to interpret, but note the trichotomies in Legendre and 
+> Legendre (2012).
+
+
+```{r}
+# cluster demo modified from here: 
+### https://www.r-bloggers.com/2021/04/cluster-analysis-in-r/
+library(tidyverse)
+library(cluster)
+beyonce <- read.csv("../data/beyonce.csv")
+taylor <- read.csv("../data/taylor.csv")
+
+
+df <- beyonce |> 
+  filter(album_name == "4") |>
+  select(c("track_name", "acousticness", "liveness", "danceability", "loudness", "speechiness", "valence"))
+```
+
+```{r}
+df <- df |> distinct(track_name, .keep_all = TRUE)
+
+## cleaning up the data.
+z <- df[,-c(1,1)]
+
+### getting means of each category.
+means <- apply(z,2,mean)
+### getting standard deviation of each category.
+sds <- apply(z,2,sd)
+
+### scales the data in the matrix.
+scaled_data <- scale(z,center=means,scale=sds)
+distance <- dist(scaled_data)
+```
+
+And we can plot the data like this:
+```{r}
+### helps with the size of the image.
+par(mar = c(5, 4, 4, 1))
+
+### creates the cluster
+df.hclust <- hclust(distance)
+
+### plots the data but with row numbers.
+plot(df.hclust)
+```
+
+And we can add the track name like so:
+```{r}
+plot(df.hclust,labels=df$track_name,main='Default from hclust')
+```
+
+We can clean up the plot the be along a single x-axis with the `hang` argument.
+```{r}
+nodePar <- list(lab.cex = 0.6, pch = c(NA, 19), 
+                cex = 0.7, col = "blue")
+plot(df.hclust,hang=-1, labels=df$track_name,main='Default from hclust')
+```
+
+
+## Which track belongs to which cluster?
+It might be helpful with this analysis to look at how each of the songs fits on the tree. We can use the `cutree` function, which "cuts a tree" from the cluster based on how many groups we ask it for.
+
+The following code can tell us how many fall into each broader tree, assuming we think that the tree should be cut into three. Notice that the third branch is the most populous, with the second being the most sparsely populated.
+
+```{r}
+member <- cutree(df.hclust,3)
+table(member)
+```
+
+But how is each category being weighted? The code below shows that acousticness and danceability do a fair bit of work in separating groups 1 and 3, and valence separates 1 and 2 from one another.
+
+```{r}
+##but how are these clusters calculated?
+aggregate(scaled_data,list(member),mean)
+```
+
+A slightly more even split occurs if we break it into four groups rather than three. 
+```{r}
+member <- cutree(df.hclust,4)
+table(member)
+```
+
+And that how they're split into four is a bit different from how we might split them into three, but danceability and acousticness still playing a strong role.
+```{r}
+aggregate(scaled_data,list(member),mean)
+```
+
+
+### K-Means Clustering
+
+We can also run a simple k-means clustering on the data. With this, we are clustering the data into *k* groups. R's documentation explains it like so:
+
+>aims to partition the points into *k* groups such that the sum of squares 
+>from points to the assigned cluster centres is minimized. At the minimum, 
+>all cluster centres are at the mean of their Voronoi sets (the set of data 
+>points which are nearest to the cluster centre).
+
+There are a few algorithms to pick from. R uses the Hartigan and Wong (1979) algorithm by default.
+
+```{r}
+###split it into three groups
+set.seed(123)
+kc <- kmeans(scaled_data,3)
+
+### add labels.
+row.names(scaled_data) <- df$track_name
+
+###get the shortest distance.
+datadistshortset<-dist(scaled_data,method = "euclidean")
+```
+
+The code below will cluster it based on this k-means clustering distance, and plot them into the amount of groups listed (here 3).
+```{r}
+hc1 <- hclust(datadistshortset, method = "complete" )
+pamvshortset <- pam(datadistshortset,3, diss = FALSE)
+
+clusplot(pamvshortset, shade = FALSE,labels=2,col.clus="blue",col.p="red",span=FALSE,main="Cluster Mapping",cex=1.2)
+```
+
+
+
+## Example 1: Looking at Nirvana's _Unplugged in New York_
+
+I'm going to get the global features from Nirvana's _Unplugged in New York_ album:
+
+```{r}
+# Get the album tracks
+album_id <- "1To7kv722A8SpZF789MZy7"  # This is the Spotify ID for "MTV Unplugged In New York"
+
+##get all the tracks.
+album_tracks <- get_album_tracks(album_id)
+
+# Get all of the audo features.
+audio_features <- get_track_audio_features(album_tracks$id)
+
+# combine the tracks with the features.
+nirvana_unplugged <- left_join(album_tracks, audio_features, by = "id")
+```
+
+This gets lots of data, and I'm just interested in their global measures (tempo, danceability, liveness, etc.). Here, I've gone with column number rather than name, but the other version might be a bit easier/cleaner. Nevertheless, this is another way of doing it:
+
+```{r}
+
+### This subsets the data based on only the columns I want.
+nirvana_unplugged_data <- nirvana_unplugged |> 
+  select(danceability, energy, loudness, speechiness, tempo, valence, acousticness, instrumentalness, energy)
+
+### I assign the track name column (30) with the rownames, to have a labeled cluster.
+rownames(nirvana_unplugged_data) <- nirvana_unplugged$name
+```
+
+```{r, warnings=FALSE}
+hc <- hclust(dist(nirvana_unplugged_data), method = "complete", members = NULL)
+plot(hc)
+```
+
+#### Plotting the cluster
+
+Technically, you could just use the plot function at this point, but there are some long title names, so I added these extra plot options to make the text smaller and increase the marins.
+```{r}
+par(cex=0.5, mar=c(5, 8, 4, 1))
+plot(hc, labels =  row.names(nirvana_unplugged_data),xlab="", ylab="", main="", sub="", axes=FALSE)
+par(cex=1)
+title(xlab="tunes", ylab="height", main="Nirvana unplugged")
+axis(2)
+```
+
+This plot is a bit strange now, as we have a pretty big negative number on the y-axis. Nevertheless, we see some cool things. The songs written by the Meat Puppets cluster together, for example.
+
+### k-means clustering
+
+Our next type of clustering analysis is be a **k-means cluster**. We will start off by using a [scree plot](https://en.wikipedia.org/wiki/Scree_plot) to see how many clusters we should use. There are a number of ways of analyzing where an "elbow" on this plot might be, but many people actually just eyeball it.
+
+```{r, warning=FALSE}
+
+titles <- nirvana_unplugged$name
+nirvana_unplugged_data <- scale(nirvana_unplugged_data[,-10]) # standardize variables
+nirvana_unplugged_data <- as.data.frame(nirvana_unplugged_data) # standardize variables
+```
+
+```{r, warning=FALSE}
+# Determine number of clusters
+wss <- (nrow(nirvana_unplugged_data)-1)*sum(apply(nirvana_unplugged_data,2,var))
+
+for (i in 1:8) wss[i] <- sum(kmeans(nirvana_unplugged_data, 
+                                    centers=i)$withinss)
+  plot(1:8, wss, type="b", xlab="Number of Clusters",
+    ylab="Within groups sum of squares")
+```
+
+
+And now we can look at the k-means clustering based on however many clusters we think are necessary.
+```{r, warning=FALSE}
+# K-Means Cluster Analysis
+fit <- kmeans(nirvana_unplugged_data, 3) # 3 cluster solution
+# get cluster means 
+aggregate(nirvana_unplugged_data,by=list(fit$cluster),FUN=mean)
+# append cluster assignment
+unplugged_appended <- data.frame(nirvana_unplugged_data, fit$cluster)
+```
+
+
+```{r}
+rownames(unplugged_appended) = titles
+clusplot(unplugged_appended, fit$cluster, color=TRUE, shade=TRUE, 
+   labels=3, lines=0)
+```
+
+
+
+## Conditional Inference Tree with Party
+
+A conditional inference tree is basically a regression tree, and it tells you exactly how it picks apart the data in a pretty clear way. 
+
+I've always thought that Weezer was a bit derivative, so we might look at how we can separate them other (much better) bands, like Pavement...
+
+```{r, warning=FALSE}
+###gets around the spotify API limitations of 100.
+split_into_chunks <- function(track_ids, chunk_size = 100) {
+  split(track_ids, ceiling(seq_along(track_ids) / chunk_size))
+}
+
+
+
+
+###gets tracks from pavement and weezer albums, and all of their features.
+pavement_albums <- get_artist_albums('3inCNiUr4R6XQ3W43s9Aqi')
+pavement_tracks <- map_df(pavement_albums$id, get_album_tracks)
+
+weezer_albums <- get_artist_albums('3jOstUTkEu2JkjvRdBA5Gu')
+weezer_tracks <- map_df(weezer_albums$id, get_album_tracks)
+
+```
+
+
+```{r, warning=FALSE}
+##splits into chunks and gets the audio data for weezer
+weezer_track_id_chunks <- split_into_chunks(weezer_tracks$id)
+weezer_audio_features_list <- lapply(weezer_track_id_chunks, get_track_audio_features)
+
+##splits into chunks and gets the audio data for pavement
+pavement_track_id_chunks <- split_into_chunks(pavement_tracks$id)
+pavement_audio_features_list <- lapply(pavement_track_id_chunks, get_track_audio_features)
+```
+
+
+```{r, warnings=FALSE}
+# Combine the list of data frames into a single data frame for both artists
+weezer_audio_features <- do.call(rbind, weezer_audio_features_list)
+pavement_audio_features <- do.call(rbind, pavement_audio_features_list)
+
+weezer_data <- left_join(weezer_tracks, weezer_audio_features, by = "id")
+pavement_data <- left_join(pavement_tracks, pavement_audio_features, by = "id")
+pavement_data$artist <- "Pavement"
+weezer_data$artist <- "Weezer"
+
+pavement <- pavement_data |> select(artist, danceability, energy, key, loudness, speechiness, acousticness, instrumentalness, liveness, valence, tempo)
+weezer <- weezer_data |> select(artist, danceability, energy, key, loudness, speechiness, acousticness, instrumentalness, liveness, valence, tempo)
+
+pavement_weezer <-rbind(pavement, weezer)
+pavement_weezer <- as.data.frame(pavement_weezer)
+
+```
+
+Here's a regression tree that tries to account for the variance between deciding whether a piece is from Pavement or Weezer.
+
+```{r, warning=FALSE}
+library(rpart.plot)
+
+# grow tree 
+fit <- rpart(as.factor(artist) ~ danceability + 
+              valence + tempo + liveness,  data=pavement_weezer)
+
+printcp(fit) # display the results 
+plotcp(fit) # visualize cross-validation results 
+summary(fit) # detailed summary of splits
+
+
+# plot tree 
+rpart.plot(fit, uniform=TRUE, 
+   main="Regression Tree for Pavement/Weezer")
+
+```
+
+## Christmas or Not?
+
+```{r}
+christmas <- get_playlist_audio_features("", "5OP7itTh52BMfZS1DJrdlv")
+christmas$christmas <- "yes"
+
+not <- get_playlist_audio_features("", "6i2Qd6OpeRBAzxfscNXeWp")
+not$christmas <- "no"
+christmas_not <-rbind(christmas, not)
+
+fit <- rpart(as.factor(christmas) ~ danceability + valence + tempo + liveness + tempo + mode, data=christmas_not)
+
+# plot tree 
+rpart.plot(fit, uniform=TRUE, 
+   main="Regression Tree for Christmas/Not")
+```
+
+
+```{r}
+table(not$mode)
+```

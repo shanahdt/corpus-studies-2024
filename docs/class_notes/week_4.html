@@ -64,6 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../class_notes/week_5.html" rel="next">
 <link href="../class_notes/week_3.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -203,6 +204,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../class_notes/week_4.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Week 4: Conceptual Debates (Key-Finding, Entropy, etc.)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../class_notes/week_5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5: Practicing with Spotify</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../class_notes/week_6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Week 5: Regression and Clustering</span></a>
   </div>
 </li>
       </ul>
@@ -3847,18 +3860,18 @@ G major (0.897)
 <pre><code># A tibble: 12 × 2
    pitch_class mean_value
    &lt;fct&gt;            &lt;dbl&gt;
- 1 C                0.245
- 2 C#|Db            0.143
+ 1 C                0.249
+ 2 C#|Db            0.144
  3 D                0.184
- 4 D#|Eb            0.168
- 5 E                0.157
- 6 F                0.168
- 7 F#|Gb            0.150
- 8 G                0.227
- 9 G#|Ab            0.149
-10 A                0.156
-11 A#|Bb            0.153
-12 B                0.171</code></pre>
+ 4 D#|Eb            0.170
+ 5 E                0.159
+ 6 F                0.167
+ 7 F#|Gb            0.147
+ 8 G                0.228
+ 9 G#|Ab            0.148
+10 A                0.155
+11 A#|Bb            0.152
+12 B                0.169</code></pre>
 </div>
 </div>
 <p>and once again we can plot it:</p>
@@ -3887,126 +3900,123 @@ G major (0.897)
 </div>
 <p>Once we have that in place, we can create a variable, and then subset it from there. Here, I’m saving the full list, and then creating a major and a minor variable.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>playlist <span class="ot">&lt;-</span> <span class="fu">grab_playlist_info</span>(<span class="st">"37i9dQZF1DX1kCIzMYtzum"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Request failed [502]. Retrying in 1.9 seconds...</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>minor <span class="ot">&lt;-</span> playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">0</span>)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>major <span class="ot">&lt;-</span> playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>playlist <span class="ot">&lt;-</span> <span class="fu">grab_playlist_info</span>(<span class="st">"37i9dQZF1DX1kCIzMYtzum"</span>)  </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>minor <span class="ot">&lt;-</span> playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>major <span class="ot">&lt;-</span> playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>get_pitch_list <span class="ot">&lt;-</span> <span class="cf">function</span>(input){</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>   input <span class="sc">|&gt;</span>     </span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">segments =</span> <span class="fu">map2</span>(segments, key, compmus_c_transpose)) <span class="sc">|&gt;</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>   <span class="do">## grab the segments data and unnest it, then only grabbing the start, duration, and pitches info.</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(segments) <span class="sc">|&gt;</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">unnest</span>(segments) <span class="sc">|&gt;</span> </span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(start, duration, pitches) <span class="sc">|&gt;</span> </span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">pitches =</span> <span class="fu">map</span>(pitches, compmus_normalise, <span class="st">"euclidean"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>   <span class="fu">compmus_gather_chroma</span>() <span class="sc">|&gt;</span></span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(pitch_class) <span class="sc">|&gt;</span></span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>   <span class="fu">summarise</span>(<span class="at">mean_value =</span> <span class="fu">mean</span>(value))</span>
-<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>get_pitch_list <span class="ot">&lt;-</span> <span class="cf">function</span>(input){</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>   input <span class="sc">|&gt;</span>     </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">segments =</span> <span class="fu">map2</span>(segments, key, compmus_c_transpose)) <span class="sc">|&gt;</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>   <span class="do">## grab the segments data and unnest it, then only grabbing the start, duration, and pitches info.</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(segments) <span class="sc">|&gt;</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">unnest</span>(segments) <span class="sc">|&gt;</span> </span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(start, duration, pitches) <span class="sc">|&gt;</span> </span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mutate</span>(<span class="at">pitches =</span> <span class="fu">map</span>(pitches, compmus_normalise, <span class="st">"euclidean"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>   <span class="fu">compmus_gather_chroma</span>() <span class="sc">|&gt;</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>   <span class="fu">group_by</span>(pitch_class) <span class="sc">|&gt;</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>   <span class="fu">summarise</span>(<span class="at">mean_value =</span> <span class="fu">mean</span>(value))</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And now we can get separate pitch lists for major and minor:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>minor_key <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(minor)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>major_key <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(major)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>minor_key <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(minor)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>major_key <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(major)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>and then of course we can use these to inform our own key mapping.</p>
 <p>We can start by putting this all into a super quick but inefficient function like this (hoping to improve it as we go along):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>key_plotter <span class="ot">&lt;-</span> <span class="cf">function</span>(uri, major, minor){</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>   major_key <span class="ot">&lt;-</span> major</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>   minor_key <span class="ot">&lt;-</span> minor</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>   key_templates <span class="ot">&lt;-</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">tribble</span>(</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span>name, <span class="sc">~</span>template,</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Gb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">6</span>),</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Bb:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">10</span>),</span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Db:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">1</span>),</span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">"F:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">5</span>),</span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Ab:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">8</span>),</span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">"C:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">0</span>),</span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Eb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">3</span>),</span>
-<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">"G:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">7</span>),</span>
-<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Bb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">10</span>),</span>
-<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">"D:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">2</span>),</span>
-<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>      <span class="st">"F:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">5</span>),</span>
-<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>      <span class="st">"A:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">9</span>),</span>
-<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>      <span class="st">"C:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">0</span>),</span>
-<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>      <span class="st">"E:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">4</span>),</span>
-<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>      <span class="st">"G:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">7</span>),</span>
-<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>      <span class="st">"B:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">11</span>),</span>
-<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>      <span class="st">"D:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">2</span>),</span>
-<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">"F#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">6</span>),</span>
-<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>      <span class="st">"A:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">9</span>),</span>
-<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>      <span class="st">"C#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">1</span>),</span>
-<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a>      <span class="st">"E:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">4</span>),</span>
-<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a>      <span class="st">"G#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">8</span>),</span>
-<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a>      <span class="st">"B:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">11</span>),</span>
-<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a>      <span class="st">"D#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">3</span>)</span>
-<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb32-32"><a href="#cb32-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a>tune <span class="ot">&lt;-</span></span>
-<span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_tidy_audio_analysis</span>(uri) <span class="sc">|&gt;</span></span>
-<span id="cb32-35"><a href="#cb32-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compmus_align</span>(sections, segments) <span class="sc">|&gt;</span></span>
-<span id="cb32-36"><a href="#cb32-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(sections) <span class="sc">|&gt;</span></span>
-<span id="cb32-37"><a href="#cb32-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(sections) <span class="sc">|&gt;</span></span>
-<span id="cb32-38"><a href="#cb32-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb32-39"><a href="#cb32-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">pitches =</span></span>
-<span id="cb32-40"><a href="#cb32-40" aria-hidden="true" tabindex="-1"></a>      <span class="fu">map</span>(segments,</span>
-<span id="cb32-41"><a href="#cb32-41" aria-hidden="true" tabindex="-1"></a>          compmus_summarise, pitches,</span>
-<span id="cb32-42"><a href="#cb32-42" aria-hidden="true" tabindex="-1"></a>          <span class="at">method =</span> <span class="st">"mean"</span>, <span class="at">norm =</span> <span class="st">"manhattan"</span></span>
-<span id="cb32-43"><a href="#cb32-43" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb32-44"><a href="#cb32-44" aria-hidden="true" tabindex="-1"></a>  ) </span>
-<span id="cb32-45"><a href="#cb32-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-46"><a href="#cb32-46" aria-hidden="true" tabindex="-1"></a>tune <span class="sc">|&gt;</span> <span class="fu">compmus_match_pitch_template</span>(</span>
-<span id="cb32-47"><a href="#cb32-47" aria-hidden="true" tabindex="-1"></a>    key_templates,         <span class="co"># Change to chord_templates if descired</span></span>
-<span id="cb32-48"><a href="#cb32-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"euclidean"</span>,  <span class="co"># Try different distance metrics</span></span>
-<span id="cb32-49"><a href="#cb32-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">norm =</span> <span class="st">"manhattan"</span>     <span class="co"># Try different norms</span></span>
-<span id="cb32-50"><a href="#cb32-50" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb32-51"><a href="#cb32-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
-<span id="cb32-52"><a href="#cb32-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> start <span class="sc">+</span> duration <span class="sc">/</span> <span class="dv">2</span>, <span class="at">width =</span> duration, <span class="at">y =</span> name, <span class="at">fill =</span> d)</span>
-<span id="cb32-53"><a href="#cb32-53" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb32-54"><a href="#cb32-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
-<span id="cb32-55"><a href="#cb32-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb32-56"><a href="#cb32-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb32-57"><a href="#cb32-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Time (s)"</span>, <span class="at">y =</span> <span class="st">""</span>)</span>
-<span id="cb32-58"><a href="#cb32-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-59"><a href="#cb32-59" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>key_plotter <span class="ot">&lt;-</span> <span class="cf">function</span>(uri, major, minor){</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>   major_key <span class="ot">&lt;-</span> major</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>   minor_key <span class="ot">&lt;-</span> minor</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>   key_templates <span class="ot">&lt;-</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">tribble</span>(</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span>name, <span class="sc">~</span>template,</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Gb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">6</span>),</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Bb:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">10</span>),</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Db:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">1</span>),</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">"F:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">5</span>),</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Ab:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">8</span>),</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">"C:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">0</span>),</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Eb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">3</span>),</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">"G:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">7</span>),</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Bb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">10</span>),</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">"D:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">2</span>),</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>      <span class="st">"F:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">5</span>),</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>      <span class="st">"A:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">9</span>),</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>      <span class="st">"C:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">0</span>),</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>      <span class="st">"E:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">4</span>),</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>      <span class="st">"G:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">7</span>),</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>      <span class="st">"B:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">11</span>),</span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>      <span class="st">"D:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">2</span>),</span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">"F#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">6</span>),</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>      <span class="st">"A:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">9</span>),</span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>      <span class="st">"C#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">1</span>),</span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>      <span class="st">"E:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">4</span>),</span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>      <span class="st">"G#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">8</span>),</span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>      <span class="st">"B:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">11</span>),</span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>      <span class="st">"D#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">3</span>)</span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a>tune <span class="ot">&lt;-</span></span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_tidy_audio_analysis</span>(uri) <span class="sc">|&gt;</span></span>
+<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compmus_align</span>(sections, segments) <span class="sc">|&gt;</span></span>
+<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(sections) <span class="sc">|&gt;</span></span>
+<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(sections) <span class="sc">|&gt;</span></span>
+<span id="cb30-38"><a href="#cb30-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb30-39"><a href="#cb30-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">pitches =</span></span>
+<span id="cb30-40"><a href="#cb30-40" aria-hidden="true" tabindex="-1"></a>      <span class="fu">map</span>(segments,</span>
+<span id="cb30-41"><a href="#cb30-41" aria-hidden="true" tabindex="-1"></a>          compmus_summarise, pitches,</span>
+<span id="cb30-42"><a href="#cb30-42" aria-hidden="true" tabindex="-1"></a>          <span class="at">method =</span> <span class="st">"mean"</span>, <span class="at">norm =</span> <span class="st">"manhattan"</span></span>
+<span id="cb30-43"><a href="#cb30-43" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb30-44"><a href="#cb30-44" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb30-45"><a href="#cb30-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-46"><a href="#cb30-46" aria-hidden="true" tabindex="-1"></a>tune <span class="sc">|&gt;</span> <span class="fu">compmus_match_pitch_template</span>(</span>
+<span id="cb30-47"><a href="#cb30-47" aria-hidden="true" tabindex="-1"></a>    key_templates,         <span class="co"># Change to chord_templates if descired</span></span>
+<span id="cb30-48"><a href="#cb30-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"euclidean"</span>,  <span class="co"># Try different distance metrics</span></span>
+<span id="cb30-49"><a href="#cb30-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">norm =</span> <span class="st">"manhattan"</span>     <span class="co"># Try different norms</span></span>
+<span id="cb30-50"><a href="#cb30-50" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb30-51"><a href="#cb30-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb30-52"><a href="#cb30-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> start <span class="sc">+</span> duration <span class="sc">/</span> <span class="dv">2</span>, <span class="at">width =</span> duration, <span class="at">y =</span> name, <span class="at">fill =</span> d)</span>
+<span id="cb30-53"><a href="#cb30-53" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb30-54"><a href="#cb30-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb30-55"><a href="#cb30-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb30-56"><a href="#cb30-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb30-57"><a href="#cb30-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Time (s)"</span>, <span class="at">y =</span> <span class="st">""</span>)</span>
+<span id="cb30-58"><a href="#cb30-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-59"><a href="#cb30-59" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="one-piece-and-many-key-profiles" class="level2">
 <h2 class="anchored" data-anchor-id="one-piece-and-many-key-profiles">One Piece and Many Key Profiles</h2>
 <p>Looking at Lucy Dacus’s “Night Shift” with EDM Key Profiles:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>edm_major_key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.2949827</span>,<span class="fl">0.1842662</span>, <span class="fl">0.2249348</span>, <span class="fl">0.1796559</span>, <span class="fl">0.2532545</span>, <span class="fl">0.2391564</span>, <span class="fl">0.2028676</span>, <span class="fl">0.2607747</span>, <span class="fl">0.1765553</span>, <span class="fl">0.2105823</span>, <span class="fl">0.1806760</span>, <span class="fl">0.2562869</span>)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>edm_minor_key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.3247214</span>, <span class="fl">0.1767437</span>, <span class="fl">0.2066454</span>, <span class="fl">0.2482824</span>, <span class="fl">0.1811887</span>, <span class="fl">0.2263670</span>, <span class="fl">0.1830838</span>, <span class="fl">0.2662832</span>, <span class="fl">0.2340293</span>, <span class="fl">0.1888321</span>, <span class="fl">0.2203257</span>, <span class="fl">0.2047107</span>)</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">key_plotter</span>(<span class="st">"1yYlpGuBiRRf33e1gY61bN"</span>, edm_major_key, edm_minor_key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>edm_major_key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.2949827</span>,<span class="fl">0.1842662</span>, <span class="fl">0.2249348</span>, <span class="fl">0.1796559</span>, <span class="fl">0.2532545</span>, <span class="fl">0.2391564</span>, <span class="fl">0.2028676</span>, <span class="fl">0.2607747</span>, <span class="fl">0.1765553</span>, <span class="fl">0.2105823</span>, <span class="fl">0.1806760</span>, <span class="fl">0.2562869</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>edm_minor_key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.3247214</span>, <span class="fl">0.1767437</span>, <span class="fl">0.2066454</span>, <span class="fl">0.2482824</span>, <span class="fl">0.1811887</span>, <span class="fl">0.2263670</span>, <span class="fl">0.1830838</span>, <span class="fl">0.2662832</span>, <span class="fl">0.2340293</span>, <span class="fl">0.1888321</span>, <span class="fl">0.2203257</span>, <span class="fl">0.2047107</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="fu">key_plotter</span>(<span class="st">"1yYlpGuBiRRf33e1gY61bN"</span>, edm_major_key, edm_minor_key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="week_4_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>And here is the piece with the more traditional Krumhansl-Schmuckler key profiles:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">key_plotter</span>(<span class="st">"1yYlpGuBiRRf33e1gY61bN"</span>, ks_major_key, ks_minor_key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">key_plotter</span>(<span class="st">"1yYlpGuBiRRf33e1gY61bN"</span>, ks_major_key, ks_minor_key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="week_4_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>We can load our “indie pop” but now in major and minor:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>playlist <span class="ot">&lt;-</span> <span class="fu">grab_playlist_info</span>(<span class="st">"37i9dQZF1DWWEcRhUVtL8n"</span>)  </span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>indie_minor <span class="ot">&lt;-</span> playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">0</span>)</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>indie_major <span class="ot">&lt;-</span> playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">1</span>)</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>indie_minor <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(indie_minor)</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>indie_major <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(indie_major)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>playlist <span class="ot">&lt;-</span> <span class="fu">grab_playlist_info</span>(<span class="st">"37i9dQZF1DWWEcRhUVtL8n"</span>)  </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>indie_minor <span class="ot">&lt;-</span> playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>indie_major <span class="ot">&lt;-</span> playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>indie_minor <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(indie_minor)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>indie_major <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(indie_major)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And then we put these weightings into the plotter:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">key_plotter</span>(<span class="st">"1yYlpGuBiRRf33e1gY61bN"</span>, ks_major_key, ks_minor_key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">key_plotter</span>(<span class="st">"1yYlpGuBiRRf33e1gY61bN"</span>, ks_major_key, ks_minor_key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="week_4_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -4038,76 +4048,76 @@ G major (0.897)
 <h2 class="anchored" data-anchor-id="grabbing-dans-discover-playlist">Grabbing Dan’s “Discover” Playlist</h2>
 <p>The first step will be to get the audio features of the playlist, and run it all into an audio analysis tool. Here’s what that will give us.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">get_playlist_audio_features</span>(<span class="st">""</span>, <span class="st">"37i9dQZEVXcIDdjTZ1FKnJ"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_audio_analysis</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">get_playlist_audio_features</span>(<span class="st">""</span>, <span class="st">"37i9dQZEVXcIDdjTZ1FKnJ"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_audio_analysis</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then we create a segments variable, and use the “c transpose” toolkit from compmus. I then take the segments, unnest it (it is a nested list), and then grab the pitches (and unnest that).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">segments =</span> <span class="fu">map2</span>(segments, key, compmus_c_transpose)) <span class="sc">|&gt;</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(segments) <span class="sc">|&gt;</span> <span class="fu">unnest</span>(segments) <span class="sc">|&gt;</span> <span class="fu">select</span>(pitches) <span class="sc">|&gt;</span> <span class="fu">unnest</span>(pitches) <span class="sc">|&gt;</span> </span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">segments =</span> <span class="fu">map2</span>(segments, key, compmus_c_transpose)) <span class="sc">|&gt;</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(segments) <span class="sc">|&gt;</span> <span class="fu">unnest</span>(segments) <span class="sc">|&gt;</span> <span class="fu">select</span>(pitches) <span class="sc">|&gt;</span> <span class="fu">unnest</span>(pitches) <span class="sc">|&gt;</span> </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 1
    pitches
      &lt;dbl&gt;
- 1   0.314
- 2   0.198
- 3   0.52 
+ 1   0.614
+ 2   0.634
+ 3   0.702
  4   1    
- 5   0.392
- 6   0.486
- 7   0.317
- 8   0.276
- 9   0.467
-10   0.22 
-11   0.316
-12   0.38 </code></pre>
+ 5   0.963
+ 6   0.822
+ 7   0.706
+ 8   0.662
+ 9   0.675
+10   0.653
+11   0.642
+12   0.652</code></pre>
 </div>
 </div>
 <p>Here, I’ve just taken a specific moment. This shows us that Spotify is the most confident the pitch “4” is this pitch at the moment we’re looking at.</p>
 <p>If we want to grab the “key profile” of my playlist, we can use the following code:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">### grabs the key-profile of the indie-pop playlist.</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">|&gt;</span> </span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## transpose all the chroma vectors to C.</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">segments =</span> <span class="fu">map2</span>(segments, key, compmus_c_transpose)) <span class="sc">|&gt;</span></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">## grab the segments data and unnest it, then only grabbing the start, duration, and pitches info.</span></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(segments) <span class="sc">|&gt;</span></span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(segments) <span class="sc">|&gt;</span> </span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(start, duration, pitches) <span class="sc">|&gt;</span> </span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pitches =</span> <span class="fu">map</span>(pitches, compmus_normalise, <span class="st">"euclidean"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compmus_gather_chroma</span>() <span class="sc">|&gt;</span></span>
-<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(pitch_class) <span class="sc">|&gt;</span></span>
-<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_value =</span> <span class="fu">mean</span>(value)) </span>
-<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>dans_discover</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="do">### grabs the key-profile of the indie-pop playlist.</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">|&gt;</span> </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="do">## transpose all the chroma vectors to C.</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">segments =</span> <span class="fu">map2</span>(segments, key, compmus_c_transpose)) <span class="sc">|&gt;</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">## grab the segments data and unnest it, then only grabbing the start, duration, and pitches info.</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(segments) <span class="sc">|&gt;</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(segments) <span class="sc">|&gt;</span> </span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(start, duration, pitches) <span class="sc">|&gt;</span> </span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pitches =</span> <span class="fu">map</span>(pitches, compmus_normalise, <span class="st">"euclidean"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compmus_gather_chroma</span>() <span class="sc">|&gt;</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(pitch_class) <span class="sc">|&gt;</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_value =</span> <span class="fu">mean</span>(value)) </span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>dans_discover</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note how it grabs the audio, normalizes the pitches, grabs all of the chroma, and then runs a <code>group_by</code> and a <code>summarise</code> for each of the pitches.</p>
 <section id="getting-the-key-for-each-song" class="level3">
 <h3 class="anchored" data-anchor-id="getting-the-key-for-each-song">Getting the Key for Each Song</h3>
 <p>This will give us a list of keys and a sum of their weights. We can then take the list in descending order and grab one of them.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>tune <span class="ot">&lt;-</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_tidy_audio_analysis</span>(<span class="st">"1yYlpGuBiRRf33e1gY61bN"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compmus_align</span>(sections, segments) <span class="sc">|&gt;</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(sections) <span class="sc">|&gt;</span></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(sections) <span class="sc">|&gt;</span></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">pitches =</span></span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">map</span>(segments,</span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>          compmus_summarise, pitches,</span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">method =</span> <span class="st">"mean"</span>, <span class="at">norm =</span> <span class="st">"manhattan"</span></span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>  ) </span>
-<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>    tune <span class="sc">|&gt;</span> <span class="fu">compmus_match_pitch_template</span>(</span>
-<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>    key_templates,         <span class="co"># Change to chord_templates if descired</span></span>
-<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"pearson"</span>,  <span class="co"># Try different distance metrics</span></span>
-<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">norm =</span> <span class="st">"manhattan"</span>     <span class="co"># Try different norms</span></span>
-<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
-<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(name)  <span class="sc">|&gt;</span></span>
-<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">weight =</span> <span class="fu">sum</span>(d)) <span class="sc">|&gt;</span> </span>
-<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>tune <span class="ot">&lt;-</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_tidy_audio_analysis</span>(<span class="st">"1yYlpGuBiRRf33e1gY61bN"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compmus_align</span>(sections, segments) <span class="sc">|&gt;</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(sections) <span class="sc">|&gt;</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(sections) <span class="sc">|&gt;</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">pitches =</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">map</span>(segments,</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>          compmus_summarise, pitches,</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">method =</span> <span class="st">"mean"</span>, <span class="at">norm =</span> <span class="st">"manhattan"</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>    tune <span class="sc">|&gt;</span> <span class="fu">compmus_match_pitch_template</span>(</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>    key_templates,         <span class="co"># Change to chord_templates if descired</span></span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"pearson"</span>,  <span class="co"># Try different distance metrics</span></span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">norm =</span> <span class="st">"manhattan"</span>     <span class="co"># Try different norms</span></span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(name)  <span class="sc">|&gt;</span></span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">weight =</span> <span class="fu">sum</span>(d)) <span class="sc">|&gt;</span> </span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 24 × 2
    name   weight
@@ -4127,12 +4137,12 @@ G major (0.897)
 </div>
 <p>Here we want the lowest number, and it seems to make sense. This piece is in A major and perhaps D major? Our algorithm did a pretty good job.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>night_shift <span class="ot">&lt;-</span> <span class="fu">get_track_audio_features</span>(<span class="st">"1yYlpGuBiRRf33e1gY61bN"</span>)</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>night_shift<span class="sc">$</span>key</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>night_shift <span class="ot">&lt;-</span> <span class="fu">get_track_audio_features</span>(<span class="st">"1yYlpGuBiRRf33e1gY61bN"</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>night_shift<span class="sc">$</span>key</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 9</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>night_shift<span class="sc">$</span>mode</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>night_shift<span class="sc">$</span>mode</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1</code></pre>
 </div>
@@ -4141,52 +4151,52 @@ G major (0.897)
 <p>The code above uses something called <code>key_templates</code> which (you might remember) we can define with out key profiles.</p>
 <p>So we can add our own here! We start with the Krumansl-Schmuckler weightings, but here are Sapps as well (just comment out the first and uncomment the second).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>major_key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">6.35</span>, <span class="fl">2.23</span>, <span class="fl">3.48</span>, <span class="fl">2.33</span>, <span class="fl">4.38</span>, <span class="fl">4.09</span>, <span class="fl">2.52</span>, <span class="fl">5.19</span>, <span class="fl">2.39</span>, <span class="fl">3.66</span>, <span class="fl">2.29</span>, <span class="fl">2.88</span>)</span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>minor_key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">6.33</span>, <span class="fl">2.68</span>, <span class="fl">3.52</span>, <span class="fl">5.38</span>, <span class="fl">2.60</span>, <span class="fl">3.53</span>, <span class="fl">2.54</span>, <span class="fl">4.75</span>, <span class="fl">3.98</span>, <span class="fl">2.69</span>, <span class="fl">3.34</span>, <span class="fl">3.17</span>)</span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="co">#sapp's simple weightings</span></span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="co"># major_key &lt;- c(2, 0, 1, 0, 1, 1, 0, 2, 0, 1, 0, 1)</span></span>
-<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="co"># minor_key &lt;- c(2, 0, 1, 1, 0, 1, 0, 2, 1, 0, 0.5, 0.5)</span></span>
-<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>key_templates <span class="ot">&lt;-</span></span>
-<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tribble</span>(</span>
-<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span>name, <span class="sc">~</span>template,</span>
-<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Gb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">6</span>),</span>
-<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bb:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">10</span>),</span>
-<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Db:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">1</span>),</span>
-<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"F:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">5</span>),</span>
-<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Ab:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">8</span>),</span>
-<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">0</span>),</span>
-<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Eb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">3</span>),</span>
-<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"G:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">7</span>),</span>
-<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">10</span>),</span>
-<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"D:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">2</span>),</span>
-<span id="cb47-21"><a href="#cb47-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"F:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">5</span>),</span>
-<span id="cb47-22"><a href="#cb47-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"A:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">9</span>),</span>
-<span id="cb47-23"><a href="#cb47-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">0</span>),</span>
-<span id="cb47-24"><a href="#cb47-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"E:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">4</span>),</span>
-<span id="cb47-25"><a href="#cb47-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"G:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">7</span>),</span>
-<span id="cb47-26"><a href="#cb47-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">11</span>),</span>
-<span id="cb47-27"><a href="#cb47-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"D:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">2</span>),</span>
-<span id="cb47-28"><a href="#cb47-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"F#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">6</span>),</span>
-<span id="cb47-29"><a href="#cb47-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"A:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">9</span>),</span>
-<span id="cb47-30"><a href="#cb47-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">1</span>),</span>
-<span id="cb47-31"><a href="#cb47-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"E:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">4</span>),</span>
-<span id="cb47-32"><a href="#cb47-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"G#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">8</span>),</span>
-<span id="cb47-33"><a href="#cb47-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">11</span>),</span>
-<span id="cb47-34"><a href="#cb47-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"D#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">3</span>)</span>
-<span id="cb47-35"><a href="#cb47-35" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>major_key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">6.35</span>, <span class="fl">2.23</span>, <span class="fl">3.48</span>, <span class="fl">2.33</span>, <span class="fl">4.38</span>, <span class="fl">4.09</span>, <span class="fl">2.52</span>, <span class="fl">5.19</span>, <span class="fl">2.39</span>, <span class="fl">3.66</span>, <span class="fl">2.29</span>, <span class="fl">2.88</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>minor_key <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">6.33</span>, <span class="fl">2.68</span>, <span class="fl">3.52</span>, <span class="fl">5.38</span>, <span class="fl">2.60</span>, <span class="fl">3.53</span>, <span class="fl">2.54</span>, <span class="fl">4.75</span>, <span class="fl">3.98</span>, <span class="fl">2.69</span>, <span class="fl">3.34</span>, <span class="fl">3.17</span>)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="co">#sapp's simple weightings</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="co"># major_key &lt;- c(2, 0, 1, 0, 1, 1, 0, 2, 0, 1, 0, 1)</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="co"># minor_key &lt;- c(2, 0, 1, 1, 0, 1, 0, 2, 1, 0, 0.5, 0.5)</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>key_templates <span class="ot">&lt;-</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tribble</span>(</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span>name, <span class="sc">~</span>template,</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Gb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">6</span>),</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bb:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">10</span>),</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Db:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">1</span>),</span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"F:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">5</span>),</span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Ab:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">8</span>),</span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">0</span>),</span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Eb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">3</span>),</span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"G:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">7</span>),</span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">10</span>),</span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"D:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">2</span>),</span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"F:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">5</span>),</span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"A:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">9</span>),</span>
+<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">0</span>),</span>
+<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"E:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">4</span>),</span>
+<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"G:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">7</span>),</span>
+<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">11</span>),</span>
+<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"D:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">2</span>),</span>
+<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"F#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">6</span>),</span>
+<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"A:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">9</span>),</span>
+<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">1</span>),</span>
+<span id="cb45-31"><a href="#cb45-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"E:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">4</span>),</span>
+<span id="cb45-32"><a href="#cb45-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"G#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">8</span>),</span>
+<span id="cb45-33"><a href="#cb45-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">11</span>),</span>
+<span id="cb45-34"><a href="#cb45-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"D#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">3</span>)</span>
+<span id="cb45-35"><a href="#cb45-35" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If I rerun this code with Sapp’s simple weightings, it thinks it’s in D major:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>    tune <span class="sc">|&gt;</span> <span class="fu">compmus_match_pitch_template</span>(</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    key_templates,         <span class="co"># Change to chord_templates if descired</span></span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"pearson"</span>,  <span class="co"># Try different distance metrics</span></span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">norm =</span> <span class="st">"manhattan"</span>     <span class="co"># Try different norms</span></span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(name)  <span class="sc">|&gt;</span></span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">weight =</span> <span class="fu">sum</span>(d)) <span class="sc">|&gt;</span> </span>
-<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>    tune <span class="sc">|&gt;</span> <span class="fu">compmus_match_pitch_template</span>(</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    key_templates,         <span class="co"># Change to chord_templates if descired</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"pearson"</span>,  <span class="co"># Try different distance metrics</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">norm =</span> <span class="st">"manhattan"</span>     <span class="co"># Try different norms</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(name)  <span class="sc">|&gt;</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">weight =</span> <span class="fu">sum</span>(d)) <span class="sc">|&gt;</span> </span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 24 × 2
    name   weight
@@ -4207,88 +4217,88 @@ G major (0.897)
 <p>Maybe it is in D major?</p>
 <p>What if I use my indie pop profile?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>indie_pop_playlist <span class="ot">&lt;-</span> <span class="fu">grab_playlist_info</span>(<span class="st">"37i9dQZF1DX1kCIzMYtzum"</span>)  </span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>minor <span class="ot">&lt;-</span> indie_pop_playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">0</span>)</span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>major <span class="ot">&lt;-</span> indie_pop_playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">1</span>)</span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>indie_pop_minor <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(minor) <span class="sc">|&gt;</span> <span class="fu">select</span>(mean_value)</span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>indie_pop_major <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(major) <span class="sc">|&gt;</span> <span class="fu">select</span>(mean_value) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>indie_pop_playlist <span class="ot">&lt;-</span> <span class="fu">grab_playlist_info</span>(<span class="st">"37i9dQZF1DX1kCIzMYtzum"</span>)  </span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>minor <span class="ot">&lt;-</span> indie_pop_playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>major <span class="ot">&lt;-</span> indie_pop_playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>indie_pop_minor <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(minor) <span class="sc">|&gt;</span> <span class="fu">select</span>(mean_value)</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>indie_pop_major <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(major) <span class="sc">|&gt;</span> <span class="fu">select</span>(mean_value) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>I can take the key profiles given above and put them in the code below. While I’m at it though, I’m going to also grab the key profile from my discover playlist!</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>dan_discover_playlist <span class="ot">&lt;-</span> <span class="fu">grab_playlist_info</span>(<span class="st">"37i9dQZEVXcIDdjTZ1FKnJ"</span>)  </span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>minor <span class="ot">&lt;-</span> dan_discover_playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">0</span>)</span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>major <span class="ot">&lt;-</span> dan_discover_playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">1</span>)</span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>dan_minor <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(minor) <span class="sc">|&gt;</span> <span class="fu">select</span>(mean_value)</span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>dan_major <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(major) <span class="sc">|&gt;</span> <span class="fu">select</span>(mean_value) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>dan_discover_playlist <span class="ot">&lt;-</span> <span class="fu">grab_playlist_info</span>(<span class="st">"37i9dQZEVXcIDdjTZ1FKnJ"</span>)  </span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>minor <span class="ot">&lt;-</span> dan_discover_playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>major <span class="ot">&lt;-</span> dan_discover_playlist <span class="sc">|&gt;</span> <span class="fu">filter</span>(mode <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>dan_minor <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(minor) <span class="sc">|&gt;</span> <span class="fu">select</span>(mean_value)</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>dan_major <span class="ot">&lt;-</span> <span class="fu">get_pitch_list</span>(major) <span class="sc">|&gt;</span> <span class="fu">select</span>(mean_value) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># major_key &lt;- c(6.35, 2.23, 3.48, 2.33, 4.38, 4.09, 2.52, 5.19, 2.39, 3.66, 2.29, 2.88)</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="co"># minor_key &lt;- c(6.33, 2.68, 3.52, 5.38, 2.60, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17)</span></span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="co">#sapp's simple weightings</span></span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a><span class="co"># major_key &lt;- c(2, 0, 1, 0, 1, 1, 0, 2, 0, 1, 0, 1)</span></span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a><span class="co"># minor_key &lt;- c(2, 0, 1, 1, 0, 1, 0, 2, 1, 0, 0.5, 0.5)</span></span>
-<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a><span class="do">## my indie pop profile</span></span>
-<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>major_key <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">unlist</span>(indie_pop_major))</span>
-<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>minor_key <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">unlist</span>(indie_pop_minor))</span>
-<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a><span class="do">## dan's discover playlist</span></span>
-<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a><span class="co"># major_key &lt;- as.numeric(unlist(dan_major))</span></span>
-<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a><span class="co"># minor_key &lt;- as.numeric(unlist(dan_minor))</span></span>
-<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a>key_templates <span class="ot">&lt;-</span></span>
-<span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tribble</span>(</span>
-<span id="cb52-19"><a href="#cb52-19" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span>name, <span class="sc">~</span>template,</span>
-<span id="cb52-20"><a href="#cb52-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Gb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">6</span>),</span>
-<span id="cb52-21"><a href="#cb52-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bb:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">10</span>),</span>
-<span id="cb52-22"><a href="#cb52-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Db:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">1</span>),</span>
-<span id="cb52-23"><a href="#cb52-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"F:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">5</span>),</span>
-<span id="cb52-24"><a href="#cb52-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Ab:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">8</span>),</span>
-<span id="cb52-25"><a href="#cb52-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">0</span>),</span>
-<span id="cb52-26"><a href="#cb52-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Eb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">3</span>),</span>
-<span id="cb52-27"><a href="#cb52-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"G:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">7</span>),</span>
-<span id="cb52-28"><a href="#cb52-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">10</span>),</span>
-<span id="cb52-29"><a href="#cb52-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"D:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">2</span>),</span>
-<span id="cb52-30"><a href="#cb52-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"F:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">5</span>),</span>
-<span id="cb52-31"><a href="#cb52-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"A:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">9</span>),</span>
-<span id="cb52-32"><a href="#cb52-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">0</span>),</span>
-<span id="cb52-33"><a href="#cb52-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"E:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">4</span>),</span>
-<span id="cb52-34"><a href="#cb52-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"G:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">7</span>),</span>
-<span id="cb52-35"><a href="#cb52-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">11</span>),</span>
-<span id="cb52-36"><a href="#cb52-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">"D:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">2</span>),</span>
-<span id="cb52-37"><a href="#cb52-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">"F#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">6</span>),</span>
-<span id="cb52-38"><a href="#cb52-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">"A:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">9</span>),</span>
-<span id="cb52-39"><a href="#cb52-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">1</span>),</span>
-<span id="cb52-40"><a href="#cb52-40" aria-hidden="true" tabindex="-1"></a>    <span class="st">"E:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">4</span>),</span>
-<span id="cb52-41"><a href="#cb52-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">"G#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">8</span>),</span>
-<span id="cb52-42"><a href="#cb52-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">11</span>),</span>
-<span id="cb52-43"><a href="#cb52-43" aria-hidden="true" tabindex="-1"></a>    <span class="st">"D#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">3</span>)</span>
-<span id="cb52-44"><a href="#cb52-44" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb52-45"><a href="#cb52-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-46"><a href="#cb52-46" aria-hidden="true" tabindex="-1"></a>    tune <span class="sc">|&gt;</span> <span class="fu">compmus_match_pitch_template</span>(</span>
-<span id="cb52-47"><a href="#cb52-47" aria-hidden="true" tabindex="-1"></a>    key_templates,         <span class="co"># Change to chord_templates if descired</span></span>
-<span id="cb52-48"><a href="#cb52-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"pearson"</span>,  <span class="co"># Try different distance metrics</span></span>
-<span id="cb52-49"><a href="#cb52-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">norm =</span> <span class="st">"manhattan"</span>     <span class="co"># Try different norms</span></span>
-<span id="cb52-50"><a href="#cb52-50" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
-<span id="cb52-51"><a href="#cb52-51" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(name)  <span class="sc">|&gt;</span></span>
-<span id="cb52-52"><a href="#cb52-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">weight =</span> <span class="fu">sum</span>(d)) <span class="sc">|&gt;</span> </span>
-<span id="cb52-53"><a href="#cb52-53" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># major_key &lt;- c(6.35, 2.23, 3.48, 2.33, 4.38, 4.09, 2.52, 5.19, 2.39, 3.66, 2.29, 2.88)</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="co"># minor_key &lt;- c(6.33, 2.68, 3.52, 5.38, 2.60, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17)</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="co">#sapp's simple weightings</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="co"># major_key &lt;- c(2, 0, 1, 0, 1, 1, 0, 2, 0, 1, 0, 1)</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="co"># minor_key &lt;- c(2, 0, 1, 1, 0, 1, 0, 2, 1, 0, 0.5, 0.5)</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a><span class="do">## my indie pop profile</span></span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>major_key <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">unlist</span>(indie_pop_major))</span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>minor_key <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">unlist</span>(indie_pop_minor))</span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a><span class="do">## dan's discover playlist</span></span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a><span class="co"># major_key &lt;- as.numeric(unlist(dan_major))</span></span>
+<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a><span class="co"># minor_key &lt;- as.numeric(unlist(dan_minor))</span></span>
+<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-17"><a href="#cb50-17" aria-hidden="true" tabindex="-1"></a>key_templates <span class="ot">&lt;-</span></span>
+<span id="cb50-18"><a href="#cb50-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tribble</span>(</span>
+<span id="cb50-19"><a href="#cb50-19" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span>name, <span class="sc">~</span>template,</span>
+<span id="cb50-20"><a href="#cb50-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Gb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">6</span>),</span>
+<span id="cb50-21"><a href="#cb50-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bb:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">10</span>),</span>
+<span id="cb50-22"><a href="#cb50-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Db:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">1</span>),</span>
+<span id="cb50-23"><a href="#cb50-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"F:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">5</span>),</span>
+<span id="cb50-24"><a href="#cb50-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Ab:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">8</span>),</span>
+<span id="cb50-25"><a href="#cb50-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">0</span>),</span>
+<span id="cb50-26"><a href="#cb50-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Eb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">3</span>),</span>
+<span id="cb50-27"><a href="#cb50-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"G:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">7</span>),</span>
+<span id="cb50-28"><a href="#cb50-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bb:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">10</span>),</span>
+<span id="cb50-29"><a href="#cb50-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"D:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">2</span>),</span>
+<span id="cb50-30"><a href="#cb50-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"F:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">5</span>),</span>
+<span id="cb50-31"><a href="#cb50-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"A:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">9</span>),</span>
+<span id="cb50-32"><a href="#cb50-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">0</span>),</span>
+<span id="cb50-33"><a href="#cb50-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"E:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">4</span>),</span>
+<span id="cb50-34"><a href="#cb50-34" aria-hidden="true" tabindex="-1"></a>    <span class="st">"G:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">7</span>),</span>
+<span id="cb50-35"><a href="#cb50-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">11</span>),</span>
+<span id="cb50-36"><a href="#cb50-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">"D:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">2</span>),</span>
+<span id="cb50-37"><a href="#cb50-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">"F#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">6</span>),</span>
+<span id="cb50-38"><a href="#cb50-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">"A:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">9</span>),</span>
+<span id="cb50-39"><a href="#cb50-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">"C#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">1</span>),</span>
+<span id="cb50-40"><a href="#cb50-40" aria-hidden="true" tabindex="-1"></a>    <span class="st">"E:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">4</span>),</span>
+<span id="cb50-41"><a href="#cb50-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">"G#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">8</span>),</span>
+<span id="cb50-42"><a href="#cb50-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B:maj"</span>, <span class="fu">circshift</span>(major_key, <span class="dv">11</span>),</span>
+<span id="cb50-43"><a href="#cb50-43" aria-hidden="true" tabindex="-1"></a>    <span class="st">"D#:min"</span>, <span class="fu">circshift</span>(minor_key, <span class="dv">3</span>)</span>
+<span id="cb50-44"><a href="#cb50-44" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb50-45"><a href="#cb50-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-46"><a href="#cb50-46" aria-hidden="true" tabindex="-1"></a>    tune <span class="sc">|&gt;</span> <span class="fu">compmus_match_pitch_template</span>(</span>
+<span id="cb50-47"><a href="#cb50-47" aria-hidden="true" tabindex="-1"></a>    key_templates,         <span class="co"># Change to chord_templates if descired</span></span>
+<span id="cb50-48"><a href="#cb50-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"pearson"</span>,  <span class="co"># Try different distance metrics</span></span>
+<span id="cb50-49"><a href="#cb50-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">norm =</span> <span class="st">"manhattan"</span>     <span class="co"># Try different norms</span></span>
+<span id="cb50-50"><a href="#cb50-50" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb50-51"><a href="#cb50-51" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(name)  <span class="sc">|&gt;</span></span>
+<span id="cb50-52"><a href="#cb50-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">weight =</span> <span class="fu">sum</span>(d)) <span class="sc">|&gt;</span> </span>
+<span id="cb50-53"><a href="#cb50-53" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 24 × 2
    name   weight
    &lt;fct&gt;   &lt;dbl&gt;
- 1 D:maj    6.53
- 2 A:maj    7.34
- 3 D:min    9.00
- 4 F#:min   9.66
+ 1 D:maj    6.61
+ 2 A:maj    6.89
+ 3 D:min    8.77
+ 4 F#:min   9.93
  5 A:min   10.4 
- 6 B:min   11.7 
- 7 G:maj   12.4 
+ 6 B:min   11.8 
+ 7 G:maj   12.1 
  8 C#:min  12.7 
- 9 E:min   13.3 
-10 C:maj   14.5 
+ 9 E:min   13.2 
+10 C:maj   14.1 
 # ℹ 14 more rows</code></pre>
 </div>
 </div>
@@ -4674,6 +4684,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../class_notes/week_5.html" class="pagination-link">
+        <span class="nav-page-text">Week 5: Practicing with Spotify</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

@@ -197,7 +197,7 @@ those_magic_changes <-
 
 those_magic_changes |> 
   compmus_match_pitch_template(
-    key_templates,         # Change to chord_templates if descired
+    chord_templates,         # Change to chord_templates if descired
     method = "euclidean",  # Try different distance metrics
     norm = "manhattan"     # Try different norms
   ) |>

@@ -2,10 +2,6 @@
 title: "Week 6: Regression and Clustering"
 ---
 
----
-title: "Week 5: Regression and Clustering"
----
-
 ```{r, echo=FALSE, message=FALSE}
 library(spotifyr)
 library(compmus)

@@ -97,6 +97,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+<script src="../site_libs/htmlwidgets-1.6.1/htmlwidgets.js"></script>
+<link href="../site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="../site_libs/datatables-binding-0.27/datatables.js"></script>
+<script src="../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="../site_libs/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="../site_libs/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="../site_libs/dt-core-1.12.1/js/jquery.dataTables.min.js"></script>
+<link href="../site_libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet">
+<script src="../site_libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="../site_libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet">
+<script src="../site_libs/selectize-0.12.0/selectize.min.js"></script>
+<link href="../site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="../site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+
 
 <meta property="og:title" content="Corpus Studies in Music - Week 7: Classifying">
 <meta property="og:description" content="">
@@ -237,6 +251,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#this-weeks-plan" id="toc-this-weeks-plan" class="nav-link active" data-scroll-target="#this-weeks-plan">This Week’s Plan</a>
   <ul class="collapse">
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">Getting Started</a></li>
   <li><a href="#pca-and-authorship" id="toc-pca-and-authorship" class="nav-link" data-scroll-target="#pca-and-authorship">PCA and Authorship</a></li>
   <li><a href="#classifiers" id="toc-classifiers" class="nav-link" data-scroll-target="#classifiers">Classifiers</a></li>
   <li><a href="#returning-to-our-christmas-song-problem" id="toc-returning-to-our-christmas-song-problem" class="nav-link" data-scroll-target="#returning-to-our-christmas-song-problem">Returning to our Christmas Song Problem</a>
@@ -245,12 +260,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise">Exercise</a></li>
   </ul></li>
-  <li><a href="#wednesday" id="toc-wednesday" class="nav-link" data-scroll-target="#wednesday">Wednesday</a>
-  <ul class="collapse">
   <li><a href="#john-or-paul" id="toc-john-or-paul" class="nav-link" data-scroll-target="#john-or-paul">John or Paul?</a>
   <ul class="collapse">
   <li><a href="#getting-the-data" id="toc-getting-the-data" class="nav-link" data-scroll-target="#getting-the-data">Getting the Data</a></li>
-  </ul></li>
   <li><a href="#cross-validation" id="toc-cross-validation" class="nav-link" data-scroll-target="#cross-validation">Cross-Validation</a>
   <ul class="collapse">
   <li><a href="#k-folds-cross-validation" id="toc-k-folds-cross-validation" class="nav-link" data-scroll-target="#k-folds-cross-validation">K-folds cross validation:</a></li>
@@ -300,7 +312,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Discuss how we might evaluate our models</li>
 </ul>
 <p>This week, we will start by moving from clustering to PCA, or pricinpal components analysis. PCA is often seen as a way of reducing the dimensions of features, and here we will explore what it looks like when exploring questions of authorship.</p>
-<p>We will follow this by looking at what it means to train a classifier, and some of the research questions we might ask of a classifier. ## Getting Started We will be using a of libraries today:</p>
+<p>We will follow this by looking at what it means to train a classifier, and some of the research questions we might ask of a classifier.</p>
+<section id="getting-started" class="level2">
+<h2 class="anchored" data-anchor-id="getting-started">Getting Started</h2>
+<p>We will be using a of libraries today:</p>
+</section>
 <section id="pca-and-authorship" class="level2">
 <h2 class="anchored" data-anchor-id="pca-and-authorship">PCA and Authorship</h2>
 <p>PCAs are often used for reducing dimensions when we have lots of variables but a model might be better suited from combining those variables. PCAs have also been used a fair bit to explore questions of authorship. Here we have a question of authorship using symbolic data taken from scores. We are trying to explore the music of Josquin.</p>
@@ -468,26 +484,26 @@ Cumulative Proportion  0.2662 0.4697 0.6263 0.7624 0.85745 0.94056 1.00000</code
 
           Reference
 Prediction no yes
-       no  29   9
-       yes  6  21
+       no  20  14
+       yes 15  16
                                           
-               Accuracy : 0.7692          
-                 95% CI : (0.6481, 0.8647)
+               Accuracy : 0.5538          
+                 95% CI : (0.4253, 0.6773)
     No Information Rate : 0.5385          
-    P-Value [Acc &gt; NIR] : 0.0001027       
+    P-Value [Acc &gt; NIR] : 0.4518          
                                           
-                  Kappa : 0.5324          
+                  Kappa : 0.1045          
                                           
- Mcnemar's Test P-Value : 0.6055766       
+ Mcnemar's Test P-Value : 1.0000          
                                           
-            Sensitivity : 0.7000          
-            Specificity : 0.8286          
-         Pos Pred Value : 0.7778          
-         Neg Pred Value : 0.7632          
+            Sensitivity : 0.5333          
+            Specificity : 0.5714          
+         Pos Pred Value : 0.5161          
+         Neg Pred Value : 0.5882          
              Prevalence : 0.4615          
-         Detection Rate : 0.3231          
-   Detection Prevalence : 0.4154          
-      Balanced Accuracy : 0.7643          
+         Detection Rate : 0.2462          
+   Detection Prevalence : 0.4769          
+      Balanced Accuracy : 0.5524          
                                           
        'Positive' Class : yes             
                                           </code></pre>
@@ -570,21 +586,19 @@ Prediction no yes
 <li>Use PCA to explore the works of two artists. How well do they “separate”?</li>
 <li>Run a classifier on two groups (it can be the same two artists, or two distinct groups). How well does your model do?</li>
 </ol>
-</section>
-</section>
-<section id="wednesday" class="level1">
-<h1>Wednesday</h1>
 <p>Today we are going to look at different models and evaluating models. Our research question will be training a model to decipher John Lennon songs from Paul McCartney songs with various classifiers.</p>
-<section id="john-or-paul" class="level2">
-<h2 class="anchored" data-anchor-id="john-or-paul">John or Paul?</h2>
+</section>
+</section>
+<section id="john-or-paul" class="level1">
+<h1>John or Paul?</h1>
 <p>Our research process will follow a simple trajectory:</p>
 <ul>
 <li>Get songs by each artist’s solo career (this can be our ‘ground truth’, as it were).</li>
 <li>Train the model on these pieces, and evaluate the various models.</li>
 <li>Apply the various models to some songs by the Beatles.</li>
 </ul>
-<section id="getting-the-data" class="level3">
-<h3 class="anchored" data-anchor-id="getting-the-data">Getting the Data</h3>
+<section id="getting-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="getting-the-data">Getting the Data</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>john <span class="ot">&lt;-</span> <span class="fu">get_artist_audio_features</span>(<span class="st">'john lennon'</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>paul <span class="ot">&lt;-</span> <span class="fu">get_artist_audio_features</span>(<span class="st">'paul mccartney'</span>)</span>
@@ -611,7 +625,6 @@ Prediction no yes
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">mutate_all</span>(<span class="sc">~</span>(<span class="fu">scale</span>(.) <span class="sc">%&gt;%</span> as.vector))</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>both_artists <span class="ot">&lt;-</span> <span class="fu">cbind</span>(artists, data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
 </section>
 <section id="cross-validation" class="level2">
 <h2 class="anchored" data-anchor-id="cross-validation">Cross-Validation</h2>
@@ -645,29 +658,29 @@ Prediction no yes
 
                 Reference
 Prediction       John Lennon Paul McCartney
-  John Lennon             73             54
-  Paul McCartney         102            241
-                                          
-               Accuracy : 0.6681          
-                 95% CI : (0.6235, 0.7105)
-    No Information Rate : 0.6277          
-    P-Value [Acc &gt; NIR] : 0.0379757       
-                                          
-                  Kappa : 0.2479          
-                                          
- Mcnemar's Test P-Value : 0.0001679       
-                                          
-            Sensitivity : 0.4171          
-            Specificity : 0.8169          
-         Pos Pred Value : 0.5748          
-         Neg Pred Value : 0.7026          
-             Prevalence : 0.3723          
-         Detection Rate : 0.1553          
-   Detection Prevalence : 0.2702          
-      Balanced Accuracy : 0.6170          
-                                          
-       'Positive' Class : John Lennon     
-                                          </code></pre>
+  John Lennon             75             48
+  Paul McCartney         100            247
+                                         
+               Accuracy : 0.6851         
+                 95% CI : (0.641, 0.7269)
+    No Information Rate : 0.6277         
+    P-Value [Acc &gt; NIR] : 0.00533        
+                                         
+                  Kappa : 0.283          
+                                         
+ Mcnemar's Test P-Value : 2.763e-05      
+                                         
+            Sensitivity : 0.4286         
+            Specificity : 0.8373         
+         Pos Pred Value : 0.6098         
+         Neg Pred Value : 0.7118         
+             Prevalence : 0.3723         
+         Detection Rate : 0.1596         
+   Detection Prevalence : 0.2617         
+      Balanced Accuracy : 0.6329         
+                                         
+       'Positive' Class : John Lennon    
+                                         </code></pre>
 </div>
 </div>
 <p>It looks like the accuracy is about 76%, but pay attention to the <em>sensitivity</em> and the <em>specificity</em> values.</p>
@@ -707,26 +720,26 @@ Prediction       John Lennon Paul McCartney
 
                 Reference
 Prediction       John Lennon Paul McCartney
-  John Lennon            119             48
-  Paul McCartney          56            247
+  John Lennon            114             68
+  Paul McCartney          61            227
                                           
-               Accuracy : 0.7787          
-                 95% CI : (0.7384, 0.8155)
+               Accuracy : 0.7255          
+                 95% CI : (0.6828, 0.7654)
     No Information Rate : 0.6277          
-    P-Value [Acc &gt; NIR] : 1.411e-12       
+    P-Value [Acc &gt; NIR] : 4.645e-06       
                                           
-                  Kappa : 0.5221          
+                  Kappa : 0.4175          
                                           
- Mcnemar's Test P-Value : 0.4925          
+ Mcnemar's Test P-Value : 0.5973          
                                           
-            Sensitivity : 0.6800          
-            Specificity : 0.8373          
-         Pos Pred Value : 0.7126          
-         Neg Pred Value : 0.8152          
+            Sensitivity : 0.6514          
+            Specificity : 0.7695          
+         Pos Pred Value : 0.6264          
+         Neg Pred Value : 0.7882          
              Prevalence : 0.3723          
-         Detection Rate : 0.2532          
-   Detection Prevalence : 0.3553          
-      Balanced Accuracy : 0.7586          
+         Detection Rate : 0.2426          
+   Detection Prevalence : 0.3872          
+      Balanced Accuracy : 0.7105          
                                           
        'Positive' Class : John Lennon     
                                           </code></pre>
@@ -863,14 +876,17 @@ rf   0.44522968 0.5735189 0.6111771 0.6168420 0.6640556 0.7935900    0</code></p
 <p>What I like about this is that we can take something about authorship that we know, and then use it to explore authorship of things that are a little more ambiguous. It can also teach us a fair bit about the specific models. Why do we think some performed so much better than others?</p>
 <section id="exercise-1" class="level3">
 <h3 class="anchored" data-anchor-id="exercise-1">Exercise:</h3>
-<p>Let’s try to build an east/west coast rap classifier:</p>
-<p>Steps!:</p>
+<p>Let’s try to build an east/west coast rap classifier (an outdated concept, I know):</p>
+<p>Here are some important steps for us to go through as we think about training a classifier:</p>
 <ul>
 <li>Grab data</li>
 <li>partition and train model</li>
 <li>compare models</li>
 <li>use it to predict a new dataset.</li>
 </ul>
+<section id="lets-grab-the-data." class="level4">
+<h4 class="anchored" data-anchor-id="lets-grab-the-data.">Let’s grab the data.</h4>
+<p>Here I’m going to grab two playlists, one about “East coast” rap, and the other about “West coast”.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>east_coast <span class="ot">&lt;-</span> <span class="fu">get_playlist_audio_features</span>(<span class="st">""</span>, <span class="st">"3pu8tsqTW52aUtYFZN3g4A"</span>)</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>east_coast<span class="sc">$</span>coast <span class="ot">&lt;-</span> <span class="st">"east"</span></span>
@@ -880,6 +896,7 @@ rf   0.44522968 0.5735189 0.6111771 0.6168420 0.6640556 0.7935900    0</code></p
 <span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="do">####standardize and clean a bit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Now I’m going to grab the features that are important to me. Here it’s the “coast” variable, followed by the standard “global features” that the Spotify API provides.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>both <span class="ot">&lt;-</span> both <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">c</span>(<span class="st">"coast"</span>, <span class="st">"acousticness"</span>, <span class="st">"energy"</span>, <span class="st">"instrumentalness"</span>, <span class="st">"liveness"</span>, <span class="st">"danceability"</span>, <span class="st">"loudness"</span>, <span class="st">"speechiness"</span>, <span class="st">"valence"</span>))</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -888,65 +905,80 @@ rf   0.44522968 0.5735189 0.6111771 0.6168420 0.6640556 0.7935900    0</code></p
 <span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span> <span class="fu">mutate_all</span>(<span class="sc">~</span>(<span class="fu">scale</span>(.) <span class="sc">%&gt;%</span> as.vector))</span>
 <span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>both <span class="ot">&lt;-</span> <span class="fu">cbind</span>(coast, data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Here we can run a k-folds cross-validation:</p>
+<p>Here, the data is split into 10 subsets (or folds), and trains on k-1 of the folds (here 9), and tested on 1 of them. Then it repeats it a few times. In this case, 3.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method=</span><span class="st">"repeatedcv"</span>, <span class="at">number=</span><span class="dv">10</span>, <span class="at">repeats=</span><span class="dv">3</span>)</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co"># train logistic regression</span></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>modelglm <span class="ot">&lt;-</span> <span class="fu">train</span>(coast <span class="sc">~</span> ., <span class="at">data=</span>both, <span class="at">method=</span><span class="st">"glm"</span>, <span class="at">trControl=</span>control)</span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="co"># train knn</span></span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>modelknn <span class="ot">&lt;-</span> <span class="fu">train</span>(coast <span class="sc">~</span> ., <span class="at">data=</span>both, <span class="at">method=</span><span class="st">"kknn"</span>, <span class="at">trControl=</span>control)</span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="co"># train nnet</span></span>
-<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>modelnnet <span class="ot">&lt;-</span> <span class="fu">train</span>(coast <span class="sc">~</span> ., <span class="at">data=</span>both, <span class="at">method=</span><span class="st">"nnet"</span>, <span class="at">trControl=</span>control)</span>
-<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a><span class="co"># train the LVQ model</span></span>
-<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>modelLvq <span class="ot">&lt;-</span> <span class="fu">train</span>(coast <span class="sc">~</span> ., <span class="at">data=</span>both, <span class="at">method=</span><span class="st">"lvq"</span>, <span class="at">trControl=</span>control)</span>
-<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a><span class="co"># train the GBM model</span></span>
-<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>modelGbm <span class="ot">&lt;-</span> <span class="fu">train</span>(coast <span class="sc">~</span> ., <span class="at">data=</span>both, <span class="at">method=</span><span class="st">"gbm"</span>, <span class="at">trControl=</span>control)</span>
-<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a><span class="co"># train the SVM model</span></span>
-<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>modelSvm <span class="ot">&lt;-</span> <span class="fu">train</span>(coast <span class="sc">~</span>., <span class="at">data=</span>both, <span class="at">method=</span><span class="st">"svmRadial"</span>, <span class="at">trControl=</span>control)</span>
-<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a><span class="co"># train the random forest</span></span>
-<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a>randomforest <span class="ot">&lt;-</span> <span class="fu">train</span>(coast<span class="sc">~</span>., <span class="at">data=</span>both, <span class="at">method=</span><span class="st">"ranger"</span>, <span class="at">trControl=</span>control)</span>
-<span id="cb40-24"><a href="#cb40-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-25"><a href="#cb40-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-26"><a href="#cb40-26" aria-hidden="true" tabindex="-1"></a><span class="co"># collect resamples</span></span>
-<span id="cb40-27"><a href="#cb40-27" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">resamples</span>(<span class="fu">list</span>(<span class="at">LVQ=</span>modelLvq, <span class="at">GBM=</span>modelGbm, <span class="at">SVM=</span>modelSvm,<span class="at">knn=</span>modelknn, <span class="at">nnet=</span>modelnnet, <span class="at">glm=</span>modelglm, <span class="at">rf=</span>randomforest))</span>
-<span id="cb40-28"><a href="#cb40-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-29"><a href="#cb40-29" aria-hidden="true" tabindex="-1"></a><span class="co"># summarize the distributions</span></span>
-<span id="cb40-30"><a href="#cb40-30" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(results)</span>
-<span id="cb40-31"><a href="#cb40-31" aria-hidden="true" tabindex="-1"></a><span class="fu">bwplot</span>(results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method=</span><span class="st">"repeatedcv"</span>, <span class="at">number=</span><span class="dv">10</span>, <span class="at">repeats=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here we can run the cross-validation with different types of classifiers and plot the results.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># train logistic regression</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>modelglm <span class="ot">&lt;-</span> <span class="fu">train</span>(coast <span class="sc">~</span> ., <span class="at">data=</span>both, <span class="at">method=</span><span class="st">"glm"</span>, <span class="at">trControl=</span>control)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co"># train knn</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>modelknn <span class="ot">&lt;-</span> <span class="fu">train</span>(coast <span class="sc">~</span> ., <span class="at">data=</span>both, <span class="at">method=</span><span class="st">"kknn"</span>, <span class="at">trControl=</span>control)</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="co"># train nnet</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>modelnnet <span class="ot">&lt;-</span> <span class="fu">train</span>(coast <span class="sc">~</span> ., <span class="at">data=</span>both, <span class="at">method=</span><span class="st">"nnet"</span>, <span class="at">trControl=</span>control)</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="co"># train the LVQ model</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>modelLvq <span class="ot">&lt;-</span> <span class="fu">train</span>(coast <span class="sc">~</span> ., <span class="at">data=</span>both, <span class="at">method=</span><span class="st">"lvq"</span>, <span class="at">trControl=</span>control)</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a><span class="co"># train the GBM model</span></span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>modelGbm <span class="ot">&lt;-</span> <span class="fu">train</span>(coast <span class="sc">~</span> ., <span class="at">data=</span>both, <span class="at">method=</span><span class="st">"gbm"</span>, <span class="at">trControl=</span>control)</span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a><span class="co"># train the SVM model</span></span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>modelSvm <span class="ot">&lt;-</span> <span class="fu">train</span>(coast <span class="sc">~</span>., <span class="at">data=</span>both, <span class="at">method=</span><span class="st">"svmRadial"</span>, <span class="at">trControl=</span>control)</span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a><span class="co"># train the random forest</span></span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a>randomforest <span class="ot">&lt;-</span> <span class="fu">train</span>(coast<span class="sc">~</span>., <span class="at">data=</span>both, <span class="at">method=</span><span class="st">"ranger"</span>, <span class="at">trControl=</span>control)</span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a><span class="co"># collect resamples</span></span>
+<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">resamples</span>(<span class="fu">list</span>(<span class="at">LVQ=</span>modelLvq, <span class="at">GBM=</span>modelGbm, <span class="at">SVM=</span>modelSvm,<span class="at">knn=</span>modelknn, <span class="at">nnet=</span>modelnnet, <span class="at">glm=</span>modelglm, <span class="at">rf=</span>randomforest))</span>
+<span id="cb41-24"><a href="#cb41-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-25"><a href="#cb41-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-26"><a href="#cb41-26" aria-hidden="true" tabindex="-1"></a><span class="co"># summarize the distributions</span></span>
+<span id="cb41-27"><a href="#cb41-27" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(results)</span>
+<span id="cb41-28"><a href="#cb41-28" aria-hidden="true" tabindex="-1"></a><span class="fu">bwplot</span>(results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="week_7_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
+<p><img src="week_7_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Now we can test our model on a dataset from outside of our initial training/testing stage:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>kendrick <span class="ot">&lt;-</span> <span class="fu">get_artist_audio_features</span>(<span class="st">'kendrick lamar'</span>)</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>kendrick <span class="ot">&lt;-</span> kendrick <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">c</span>(<span class="st">"acousticness"</span>, <span class="st">"energy"</span>, <span class="st">"instrumentalness"</span>, <span class="st">"liveness"</span>, <span class="st">"danceability"</span>, <span class="st">"loudness"</span>, <span class="st">"speechiness"</span>, <span class="st">"valence"</span>))</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>kendrick <span class="ot">&lt;-</span> kendrick <span class="sc">%&gt;%</span> <span class="fu">mutate_all</span>(<span class="sc">~</span>(<span class="fu">scale</span>(.) <span class="sc">%&gt;%</span> as.vector))</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>kendrick_rf <span class="ot">&lt;-</span> <span class="fu">predict</span>(randomforest, <span class="at">newdata=</span>kendrick)</span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>kendrick_knn <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelknn, <span class="at">newdata=</span>kendrick)</span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>kendrick_nnet <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelnnet, <span class="at">newdata=</span>kendrick)</span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(kendrick_rf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>kendrick_data <span class="ot">&lt;-</span> <span class="fu">get_artist_audio_features</span>(<span class="st">'kendrick lamar'</span>)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>kendrick <span class="ot">&lt;-</span> kendrick_data <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="fu">c</span>(<span class="st">"acousticness"</span>, <span class="st">"energy"</span>, <span class="st">"instrumentalness"</span>, <span class="st">"liveness"</span>, <span class="st">"danceability"</span>, <span class="st">"loudness"</span>, <span class="st">"speechiness"</span>, <span class="st">"valence"</span>))</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>kendrick <span class="ot">&lt;-</span> kendrick <span class="sc">%&gt;%</span> <span class="fu">mutate_all</span>(<span class="sc">~</span>(<span class="fu">scale</span>(.) <span class="sc">%&gt;%</span> as.vector))</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>kendrick_rf <span class="ot">&lt;-</span> <span class="fu">predict</span>(randomforest, <span class="at">newdata=</span>kendrick)</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>kendrick_knn <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelknn, <span class="at">newdata=</span>kendrick)</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>kendrick_nnet <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelnnet, <span class="at">newdata=</span>kendrick)</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(kendrick_rf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>kendrick_rf
 east west 
  107   35 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># classified_data$beatles_knn &lt;- if_else(classified_data$beatles_knn == 2, "Paul", "John")</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="co"># classified_data$beatles_rf&lt;- if_else(classified_data$beatles_rf == 2, "Paul", "John")</span></span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>classified_data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">cbind</span>(kendrick_rf, kendrick_knn, kendrick_nnet, kendrick<span class="sc">$</span>track_name))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>classified_data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">cbind</span>(kendrick_rf, kendrick_knn, kendrick_nnet, kendrick_data<span class="sc">$</span>track_name))</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>classified_data<span class="sc">$</span>kendrick_knn <span class="ot">&lt;-</span> <span class="fu">if_else</span>(classified_data<span class="sc">$</span>kendrick_knn <span class="sc">==</span> <span class="dv">2</span>, <span class="st">"West"</span>, <span class="st">"East"</span>)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>classified_data<span class="sc">$</span>kendrick_rf <span class="ot">&lt;-</span> <span class="fu">if_else</span>(classified_data<span class="sc">$</span>kendrick_rf <span class="sc">==</span> <span class="dv">2</span>, <span class="st">"West"</span>, <span class="st">"East"</span>)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>classified_data<span class="sc">$</span>kendrick_nnet <span class="ot">&lt;-</span> <span class="fu">if_else</span>(classified_data<span class="sc">$</span>kendrick_nnet <span class="sc">==</span> <span class="dv">2</span>, <span class="st">"West"</span>, <span class="st">"East"</span>)</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>classified_data<span class="sc">$</span>track_name <span class="ot">&lt;-</span> kendrick<span class="sc">$</span>track_name</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>classified_data <span class="sc">|&gt;</span> <span class="fu">datatable</span>(<span class="at">filter =</span><span class="st">"top"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-66b9d89fd925b94f54c1" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-66b9d89fd925b94f54c1">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td><\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120","121","122","123","124","125","126","127","128","129","130","131","132","133","134","135","136","137","138","139","140","141","142"],["East","West","East","East","East","East","East","East","East","West","West","East","East","East","East","East","East","East","East","East","West","East","West","East","East","West","East","East","East","West","East","East","West","East","West","East","East","East","East","West","West","West","East","East","East","East","West","West","East","East","East","East","West","West","West","East","East","East","East","West","East","East","East","East","East","East","West","East","East","East","East","West","East","West","East","West","West","East","East","West","East","East","East","East","East","East","West","East","East","West","East","East","East","East","East","East","East","West","West","East","West","East","East","West","East","East","West","East","East","East","East","East","East","East","East","East","East","East","West","East","West","East","East","East","East","East","West","East","East","East","East","East","East","West","East","East","East","East","East","East","East","East"],["East","West","East","East","East","East","East","East","East","East","East","East","East","East","East","East","East","East","West","East","West","East","West","East","East","West","East","East","East","West","East","West","West","East","East","East","East","East","East","West","East","East","East","East","West","West","East","East","West","West","East","East","East","East","West","East","East","East","East","East","East","East","East","West","West","East","East","East","East","East","East","West","East","West","East","West","West","East","West","West","East","East","West","East","East","East","East","East","East","East","East","East","East","East","East","West","East","West","West","East","West","East","East","East","East","East","East","East","East","East","East","East","West","East","East","West","East","East","East","East","East","East","East","East","East","East","East","East","East","East","East","East","East","East","East","West","East","East","West","East","East","West"],["East","West","East","East","East","East","West","East","East","West","East","West","East","East","East","East","East","West","East","East","West","East","West","East","East","West","East","East","East","West","East","West","West","East","West","East","East","West","East","West","West","West","East","East","East","East","East","East","East","East","East","East","West","West","West","East","West","East","East","West","East","East","East","East","East","East","West","East","West","East","East","West","East","West","East","West","East","East","East","West","East","East","East","East","East","East","West","East","East","West","East","East","East","East","East","East","East","West","West","East","West","East","East","West","East","East","West","East","East","East","East","East","East","East","East","East","East","East","West","East","East","East","East","East","East","East","East","West","East","East","East","East","East","West","East","East","East","East","West","East","East","East"],["United In Grief","N95","Worldwide Steppers","Die Hard","Father Time (feat. Sampha)","Rich - Interlude","Rich Spirit","We Cry Together","Purple Hearts","Count Me Out","Crown","Silent Hill","Savior - Interlude","Savior","Auntie Diaries","Mr. Morale","Mother I Sober (feat. Beth Gibbons of Portishead)","Mirror","The Heart Part 5","Black Panther","All The Stars (with SZA)","X (with 2 Chainz &amp; Saudi)","The Ways (with Swae Lee)","Opps (with Yugen Blakrok)","I Am","Paramedic!","Bloody Waters (with Anderson .Paak &amp; James Blake)","King's Dead (with Kendrick Lamar, Future &amp; James Blake)","Redemption Interlude","Redemption (with Babes Wodumo)","Seasons (with Sjava &amp; Reason)","Big Shot (with Travis Scott)","Pray For Me (with Kendrick Lamar)","DUCKWORTH.","GOD.","FEAR.","XXX. FEAT. U2.","LOVE. FEAT. ZACARI.","LUST.","HUMBLE.","PRIDE.","LOYALTY. FEAT. RIHANNA.","FEEL.","ELEMENT.","YAH.","DNA.","BLOOD.","BLOOD.","DNA.","YAH.","ELEMENT.","FEEL.","LOYALTY. FEAT. RIHANNA.","PRIDE.","HUMBLE.","LUST.","LOVE. FEAT. ZACARI.","XXX. FEAT. U2.","FEAR.","GOD.","DUCKWORTH.","untitled 01 | 08.19.2014.","untitled 02 | 06.23.2014.","untitled 03 | 05.28.2013.","untitled 04 | 08.14.2014.","untitled 05 | 09.21.2014.","untitled 06 | 06.30.2014.","untitled 07 | 2014 - 2016","untitled 08 | 09.06.2014.","Wesley's Theory","For Free? - Interlude","King Kunta","Institutionalized","These Walls","u","Alright","For Sale? - Interlude","Momma","Hood Politics","How Much A Dollar Cost","Complexion (A Zulu Love)","The Blacker The Berry","You Ain't Gotta Lie (Momma Said)","i","Mortal Man","Sherane a.k.a Master Splinter’s Daughter","Bitch, Don’t Kill My Vibe","Backseat Freestyle","The Art of Peer Pressure","Money Trees","Poetic Justice","good kid","m.A.A.d city","Swimming Pools (Drank) - Extended Version","Sing About Me, I'm Dying Of Thirst","Real","Compton","The Recipe - Bonus Track","Black Boy Fly - Bonus Track","Now Or Never - Bonus Track","The Recipe (Black Hippy Remix) - Bonus Track","Bitch, Don’t Kill My Vibe - Remix","Sherane a.k.a Master Splinter’s Daughter","Bitch, Don’t Kill My Vibe","Backseat Freestyle","The Art of Peer Pressure","Money Trees","Poetic Justice","good kid","m.A.A.d city","Swimming Pools (Drank) - Extended Version","Sing About Me, I'm Dying Of Thirst","Real","Compton","Bitch, Don’t Kill My Vibe - Remix","F*ck Your Ethnicity","Hol' Up","A.D.H.D","No Make-Up (Her Vice) (feat. Colin Munroe)","Tammy's Song (Her Evils)","Chapter Six","Ronald Reagan Era","Poe Mans Dreams (His Vice) (feat. GLC)","Chapter Ten","Keisha's Song (Her Pain) (feat. Ashtro Bot)","Rigamortus","Kush &amp; Corinthians (feat. BJ The Chicago Kid)","Blow My High (Members Only)","Ab-Souls Outro (feat. Ab-Soul)","HiiiPower","Growing Apart (To Get Closer)","Ignorance Is Bliss","P&amp;P 1.5","Alien Girl (Today W/ Her)","Opposites Attract (Tomorrow W/O Her)","Michael Jordan","R.O.T.C (Interlude)","Barbed Wire","Average Joe","H.O.C","Cut You Off (To Grow Closer)","She Needs Me (Remix)"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>kendrick_rf<\/th>\n      <th>kendrick_knn<\/th>\n      <th>kendrick_nnet<\/th>\n      <th>V4<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
 </div>
+</div>
+<p>Please note that this is a totally ridiculous classifier for Kendrick Lamar, but hopefully it demonstrates some possible techniques.</p>
+<p>What would be a better research question?</p>
 
 
+</section>
 </section>
 </section>
 </section>

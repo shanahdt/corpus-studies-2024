@@ -12,7 +12,9 @@ This week, we will start by moving from clustering to PCA, or pricinpal componen
 PCA is often seen as a way of reducing the dimensions of features, and here we will explore what it looks like when exploring questions of authorship. 
 
 We will follow this by looking at what it means to train a classifier, and some of the research questions we might ask of a classifier.
+
 ## Getting Started
+
 We will be using a of libraries today:
 ```{r, warnings=FALSE, message=FALSE, echo=FALSE}
 library(spotifyr)
@@ -233,18 +235,17 @@ plot(varImp(mod_fit))
 1. Use PCA to explore the works of two artists. How well do they "separate"?
 2. Run a classifier on two groups (it can be the same two artists, or two distinct groups). How well does your model do?
 
-# Wednesday
 
 Today we are going to look at different models and evaluating models. Our research question will be training a model to decipher John Lennon songs from Paul McCartney songs with various classifiers.
 
-## John or Paul?
+# John or Paul?
 Our research process will follow a simple trajectory:
 
 - Get songs by each artist's solo career (this can be our 'ground truth', as it were).
 - Train the model on these pieces, and evaluate the various models.
 - Apply the various models to some songs by the Beatles.
 
-### Getting the Data
+## Getting the Data
 ```{r}
 john <- get_artist_audio_features('john lennon')
 paul <- get_artist_audio_features('paul mccartney')
@@ -454,9 +455,9 @@ classified_data <- as.data.frame(cbind(beatles_knn, beatles_nnet, beatles_glm, b
 What I like about this is that we can take something about authorship that we know, and then use it to explore authorship of things that are a little more ambiguous. It can also teach us a fair bit about the specific models. Why do we think some performed so much better than others?
 
 ### Exercise: 
-Let's try to build an east/west coast rap classifier:
+Let's try to build an east/west coast rap classifier (an outdated concept, I know):
 
-Steps!: 
+Here are some important steps for us to go through as we think about training a classifier:
 
 - Grab data
 - partition and train model
@@ -464,7 +465,9 @@ Steps!:
 - use it to predict a new dataset.
 
 
+#### Let's grab the data. 
 
+Here I'm going to grab two playlists, one about "East coast" rap, and the other about "West coast".
 ```{r, results=FALSE}
 east_coast <- get_playlist_audio_features("", "3pu8tsqTW52aUtYFZN3g4A")
 east_coast$coast <- "east"
@@ -474,6 +477,9 @@ both <- rbind(east_coast, west_coast)
 
 ####standardize and clean a bit
 ```
+
+
+Now I'm going to grab the features that are important to me. Here it's the "coast" variable, followed by the standard "global features" that the Spotify API provides.
 
 ```{r, results=FALSE}
 both <- both %>% select(c("coast", "acousticness", "energy", "instrumentalness", "liveness", "danceability", "loudness", "speechiness", "valence"))
@@ -485,10 +491,18 @@ both <- cbind(coast, data)
 ```
 
 
+Here we can run a k-folds cross-validation:
+
+Here, the data is split into 10 subsets (or folds), and trains on k-1 of the folds (here 9), and tested on 1 of them. Then it repeats it a few times. In this case, 3.
+
 ```{r, results=FALSE}
 set.seed(1234)
 control <- trainControl(method="repeatedcv", number=10, repeats=3)
+```
 
+
+Here we can run the cross-validation with different types of classifiers and plot the results.
+```{r, results=FALSE}
 # train logistic regression
 modelglm <- train(coast ~ ., data=both, method="glm", trControl=control)
 
@@ -510,9 +524,9 @@ modelSvm <- train(coast ~., data=both, method="svmRadial", trControl=control)
 # train the random forest
 randomforest <- train(coast~., data=both, method="ranger", trControl=control)
 
-
 # collect resamples
 results <- resamples(list(LVQ=modelLvq, GBM=modelGbm, SVM=modelSvm,knn=modelknn, nnet=modelnnet, glm=modelglm, rf=randomforest))
+
 
 # summarize the distributions
 summary(results)
@@ -523,9 +537,9 @@ Now we can test our model on a dataset from outside of our initial training/test
 
 ```{r}
 
-kendrick <- get_artist_audio_features('kendrick lamar')
+kendrick_data <- get_artist_audio_features('kendrick lamar')
 
-kendrick <- kendrick |> select(c("acousticness", "energy", "instrumentalness", "liveness", "danceability", "loudness", "speechiness", "valence"))
+kendrick <- kendrick_data |> select(c("acousticness", "energy", "instrumentalness", "liveness", "danceability", "loudness", "speechiness", "valence"))
 
 kendrick <- kendrick %>% mutate_all(~(scale(.) %>% as.vector))
 
@@ -533,8 +547,15 @@ kendrick_rf <- predict(randomforest, newdata=kendrick)
 kendrick_knn <- predict(modelknn, newdata=kendrick)
 kendrick_nnet <- predict(modelnnet, newdata=kendrick)
 table(kendrick_rf)
-# classified_data$beatles_knn <- if_else(classified_data$beatles_knn == 2, "Paul", "John")
-# classified_data$beatles_rf<- if_else(classified_data$beatles_rf == 2, "Paul", "John")
-classified_data <- as.data.frame(cbind(kendrick_rf, kendrick_knn, kendrick_nnet, kendrick$track_name))
 
+classified_data <- as.data.frame(cbind(kendrick_rf, kendrick_knn, kendrick_nnet, kendrick_data$track_name))
+classified_data$kendrick_knn <- if_else(classified_data$kendrick_knn == 2, "West", "East")
+classified_data$kendrick_rf <- if_else(classified_data$kendrick_rf == 2, "West", "East")
+classified_data$kendrick_nnet <- if_else(classified_data$kendrick_nnet == 2, "West", "East")
+classified_data$track_name <- kendrick$track_name
+classified_data |> datatable(filter ="top") 
 ```
+
+Please note that this is a totally ridiculous classifier for Kendrick Lamar, but hopefully it demonstrates some possible techniques.
+
+What would be a better research question?

@@ -1,5 +1,5 @@
 ---
-title: "Week 6: Classifying"
+title: "Week 7: Classifying"
 ---
 
 # This Week's Plan

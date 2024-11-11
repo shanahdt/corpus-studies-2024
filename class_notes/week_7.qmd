@@ -1193,4 +1193,49 @@ life_on_mars |>
 Let's look at two performances of the same piece. How do timbres change? Are there any hypotheses that might be worth looking into?
  
 
+## A brief aside on gathering timbre data
 
+If you are interested in gathering the timbre, onsets, *etc.* for your classifer, you could add something like this:
+
+The process is almost identical to grabbing the chroma from [Week 5](week_5.qmd). 
+
+I would first define the cepstra variables:
+```{r}
+cepstra <- c("c1", "c2","c3", "c4", "c5", "c6", "c7","c8", "c9","c10", "c11","c12" )
+```
+
+You can then get the elements of timbre with the `get_tidy_audio_analysis` tool:
+```{r}
+x <- get_tidy_audio_analysis("6IQILcYkN2S2eSu5IHoPEH") 
+x
+```
+
+```{r}
+y <- x |> 
+  select(segments) |>
+  unnest(segments) 
+y  
+```
+Note how we now get many columns, including some nested lists, such as `pitches` and `timbre`.
+
+We can then grab the timbre with the `compmus_gather_chroma` tool, selecting timbre, and unnessting.
+```{r}
+timbre <- y |>
+  compmus_gather_chroma() |> 
+  select(timbre) |> 
+  unnest(cols = c(timbre))
+timbre$cepstra <- rep(cepstra, length.out = nrow(y))
+timbre
+ 
+    
+```
+
+You can then use tools from the `tidyverse` to grab the mean timbre of each cepstrum, and turn it into a table. This series of columns can then just be added to the broader, more global, data with a function that loops over every song in the playlist.
+
+```{r}
+
+  mean_timbres <- timbre |> 
+      group_by(cepstra) |> 
+      summarise(mean_timbre = mean(timbre)) 
+
+```

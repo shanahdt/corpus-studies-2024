@@ -1,5 +1,5 @@
 ---
-title: "Week 7: Text, TF-IDF, *etc.*"
+title: "Week 8: Text, TF-IDF, *etc.*"
 ---
 
 # Plan for the Week 
@@ -28,15 +28,13 @@ library(compmus)
 
 
 ```{r, echo=FALSE, warnings=FALSE}
-Sys.setenv(SPOTIFY_CLIENT_ID = '05af946589794553974d293435950a5d')
-Sys.setenv(SPOTIFY_CLIENT_SECRET = '2ad94ed8cd844667b98acd84ff65bd45')
 access_token <- get_spotify_access_token()
 ```
 # Lyrics
 
 ## What dataset to use?
 
-It's quite difficult to get lyrics from online sources at the moment. Many of the R interfaces for the Genius API seem to be quite deprecated. Kaggle does have many datasets available, including about 10GB of Genius data. For today, let's just look at a small dataset of TAylor Swift lyrics.
+It's quite difficult to get lyrics from online sources at the moment. Many of the R interfaces for the Genius API seem to be quite deprecated. Kaggle does have many datasets available, including about 10GB of Genius data. For today, let's just look at a small dataset of Taylor Swift lyrics.
 
 
 ## What is TF-IDF?

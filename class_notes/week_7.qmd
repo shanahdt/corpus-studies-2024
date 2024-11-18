@@ -1219,7 +1219,7 @@ y
 Note how we now get many columns, including some nested lists, such as `pitches` and `timbre`.
 
 We can then grab the timbre with the `compmus_gather_chroma` tool, selecting timbre, and unnessting.
-```{r}
+```{r, eval=FALSE}
 timbre <- y |>
   compmus_gather_chroma() |> 
   select(timbre) |> 
@@ -1232,7 +1232,7 @@ timbre
 
 You can then use tools from the `tidyverse` to grab the mean timbre of each cepstrum, and turn it into a table. This series of columns can then just be added to the broader, more global, data with a function that loops over every song in the playlist.
 
-```{r}
+```{r, eval=FALSE}
 
   mean_timbres <- timbre |> 
       group_by(cepstra) |> 

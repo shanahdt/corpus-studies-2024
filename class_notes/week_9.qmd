@@ -1,0 +1,241 @@
+---
+title: "Week 9: Recommender Systems"
+---
+
+# Plan for the Week 
+
+- Talking about Recommender Systems
+- What kind of data would you need for your project? 
+- Monday: Basic Recommender Code 
+- Wednesday: Including Spotify Features
+
+
+# 
+
+The code below generates fake ratings for each user for a bunch of songs: 
+```{python, eval=FALSE}
+import pandas as pd
+import random
+
+# Define users and songs
+users = ['Alex', 'Stephanie', 'Hannah', 'Kelvin', 'Khoi', 'Leo', 'Ally', 'Jordan', 'Sid', 'Jacob']
+songs = [
+    'Respect', 'In The Mood', 'White Christmas', 'Johnny B. Goode', 'Over The Rainbow',
+    'Thriller', 'Imagine', 'Billie Jean', 'Hotel California', 'Stairway to Heaven', 'Shake it Off', 
+    'As it Was', 'Truth Hurts', 'All I Want for Christmas', 'Fade to Black', 'Enter Sandman', 'Smells Like Teen Spirit',
+    'Paranoid Android', 'Sgt. Pepper', 'Help', 'Good Vibrations', 'Happy', '2 Legit 2 Quit', 'Happy Birthday', 'Happy', 
+    'The Theme from the 90s TV Show E.R', 'Elephants Playing Gongs', 'Raindrops Keep Falling on My Head', 'Beethoven 9',
+    'Dolphins Singing', 'The NU Fight Song', 'Bach?', 'Do you really want to hurt me?', 'Schools Out', 'Jesses Girl',
+    'Dan Shanahan Yelling', 'Dan Shanahan Rocking on the Guitar', 'Sounds of a Campfire'
+
+]
+
+# Generate random ratings
+data = []
+for i in range(2000):
+    user = random.choice(users)
+    song = random.choice(songs)
+    rating = random.randint(1, 5)
+    data.append({'user_id': user, 'track_title': song, 'ratings': rating})
+
+# Create DataFrame and save to CSV
+df = pd.DataFrame(data)
+# if you want to save it as a csv:
+# df.to_csv('spotify_data.csv', index=False)
+print(df.head(100))
+```
+
+It ends up looking something like this:
+
+```{txt}
+      user_id       track_title  ratings
+0         Leo       Schools Out        2
+1      Jordan     Enter Sandman        4
+2       Jacob  Over The Rainbow        1
+3      Jordan  Paranoid Android        4
+4      Hannah     Fade to Black        1
+..        ...               ...      ...
+95        Leo       Jesses Girl        4
+96      Jacob             Happy        4
+97  Stephanie     Fade to Black        4
+98     Kelvin       Truth Hurts        2
+99        Leo              Help        1
+```
+
+### Beginning Recommender Code with Surprise
+
+First, we will begin by loading all of the libraries. Here, I'm going to be using pandas, and a number of modules from the Surprise toolkit. If you don't already have it installed, typing `pip intall surprise` into your Python environment will install it for you.
+
+Once the libraries are loaded, you can import the dataframe `df` that we created above, and load it into surprise's `Reader` object. Then, we can do an 80/20 training and testing split quite easily with the built-in train_test_split function.
+
+```{python, eval=FALSE}
+import pandas as pd
+from surprise import Dataset, Reader, SVD, KNNBasic, KNNWithMeans
+from surprise.model_selection import train_test_split
+
+# Create a Surprise Reader object
+reader = Reader(rating_scale=(1, 5))
+
+# Load the data into the Surprise Dataset format
+data = Dataset.load_from_df(df[['user_id', 'track_title', 'ratings']], reader)
+
+# Split the data into training and testing sets
+trainset, testset = train_test_split(data, test_size=0.20)
+```
+
+
+
+Now it's time to, in effect, fill in the blank spots in our matrix. Surprise has a number of algorithms built in. Singular Value Decomposition (SVD) is probably the most commonly-used one, but there are many KNNs bundled, as well. Here I've used the KNNBasic. I then use that algorithm to train on the training dataset, and then predict with the testing set.
+
+```{python, eval=FALSE}
+# Use SVD algorithm
+# algo = SVD()
+algo = KNNBasic()
+# algo = KNNWithMeans()
+
+# Train the algorithm on the trainset
+algo.fit(trainset)
+
+# Make predictions on the testset
+predictions = algo.test(testset)
+```
+
+I could also look at a content based system with a different form of similarity, here using a geometric approach, if I wanted:
+
+```{python, eval=FALSE}
+
+sim_options = {
+    "name": "cosine",
+    "user_based": False,  # compute  similarities between items, not users!!!
+}
+algo = KNNBasic(sim_options=sim_options)
+algo = KNNWithMeans()
+
+
+```
+
+Here are some functions for getting the top recommendations for each user. Note that I loop over the user id, item id, and rating, as well as the estimate. I then grab the top 10 from these and sort the data.
+
+```{python, eval=FALSE}
+# Function to get top N recommendations for a user
+def get_top_n_recommendations(predictions, n=10):
+    top_n = {}
+    for user_id, item_id, true_rating, est, i in predictions:
+        if user_id not in top_n:
+            top_n[user_id] = []
+        top_n[user_id].append((item_id, est))
+    
+    # Sort the predictions for each user and retrieve the top ones
+    for user_id, user_ratings in top_n.items():
+        user_ratings.sort(key=lambda x: x[1], reverse=True)
+        top_n[user_id] = user_ratings[:n]
+    
+    return top_n
+
+# Get top 5 recommendations for each user
+top_n = get_top_n_recommendations(predictions, n=5)
+```
+
+
+This is just a printing function.
+```{python, eval=FALSE}
+# Print the top 5 recommendations
+for i, (user, recommendations) in enumerate(list(top_n.items())):
+    print(f"\nTop track recommendations for user {user}:")
+    for j, (track_id, estimated_rating) in enumerate(recommendations, 10):
+        print(f"Track Title: {track_id}, Estimated Rating: {estimated_rating:.2f}")
+
+```
+
+And this gets the following results:
+
+```{txt}
+Computing the msd similarity matrix...
+Done computing similarity matrix.
+
+Top track recommendations for user Khoi:
+Track Title: Schools Out, Estimated Rating: 3.38
+Track Title: Help, Estimated Rating: 3.29
+Track Title: Beethoven 9, Estimated Rating: 3.18
+Track Title: Over The Rainbow, Estimated Rating: 3.16
+Track Title: Stairway to Heaven, Estimated Rating: 3.14
+
+Top track recommendations for user Hannah:
+Track Title: Good Vibrations, Estimated Rating: 3.39
+Track Title: Good Vibrations, Estimated Rating: 3.39
+Track Title: Good Vibrations, Estimated Rating: 3.39
+Track Title: Imagine, Estimated Rating: 3.32
+Track Title: Imagine, Estimated Rating: 3.32
+
+Top track recommendations for user Stephanie:
+Track Title: Imagine, Estimated Rating: 3.66
+Track Title: Happy, Estimated Rating: 3.55
+Track Title: Happy, Estimated Rating: 3.55
+Track Title: Happy, Estimated Rating: 3.55
+Track Title: Dan Shanahan Yelling, Estimated Rating: 3.49
+
+Top track recommendations for user Jacob:
+Track Title: Shake it Off, Estimated Rating: 3.61
+Track Title: Shake it Off, Estimated Rating: 3.61
+Track Title: Dan Shanahan Yelling, Estimated Rating: 3.44
+Track Title: Schools Out, Estimated Rating: 3.43
+Track Title: Schools Out, Estimated Rating: 3.43
+
+Top track recommendations for user Jordan:
+Track Title: Good Vibrations, Estimated Rating: 3.43
+Track Title: Schools Out, Estimated Rating: 3.39
+Track Title: In The Mood, Estimated Rating: 3.38
+Track Title: Bach?, Estimated Rating: 3.32
+Track Title: Bach?, Estimated Rating: 3.32
+
+Top track recommendations for user Alex:
+Track Title: Shake it Off, Estimated Rating: 3.40
+Track Title: Shake it Off, Estimated Rating: 3.40
+Track Title: Truth Hurts, Estimated Rating: 3.38
+Track Title: Truth Hurts, Estimated Rating: 3.38
+Track Title: The Theme from the 90s TV Show E.R, Estimated Rating: 3.36
+
+Top track recommendations for user Leo:
+Track Title: Beethoven 9, Estimated Rating: 3.43
+Track Title: Beethoven 9, Estimated Rating: 3.43
+Track Title: The Theme from the 90s TV Show E.R, Estimated Rating: 3.27
+Track Title: The Theme from the 90s TV Show E.R, Estimated Rating: 3.27
+Track Title: In The Mood, Estimated Rating: 3.26
+
+Top track recommendations for user Kelvin:
+Track Title: Sounds of a Campfire, Estimated Rating: 3.53
+Track Title: Sounds of a Campfire, Estimated Rating: 3.53
+Track Title: Imagine, Estimated Rating: 3.53
+Track Title: Dan Shanahan Yelling, Estimated Rating: 3.38
+Track Title: Dan Shanahan Yelling, Estimated Rating: 3.38
+
+Top track recommendations for user Ally:
+Track Title: Help, Estimated Rating: 3.76
+Track Title: Beethoven 9, Estimated Rating: 3.46
+Track Title: Beethoven 9, Estimated Rating: 3.46
+Track Title: Beethoven 9, Estimated Rating: 3.46
+Track Title: Imagine, Estimated Rating: 3.42
+
+Top track recommendations for user Sid:
+Track Title: Truth Hurts, Estimated Rating: 3.40
+Track Title: Imagine, Estimated Rating: 3.32
+Track Title: In The Mood, Estimated Rating: 3.13
+Track Title: The NU Fight Song, Estimated Rating: 3.12
+Track Title: The NU Fight Song, Estimated Rating: 3.12
+```
+
+The standard way for evaluating the accuracy of the algorithm is the RMSE (root mean square error). Again, Surprise has a built-in method for this:
+
+```{python, eval=FALSE}
+# rmse = accuracy.rmse(predictions)
+```
+
+And we end up with:
+
+```{txt}
+RMSE: 1.4986
+```
+
+## The Cold Start Problem
+
+This was all random data. How will you get data for your project? What will it look like for your model to be accurate?

@@ -265,7 +265,7 @@ plt.show()
 ```
 
 This will give us this:
-![Item Similarity Matrix](images/item-similarity-matrix.png)
+![Item Similarity Matrix](../images/item-similarity-matrix.png)
 
 
 ## The Cold Start Problem

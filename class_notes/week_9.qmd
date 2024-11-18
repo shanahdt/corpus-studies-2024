@@ -1,5 +1,9 @@
 ---
 title: "Week 9: Recommender Systems"
+execute:
+  echo: true
+  eval: false 
+
 ---
 
 # Plan for the Week 
@@ -109,7 +113,7 @@ sim_options = {
     "user_based": False,  # compute  similarities between items, not users!!!
 }
 algo = KNNBasic(sim_options=sim_options)
-algo = KNNWithMeans()
+# algo = KNNWithMeans()
 
 
 ```
@@ -227,7 +231,9 @@ Track Title: The NU Fight Song, Estimated Rating: 3.12
 The standard way for evaluating the accuracy of the algorithm is the RMSE (root mean square error). Again, Surprise has a built-in method for this:
 
 ```{python, eval=FALSE}
-# rmse = accuracy.rmse(predictions)
+
+#rmse = accuracy.rmse(predictions)
+
 ```
 
 And we end up with:
@@ -236,6 +242,157 @@ And we end up with:
 RMSE: 1.4986
 ```
 
+### Visualizing the Similarity
+
+We can look at the similarity of items with a bit of help from Seaborn:
+
+```{python, eval=FALSE}
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+# Extract the similarity matrix
+sim_matrix = algo.sim
+
+# Convert to a pandas DataFrame
+df_sim = pd.DataFrame(sim_matrix)
+
+# Create a heatmap
+plt.figure(figsize=(12, 10))
+sns.heatmap(df_sim, cmap='YlGnBu')
+plt.title('Item Similarity Matrix Heatmap')
+plt.show()
+
+```
+
+This will give us this:
+![Item Similarity Matrix](images/item-similarity-matrix.png)
+
+
 ## The Cold Start Problem
 
 This was all random data. How will you get data for your project? What will it look like for your model to be accurate?
+
+
+## Two Spotify Discover Playlists
+
+What if I take my own discover playlist, and find someone else's and see what it might recommend?
+
+We can start by getting data from playlists. Put in your own Spotify data here. I was having some cache issues with my client id, so I'm using the `MemoryCacheHandler` function from Spotipy.
+
+```{python, eval=FALSE}
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+from surprise import Dataset, Reader, KNNBasic
+import pandas as pd
+from spotipy.cache_handler import MemoryCacheHandler
+
+client_credentials_manager = SpotifyClientCredentials(
+    client_id = 'YOUR OWN CLIENT ID',
+    client_secret = 'YOUR OWN CLIENT SECRET',
+    cache_handler=MemoryCacheHandler()
+)
+sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+
+```
+
+Here's a function that grabs the audio data from Spotify, using spotipy and pandas:
+
+```{python, eval=FALSE}
+
+# Function to get playlist tracks and audio features
+def get_playlist_data(playlist_id):
+    results = sp.playlist_tracks(playlist_id)
+    tracks = results['items']
+    
+    data = []
+    for track in tracks:
+        track_id = track['track']['id']
+        audio_features = sp.audio_features(track_id)[0]
+        
+        data.append({
+            'track_id': track_id,
+            'acousticness': audio_features['acousticness'],
+            'danceability': audio_features['danceability'],
+            'energy': audio_features['energy'],
+            'instrumentalness': audio_features['instrumentalness'],
+            'liveness': audio_features['liveness']
+        })
+    
+    return pd.DataFrame(data)
+
+
+```
+
+
+And we can add all of the Spotify URIs for the playlist:
+
+```{python, eval=FALSE}
+# Get data for both playlists
+playlist1_id = '37i9dQZEVXcIDdjTZ1FKnJ'
+playlist2_id = '2VYB4MjPYJx3ZOkrjyUvsx'
+
+df1 = get_playlist_data(playlist1_id)
+df2 = get_playlist_data(playlist2_id)
+
+```
+
+Now we will read it into Surprise with the Reader function:
+
+
+```{python, eval=FALSE}
+# Assign user IDs (1 for playlist1, 2 for playlist2)
+df1['user_id'] = 'Dannah Shanalee'
+df2['user_id'] = 'Hannah Ashlee'
+
+# Combine dataframes
+combined_df = pd.concat([df1, df2], ignore_index=True)
+
+# Prepare data for Surprise
+reader = Reader(rating_scale=(0, 1))
+data = Dataset.load_from_df(combined_df[['user_id', 'track_id', 'acousticness']], reader)
+
+```
+
+
+Here we have a function that gets the track information (name, artist, and id) to print it later (it was only printing URIs), and then recommend 5 tracks from the other playlist:
+
+```{python, eval=FALSE}
+def get_track_info(track_id):
+    try:
+        track_info = sp.track(track_id)
+        return {
+            'name': track_info['name'],
+            'artist': track_info['artists'][0]['name'],
+            'id': track_id
+        }
+    except:
+        return {'name': 'Unknown', 'artist': 'Unknown', 'id': track_id}
+
+def get_recommendations(track_id, model, n=5):
+    inner_id = model.trainset.to_inner_iid(track_id)
+    neighbors = model.get_neighbors(inner_id, k=n)
+    raw_neighbors = [model.trainset.to_raw_iid(inner_id) for inner_id in neighbors]
+    return [get_track_info(track_id) for track_id in raw_neighbors]
+
+# Example: Get recommendations for a track
+sample_track = combined_df['track_id'].iloc[0]
+sample_track_info = get_track_info(sample_track)
+recommendations = get_recommendations(sample_track, algo)
+
+print(f"Recommendations for '{sample_track_info['name']}' by {sample_track_info['artist']}:")
+for rec in recommendations:
+    print(f"- '{rec['name']}' by {rec['artist']} (ID: {rec['id']})")
+
+```
+
+And we get five new recommendations from the other playlist:
+
+```{txt}
+
+Recommendations for 'Lily Pad on Your Doorstep' by Don't Stop or We'll Die:
+- 'Amazing Glow' by Pernice Brothers (ID: 6ViAxolMqWD1d6JrqgPZKc)
+- 'Rang Tang Ring Toon' by Mountain Man (ID: 2HZRjBrPeo3HwyZVUZxK62)
+- 'Amsterdam' by Guster (ID: 3fv9cBtpMOaFaIAO4uVRBV)
+- 'Bernadette' by Elle Cordova (ID: 4NFhb4AOPBulDFgxyoXaLH)
+- 'Tire Swing' by Kimya Dawson (ID: 0vbhRDi46TDNHkhKbZa81B)
+```

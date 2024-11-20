@@ -100,8 +100,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <meta property="og:title" content="Corpus Studies in Music - Week 9: Recommender Systems">
 <meta property="og:description" content="">
-<meta property="og:image" content="https://shanahdt.github.io/corpus-studies-2024/class_notes/images/item-similarity-matrix.png">
+<meta property="og:image" content="https://shanahdt.github.io/corpus-studies-2024/images/item-similarity-matrix.png">
 <meta property="og:site-name" content="Corpus Studies in Music">
+<meta property="og:image:height" content="590">
+<meta property="og:image:width" content="656">
 </head>
 
 <body class="nav-sidebar docked">
@@ -246,13 +248,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#plan-for-the-week" id="toc-plan-for-the-week" class="nav-link active" data-scroll-target="#plan-for-the-week">Plan for the Week</a></li>
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a>
+  <li><a href="#monday" id="toc-monday" class="nav-link" data-scroll-target="#monday">Monday</a>
   <ul class="collapse">
   <li><a href="#beginning-recommender-code-with-surprise" id="toc-beginning-recommender-code-with-surprise" class="nav-link" data-scroll-target="#beginning-recommender-code-with-surprise">Beginning Recommender Code with Surprise</a></li>
   <li><a href="#visualizing-the-similarity" id="toc-visualizing-the-similarity" class="nav-link" data-scroll-target="#visualizing-the-similarity">Visualizing the Similarity</a></li>
   <li><a href="#the-cold-start-problem" id="toc-the-cold-start-problem" class="nav-link" data-scroll-target="#the-cold-start-problem">The Cold Start Problem</a></li>
   <li><a href="#two-spotify-discover-playlists" id="toc-two-spotify-discover-playlists" class="nav-link" data-scroll-target="#two-spotify-discover-playlists">Two Spotify Discover Playlists</a></li>
   </ul></li>
+  <li><a href="#wednesday" id="toc-wednesday" class="nav-link" data-scroll-target="#wednesday">Wednesday</a>
+  <ul class="collapse">
+  <li><a href="#importing-the-libraries-and-the-data" id="toc-importing-the-libraries-and-the-data" class="nav-link" data-scroll-target="#importing-the-libraries-and-the-data">Importing the Libraries and the Data</a></li>
+  <li><a href="#building-an-item-item-recommender-system" id="toc-building-an-item-item-recommender-system" class="nav-link" data-scroll-target="#building-an-item-item-recommender-system">Building an Item-Item Recommender System</a></li>
+  <li><a href="#using-data-from-one-list-to-recommend-to-another" id="toc-using-data-from-one-list-to-recommend-to-another" class="nav-link" data-scroll-target="#using-data-from-one-list-to-recommend-to-another">Using Data from One List to Recommend to Another</a></li>
+  </ul></li>
+  <li><a href="#some-future-steps" id="toc-some-future-steps" class="nav-link" data-scroll-target="#some-future-steps">Some Future Steps</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/shanahdt/corpus-studies-2024/edit/main/class_notes/week_9.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/shanahdt/corpus-studies-2024/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -285,8 +294,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Wednesday: Including Spotify Features</li>
 </ul>
 </section>
-<section id="section" class="level1">
-<h1></h1>
+<section id="monday" class="level1">
+<h1>Monday</h1>
 <p>The code below generates fake ratings for each user for a bunch of songs:</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -341,14 +350,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> surprise <span class="im">import</span> Dataset, Reader, SVD, KNNBasic, KNNWithMeans</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> surprise.model_selection <span class="im">import</span> train_test_split</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a Surprise Reader object</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>reader <span class="op">=</span> Reader(rating_scale<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">5</span>))</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the data into the Surprise Dataset format</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> Dataset.load_from_df(df[[<span class="st">'user_id'</span>, <span class="st">'track_title'</span>, <span class="st">'ratings'</span>]], reader)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the data into training and testing sets</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>trainset, testset <span class="op">=</span> train_test_split(data, test_size<span class="op">=</span><span class="fl">0.20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a Surprise Reader object</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>reader <span class="op">=</span> Reader(rating_scale<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">5</span>))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the data into the Surprise Dataset format</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> Dataset.load_from_df(df[[<span class="st">'user_id'</span>, <span class="st">'track_title'</span>, <span class="st">'ratings'</span>]], reader)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the data into training and testing sets</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>trainset, testset <span class="op">=</span> train_test_split(data, test_size<span class="op">=</span><span class="fl">0.20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now it’s time to, in effect, fill in the blank spots in our matrix. Surprise has a number of algorithms built in. Singular Value Decomposition (SVD) is probably the most commonly-used one, but there are many KNNs bundled, as well. Here I’ve used the KNNBasic. I then use that algorithm to train on the training dataset, and then predict with the testing set.</p>
 <div class="cell" data-execution_count="3">
@@ -418,67 +428,14 @@ Track Title: Good Vibrations, Estimated Rating: 3.39
 Track Title: Imagine, Estimated Rating: 3.32
 Track Title: Imagine, Estimated Rating: 3.32
 
-Top track recommendations for user Stephanie:
-Track Title: Imagine, Estimated Rating: 3.66
-Track Title: Happy, Estimated Rating: 3.55
-Track Title: Happy, Estimated Rating: 3.55
-Track Title: Happy, Estimated Rating: 3.55
-Track Title: Dan Shanahan Yelling, Estimated Rating: 3.49
-
-Top track recommendations for user Jacob:
-Track Title: Shake it Off, Estimated Rating: 3.61
-Track Title: Shake it Off, Estimated Rating: 3.61
-Track Title: Dan Shanahan Yelling, Estimated Rating: 3.44
-Track Title: Schools Out, Estimated Rating: 3.43
-Track Title: Schools Out, Estimated Rating: 3.43
-
-Top track recommendations for user Jordan:
-Track Title: Good Vibrations, Estimated Rating: 3.43
-Track Title: Schools Out, Estimated Rating: 3.39
-Track Title: In The Mood, Estimated Rating: 3.38
-Track Title: Bach?, Estimated Rating: 3.32
-Track Title: Bach?, Estimated Rating: 3.32
-
-Top track recommendations for user Alex:
-Track Title: Shake it Off, Estimated Rating: 3.40
-Track Title: Shake it Off, Estimated Rating: 3.40
-Track Title: Truth Hurts, Estimated Rating: 3.38
-Track Title: Truth Hurts, Estimated Rating: 3.38
-Track Title: The Theme from the 90s TV Show E.R, Estimated Rating: 3.36
-
-Top track recommendations for user Leo:
-Track Title: Beethoven 9, Estimated Rating: 3.43
-Track Title: Beethoven 9, Estimated Rating: 3.43
-Track Title: The Theme from the 90s TV Show E.R, Estimated Rating: 3.27
-Track Title: The Theme from the 90s TV Show E.R, Estimated Rating: 3.27
-Track Title: In The Mood, Estimated Rating: 3.26
-
-Top track recommendations for user Kelvin:
-Track Title: Sounds of a Campfire, Estimated Rating: 3.53
-Track Title: Sounds of a Campfire, Estimated Rating: 3.53
-Track Title: Imagine, Estimated Rating: 3.53
-Track Title: Dan Shanahan Yelling, Estimated Rating: 3.38
-Track Title: Dan Shanahan Yelling, Estimated Rating: 3.38
-
-Top track recommendations for user Ally:
-Track Title: Help, Estimated Rating: 3.76
-Track Title: Beethoven 9, Estimated Rating: 3.46
-Track Title: Beethoven 9, Estimated Rating: 3.46
-Track Title: Beethoven 9, Estimated Rating: 3.46
-Track Title: Imagine, Estimated Rating: 3.42
-
-Top track recommendations for user Sid:
-Track Title: Truth Hurts, Estimated Rating: 3.40
-Track Title: Imagine, Estimated Rating: 3.32
-Track Title: In The Mood, Estimated Rating: 3.13
-Track Title: The NU Fight Song, Estimated Rating: 3.12
-Track Title: The NU Fight Song, Estimated Rating: 3.12</code></pre>
+etc.</code></pre>
 <p>The standard way for evaluating the accuracy of the algorithm is the RMSE (root mean square error). Again, Surprise has a built-in method for this:</p>
 <div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#rmse = accuracy.rmse(predictions)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And we end up with:</p>
 <pre class="{txt}"><code>RMSE: 1.4986</code></pre>
+<p>This isn’t great. I think for movies, I’ve seen people shoot for .8; for other things it’s even better than that (lower is better).</p>
 </section>
 <section id="visualizing-the-similarity" class="level3">
 <h3 class="anchored" data-anchor-id="visualizing-the-similarity">Visualizing the Similarity</h3>
@@ -498,7 +455,7 @@ Track Title: The NU Fight Song, Estimated Rating: 3.12</code></pre>
 <span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Item Similarity Matrix Heatmap'</span>)</span>
 <span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This will give us this: <img src="images/item-similarity-matrix.png" class="img-fluid" alt="Item Similarity Matrix"></p>
+<p>This will give us this: <img src="../images/item-similarity-matrix.png" class="img-fluid" alt="Item Similarity Matrix"></p>
 </section>
 <section id="the-cold-start-problem" class="level2">
 <h2 class="anchored" data-anchor-id="the-cold-start-problem">The Cold Start Problem</h2>
@@ -515,12 +472,13 @@ Track Title: The NU Fight Song, Estimated Rating: 3.12</code></pre>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotipy.cache_handler <span class="im">import</span> MemoryCacheHandler</span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>client_credentials_manager <span class="op">=</span> SpotifyClientCredentials(</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    client_id <span class="op">=</span> <span class="st">'YOUR OWN CLIENT ID'</span>,</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    client_secret <span class="op">=</span> <span class="st">'YOUR OWN CLIENT SECRET'</span>,</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    cache_handler<span class="op">=</span>MemoryCacheHandler()</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>sp <span class="op">=</span> spotipy.Spotify(client_credentials_manager<span class="op">=</span>client_credentials_manager)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>client_credentials_manager <span class="op">=</span> SpotifyClientCredentials(</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    client_id <span class="op">=</span> <span class="st">'YOUR OWN CLIENT ID'</span>,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    client_secret <span class="op">=</span> <span class="st">'YOUR OWN CLIENT SECRET'</span>,</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    cache_handler<span class="op">=</span>MemoryCacheHandler()</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>sp <span class="op">=</span> spotipy.Spotify(client_credentials_manager<span class="op">=</span>client_credentials_manager)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here’s a function that grabs the audio data from Spotify, using spotipy and pandas:</p>
 <div class="cell" data-execution_count="10">
@@ -595,7 +553,7 @@ Track Title: The NU Fight Song, Estimated Rating: 3.12</code></pre>
 <span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> rec <span class="kw">in</span> recommendations:</span>
 <span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"- '</span><span class="sc">{</span>rec[<span class="st">'name'</span>]<span class="sc">}</span><span class="ss">' by </span><span class="sc">{</span>rec[<span class="st">'artist'</span>]<span class="sc">}</span><span class="ss"> (ID: </span><span class="sc">{</span>rec[<span class="st">'id'</span>]<span class="sc">}</span><span class="ss">)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>And we get five new recommendations from the other playlist:</p>
+<p>And we get five new recommendations:</p>
 <pre class="{txt}"><code>
 Recommendations for 'Lily Pad on Your Doorstep' by Don't Stop or We'll Die:
 - 'Amazing Glow' by Pernice Brothers (ID: 6ViAxolMqWD1d6JrqgPZKc)
@@ -603,9 +561,241 @@ Recommendations for 'Lily Pad on Your Doorstep' by Don't Stop or We'll Die:
 - 'Amsterdam' by Guster (ID: 3fv9cBtpMOaFaIAO4uVRBV)
 - 'Bernadette' by Elle Cordova (ID: 4NFhb4AOPBulDFgxyoXaLH)
 - 'Tire Swing' by Kimya Dawson (ID: 0vbhRDi46TDNHkhKbZa81B)</code></pre>
-
-
+<p>After working through this example, in class, we realized that it wasn’t really doing what we thought it was doing. We thought it was picking the top tracks from the other playlist, but in fact it was taking a <em>single track</em> and picking five similar tracks from <em>that same playlist</em>.</p>
+<p>So for Wednesday we want to do a few things:</p>
+<ol type="1">
+<li>Look at two playlists, and <strong>use the entire set of songs</strong> to predict a single new song from playlist 1 for the user of playlist 2.</li>
+<li>We want to compare a few different models and see what this looks like, comparing the accuracy as needed.</li>
+</ol>
 </section>
+</section>
+<section id="wednesday" class="level1">
+<h1>Wednesday</h1>
+<p>So let’s start from scratch.</p>
+<section id="importing-the-libraries-and-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="importing-the-libraries-and-the-data">Importing the Libraries and the Data</h2>
+<p>First, I’m going to import the spotipy, pandas, and surprise. I’m also going to import specific authentication and cache things with spotipy, and some models with Surprise.</p>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> spotipy</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> surprise <span class="im">import</span> Dataset, Reader, KNNBasic, SVD</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotipy.cache_handler <span class="im">import</span> MemoryCacheHandler</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> surprise.model_selection <span class="im">import</span> cross_validate</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotipy.oauth2 <span class="im">import</span> SpotifyClientCredentials</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>I’ve stored my id stuff locally so you can’t add things to my playlists…</p>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> spotipy</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spotipy.oauth2 <span class="im">import</span> SpotifyClientCredentials</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Access environment variables</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>client_id <span class="op">=</span> os.getenv(<span class="st">'SPOTIFY_CLIENT_ID'</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>client_secret <span class="op">=</span> os.getenv(<span class="st">'SPOTIFY_CLIENT_SECRET'</span>)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up Spotify client credentials</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>sp <span class="op">=</span> spotipy.Spotify(auth_manager<span class="op">=</span>SpotifyClientCredentials(client_id<span class="op">=</span>client_id, client_secret<span class="op">=</span>client_secret))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(os.getenv(<span class="st">'SPOTIFY_CLIENT_ID'</span>))</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(os.getenv(<span class="st">'SPOTIFY_CLIENT_SECRET'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now that those are loaded, let’s grab the data from two playlists from Spotify.</p>
+<p>We will start with a function that takes the playlist uri as an argument, grabs the audio features from the tracks:</p>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to get playlist tracks and audio features</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_playlist_data(playlist_id):</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> sp.playlist_tracks(playlist_id)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    tracks <span class="op">=</span> results[<span class="st">'items'</span>]</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> []</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> track <span class="kw">in</span> tracks:</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>        track_id <span class="op">=</span> track[<span class="st">'track'</span>][<span class="st">'id'</span>]</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>        audio_features <span class="op">=</span> sp.audio_features(track_id)[<span class="dv">0</span>]</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>        data.append({</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>            <span class="st">'track_id'</span>: track_id,</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>            <span class="st">'acousticness'</span>: audio_features[<span class="st">'acousticness'</span>],</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>            <span class="st">'danceability'</span>: audio_features[<span class="st">'danceability'</span>],</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>            <span class="st">'energy'</span>: audio_features[<span class="st">'energy'</span>],</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>            <span class="st">'instrumentalness'</span>: audio_features[<span class="st">'instrumentalness'</span>],</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>            <span class="st">'liveness'</span>: audio_features[<span class="st">'liveness'</span>],</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>            <span class="st">'mode'</span>: audio_features[<span class="st">'mode'</span>],</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>            <span class="st">'tempo'</span>: audio_features[<span class="st">'tempo'</span>],</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can use this function and grab the information from the playlist with the following:</p>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get data for both playlists</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>playlist1_id <span class="op">=</span> <span class="st">'37i9dQZEVXcIDdjTZ1FKnJ'</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>playlist2_id <span class="op">=</span> <span class="st">'2VYB4MjPYJx3ZOkrjyUvsx'</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> get_playlist_data(playlist1_id)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> get_playlist_data(playlist2_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s see what kind of data we have from this:</p>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>df1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note how it gets the track URI, and then all of the variables we asked for. All of these are continuous, with the exception of mode, which is a binary (0 or 1).</p>
+<p>We can add our user data here:</p>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign user IDs (1 for playlist1, 2 for playlist2)</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>df1[<span class="st">'user_id'</span>] <span class="op">=</span> <span class="st">'Dannah Shanalee'</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>df2[<span class="st">'user_id'</span>] <span class="op">=</span> <span class="st">'Hannah Ashlee'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we can see the data has specific user names (here only the first five rows).</p>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df1.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can combine the two dataframes into one here:</p>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>combined_df <span class="op">=</span> pd.concat([df1, df2], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>combined_df[<span class="st">'user_id'</span>].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here we see (using the <code>value_counts</code> function in <code>pandas</code>), that there are 100 songs in Hannah Ashlee’s list, and 30 in mine. Not ideal, but we will try to see where it takes us.</p>
+<p>Now we will load the data into the surprise toolkkit, using the <code>Reader</code> function. The rating_scale option gives it a range of ratings. Here it’s just 0 or 1, as it’s if it’s present in a playlist or not, but it could also be from 1 to 5 (if it’s reviews) or something like that.</p>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>reader <span class="op">=</span> Reader(rating_scale<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>load_from_df</code> function in <code>surprise</code> is meant to accept three things: the user id, the item id, and a rating. Here, we don’t really have a rating, which again isn’t ideal. So here I’m just adding in a third thing (acousticness).</p>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> Dataset.load_from_df(combined_df[[<span class="st">'user_id'</span>, <span class="st">'track_id'</span>, <span class="st">'acousticness'</span>]], reader)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="building-an-item-item-recommender-system" class="level2">
+<h2 class="anchored" data-anchor-id="building-an-item-item-recommender-system">Building an Item-Item Recommender System</h2>
+<p>Here I’m going to look at the <code>sim_options</code> argument for surprise, which is short for “similarity options”.</p>
+<p>There are a few options to try for the name argument:</p>
+<ol type="1">
+<li><code>cosine</code> give us <a href="https://en.wikipedia.org/wiki/Cosine_similarity">cosine similarity</a></li>
+<li><code>msd</code> gives use the <a href="https://en.wikipedia.org/wiki/Mean_squared_error">mean squared difference similarity</a></li>
+<li><code>pearson</code> gives us the <a href="https://en.wikipedia.org/wiki/Pearson_correlation_coefficient">pearson correlation coefficient</a></li>
+<li><code>pearson_baseline</code> gives us the pearson correlation coefficient with a baseline estimate for ratings, which is meant to account for the overall average rating, and any user or item bias.</li>
+</ol>
+<p>For now, we can just use <code>pearson</code>, but it’s worth comparing:</p>
+<div class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">## I'm going to give options for the model here, including specific model, and whether it's item based or user based.</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>sim_options <span class="op">=</span> {</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'name'</span>: <span class="st">'msd'</span>,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'user_based'</span>: <span class="va">False</span>  <span class="co"># Item-based similarity</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is my code for implementing a K-nearest neighbor:</p>
+<div class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>dans_algorithm <span class="op">=</span> KNNBasic(sim_options<span class="op">=</span>sim_options)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>trainset <span class="op">=</span> data.build_full_trainset()</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>dans_algorithm.fit(trainset)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>sim_matrix <span class="op">=</span> dans_algorithm.compute_similarities()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This gives us a similarity matrix between items. Here I’ll convert it to a pandas dataframe:</p>
+<div class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>sim_matrix</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to a pandas DataFrame</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>df_sim <span class="op">=</span> pd.DataFrame(sim_matrix)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>df_sim</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This is telling me pairwise similarities using msd between the songs in the columns and the songs in the rows.</p>
+<p>Now that we have similarities, and compare between lists.</p>
+</section>
+<section id="using-data-from-one-list-to-recommend-to-another" class="level2">
+<h2 class="anchored" data-anchor-id="using-data-from-one-list-to-recommend-to-another">Using Data from One List to Recommend to Another</h2>
+<p>Let’s start with a function to grab the track info based on the URI. This isn’t necessary, but if we want to be able to interpret anything past the URI, we should do this.</p>
+<p>NOTE: I kept getting errors because of Unknown IDs, it would choke the Spotify API up here. the <code>try</code> and <code>except</code> are meant to get around that.</p>
+<div class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_track_info(track_id):</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>        track_info <span class="op">=</span> sp.track(track_id)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">'name'</span>: track_info[<span class="st">'name'</span>],</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>            <span class="st">'artist'</span>: track_info[<span class="st">'artists'</span>][<span class="dv">0</span>][<span class="st">'name'</span>],</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">'id'</span>: track_id</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span>:</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">'name'</span>: <span class="st">'Unknown'</span>, <span class="st">'artist'</span>: <span class="st">'Unknown'</span>, <span class="st">'id'</span>: track_id}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we can take those original track URIs and write a function to get the recommendations. Here, we get the “inner id”, which is basically an internal representation used by <code>surprise</code>. Then we get the neighbors.</p>
+<p>A couple of other things:</p>
+<ul>
+<li>k is referring to the amount of neighbors; here I’ve set it to 10.</li>
+</ul>
+<div class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_recommendations(track_id, model, n<span class="op">=</span><span class="dv">10</span>):</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    inner_id <span class="op">=</span> model.trainset.to_inner_iid(track_id)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    neighbors <span class="op">=</span> model.get_neighbors(inner_id, k<span class="op">=</span>n)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    raw_neighbors <span class="op">=</span> [model.trainset.to_raw_iid(inner_id) <span class="cf">for</span> inner_id <span class="kw">in</span> neighbors]</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [get_track_info(track_id) <span class="cf">for</span> track_id <span class="kw">in</span> raw_neighbors]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here is code to get the recommendations <em>for myself</em> based on this other playlist:</p>
+<div class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get recommendations for the user from playlist 2</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>user_id <span class="op">=</span> <span class="st">'Dannah Shanalee'</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>playlist2_tracks <span class="op">=</span> df2[<span class="st">'track_id'</span>].tolist()</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>recommendations <span class="op">=</span> []</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> track_id <span class="kw">in</span> playlist2_tracks:</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    recs <span class="op">=</span> get_recommendations(track_id, dans_algorithm, n<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    recommendations.extend(recs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here are the top 10 recommendations in a pandas dataframe:</p>
+<div class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(recommendations).head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now it might be worth using the <code>cross_validate</code> function to see how well this did.</p>
+<p>In the code below, I use a 5-fold cross validation. Just as a reminder, this does the following steps:</p>
+<ol type="1">
+<li>Partitions the data into 5 “folds”</li>
+<li>It then trains the data on 4 folds, and tests it on the other.</li>
+</ol>
+<p>Then, I look at both “RMSE” (Root Mean Square Error) and “MAE” (Mean Absolute Error).</p>
+<div class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> cross_validate(dans_algorithm, data, measures<span class="op">=</span>[<span class="st">'RMSE'</span>, <span class="st">'MAE'</span>], cv<span class="op">=</span><span class="dv">5</span>, verbose<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And as a pandas dataframe:</p>
+<div class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>I had to look up what “good” RMSE numbers might be for this, and it seems that with a binary rating (as we have here) or lower is considered “good”, so I think we’ve done a decent job here.</p>
+</section>
+</section>
+<section id="some-future-steps" class="level1">
+<h1>Some Future Steps</h1>
+<ol type="1">
+<li>Here we don’t have ratings, which would have actually made this much easier. How might you get ratings?</li>
+<li>Here we are just using audio data, but metadata would really help. We could look at things like genre or artist between playlists, and pre-process the data with a one-hot encoding or something like that.</li>
+</ol>
+<p>This unworkable code might be one way to do it?:</p>
+<div class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="co"># from sklearn.preprocessing import MultiLabelBinarizer</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co"># # Example DataFrame</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="co"># data = {</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     'user_id': [1, 1, 2, 2, 3, 3],</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     'track_id': [101, 102, 101, 103, 102, 104],</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     'genres': [['rock', 'pop'], ['pop'], ['rock'], ['jazz'], ['pop', 'jazz'], ['rock', 'jazz']]</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="co"># df = pd.DataFrame(data)</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a><span class="co"># # One-hot encode the genres</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="co"># mlb = MultiLabelBinarizer()</span></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a><span class="co"># genre_encoded = mlb.fit_transform(df['genres'])</span></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a><span class="co"># genre_df = pd.DataFrame(genre_encoded, columns=mlb.classes_)</span></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a><span class="co"># # Combine with user_id and track_id</span></span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a><span class="co"># combined_df = pd.concat([df[['user_id', 'track_id']], genre_df], axis=1)</span></span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a><span class="co"># # Display the combined DataFrame</span></span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a><span class="co"># print(combined_df)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
 </section>
 
 </main> <!-- /main -->

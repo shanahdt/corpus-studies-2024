@@ -2,7 +2,7 @@
 title: "Week 9: Recommender Systems"
 execute:
   echo: true
-  eval: false 
+  eval: false
 
 ---
 
@@ -14,7 +14,7 @@ execute:
 - Wednesday: Including Spotify Features
 
 
-# 
+# Monday
 
 The code below generates fake ratings for each user for a bunch of songs: 
 ```{python, eval=FALSE}
@@ -76,6 +76,7 @@ Once the libraries are loaded, you can import the dataframe `df` that we created
 import pandas as pd
 from surprise import Dataset, Reader, SVD, KNNBasic, KNNWithMeans
 from surprise.model_selection import train_test_split
+
 
 # Create a Surprise Reader object
 reader = Reader(rating_scale=(1, 5))
@@ -171,61 +172,7 @@ Track Title: Good Vibrations, Estimated Rating: 3.39
 Track Title: Imagine, Estimated Rating: 3.32
 Track Title: Imagine, Estimated Rating: 3.32
 
-Top track recommendations for user Stephanie:
-Track Title: Imagine, Estimated Rating: 3.66
-Track Title: Happy, Estimated Rating: 3.55
-Track Title: Happy, Estimated Rating: 3.55
-Track Title: Happy, Estimated Rating: 3.55
-Track Title: Dan Shanahan Yelling, Estimated Rating: 3.49
-
-Top track recommendations for user Jacob:
-Track Title: Shake it Off, Estimated Rating: 3.61
-Track Title: Shake it Off, Estimated Rating: 3.61
-Track Title: Dan Shanahan Yelling, Estimated Rating: 3.44
-Track Title: Schools Out, Estimated Rating: 3.43
-Track Title: Schools Out, Estimated Rating: 3.43
-
-Top track recommendations for user Jordan:
-Track Title: Good Vibrations, Estimated Rating: 3.43
-Track Title: Schools Out, Estimated Rating: 3.39
-Track Title: In The Mood, Estimated Rating: 3.38
-Track Title: Bach?, Estimated Rating: 3.32
-Track Title: Bach?, Estimated Rating: 3.32
-
-Top track recommendations for user Alex:
-Track Title: Shake it Off, Estimated Rating: 3.40
-Track Title: Shake it Off, Estimated Rating: 3.40
-Track Title: Truth Hurts, Estimated Rating: 3.38
-Track Title: Truth Hurts, Estimated Rating: 3.38
-Track Title: The Theme from the 90s TV Show E.R, Estimated Rating: 3.36
-
-Top track recommendations for user Leo:
-Track Title: Beethoven 9, Estimated Rating: 3.43
-Track Title: Beethoven 9, Estimated Rating: 3.43
-Track Title: The Theme from the 90s TV Show E.R, Estimated Rating: 3.27
-Track Title: The Theme from the 90s TV Show E.R, Estimated Rating: 3.27
-Track Title: In The Mood, Estimated Rating: 3.26
-
-Top track recommendations for user Kelvin:
-Track Title: Sounds of a Campfire, Estimated Rating: 3.53
-Track Title: Sounds of a Campfire, Estimated Rating: 3.53
-Track Title: Imagine, Estimated Rating: 3.53
-Track Title: Dan Shanahan Yelling, Estimated Rating: 3.38
-Track Title: Dan Shanahan Yelling, Estimated Rating: 3.38
-
-Top track recommendations for user Ally:
-Track Title: Help, Estimated Rating: 3.76
-Track Title: Beethoven 9, Estimated Rating: 3.46
-Track Title: Beethoven 9, Estimated Rating: 3.46
-Track Title: Beethoven 9, Estimated Rating: 3.46
-Track Title: Imagine, Estimated Rating: 3.42
-
-Top track recommendations for user Sid:
-Track Title: Truth Hurts, Estimated Rating: 3.40
-Track Title: Imagine, Estimated Rating: 3.32
-Track Title: In The Mood, Estimated Rating: 3.13
-Track Title: The NU Fight Song, Estimated Rating: 3.12
-Track Title: The NU Fight Song, Estimated Rating: 3.12
+etc.
 ```
 
 The standard way for evaluating the accuracy of the algorithm is the RMSE (root mean square error). Again, Surprise has a built-in method for this:
@@ -241,6 +188,8 @@ And we end up with:
 ```{txt}
 RMSE: 1.4986
 ```
+
+This isn't great. I think for movies, I've seen people shoot for .8; for other things it's even better than that (lower is better).
 
 ### Visualizing the Similarity
 
@@ -285,6 +234,7 @@ from spotipy.oauth2 import SpotifyClientCredentials
 from surprise import Dataset, Reader, KNNBasic
 import pandas as pd
 from spotipy.cache_handler import MemoryCacheHandler
+
 
 client_credentials_manager = SpotifyClientCredentials(
     client_id = 'YOUR OWN CLIENT ID',
@@ -385,7 +335,7 @@ for rec in recommendations:
 
 ```
 
-And we get five new recommendations from the other playlist:
+And we get five new recommendations:
 
 ```{txt}
 
@@ -395,4 +345,290 @@ Recommendations for 'Lily Pad on Your Doorstep' by Don't Stop or We'll Die:
 - 'Amsterdam' by Guster (ID: 3fv9cBtpMOaFaIAO4uVRBV)
 - 'Bernadette' by Elle Cordova (ID: 4NFhb4AOPBulDFgxyoXaLH)
 - 'Tire Swing' by Kimya Dawson (ID: 0vbhRDi46TDNHkhKbZa81B)
+```
+
+After working through this example, in class, we realized that it wasn't really doing what we thought it was doing. We thought it was picking the top tracks from the other playlist, but in fact it was taking a *single track* and picking five similar tracks from *that same playlist*. 
+
+So for Wednesday we want to do a few things:
+
+1. Look at two playlists, and **use the entire set of songs** to predict a single new song from playlist 1 for the user of playlist 2.
+2. We want to compare a few different models and see what this looks like, comparing the accuracy as needed.
+
+# Wednesday
+
+So let's start from scratch.
+
+## Importing the Libraries and the Data
+
+First, I'm going to import the spotipy, pandas, and surprise. I'm also going to import specific authentication and cache things with spotipy, and some models with Surprise.
+```{python}
+import spotipy
+import os
+from surprise import Dataset, Reader, KNNBasic, SVD
+import pandas as pd
+from spotipy.cache_handler import MemoryCacheHandler
+from surprise.model_selection import cross_validate
+from spotipy.oauth2 import SpotifyClientCredentials
+
+```
+
+I've stored my id stuff locally so you can't add things to my playlists...
+
+```{python}
+import os
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+
+# Access environment variables
+client_id = os.getenv('SPOTIFY_CLIENT_ID')
+client_secret = os.getenv('SPOTIFY_CLIENT_SECRET')
+
+# Set up Spotify client credentials
+sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=client_id, client_secret=client_secret))
+
+
+```
+
+```{python}
+import os
+
+print(os.getenv('SPOTIFY_CLIENT_ID'))
+print(os.getenv('SPOTIFY_CLIENT_SECRET'))
+```
+
+Now that those are loaded, let's grab the data from two playlists from Spotify. 
+
+We will start with a function that takes the playlist uri as an argument, grabs the audio features from the tracks:
+
+```{python}
+
+# Function to get playlist tracks and audio features
+def get_playlist_data(playlist_id):
+    results = sp.playlist_tracks(playlist_id)
+    tracks = results['items']
+    
+    data = []
+    for track in tracks:
+        track_id = track['track']['id']
+        audio_features = sp.audio_features(track_id)[0]
+        
+        data.append({
+            'track_id': track_id,
+            'acousticness': audio_features['acousticness'],
+            'danceability': audio_features['danceability'],
+            'energy': audio_features['energy'],
+            'instrumentalness': audio_features['instrumentalness'],
+            'liveness': audio_features['liveness'],
+            'mode': audio_features['mode'],
+            'tempo': audio_features['tempo'],
+
+
+        })
+    
+    return pd.DataFrame(data)
+```
+
+We can use this function and grab the information from the playlist with the following:
+
+```{python}
+# Get data for both playlists
+playlist1_id = '37i9dQZEVXcIDdjTZ1FKnJ'
+playlist2_id = '2VYB4MjPYJx3ZOkrjyUvsx'
+
+df1 = get_playlist_data(playlist1_id)
+df2 = get_playlist_data(playlist2_id)
+```
+
+Let's see what kind of data we have from this:
+
+```{python}
+df1
+```
+
+Note how it gets the track URI, and then all of the variables we asked for. All of these are continuous, with the exception of mode, which is a binary (0 or 1).
+
+We can add our user data here:
+
+```{python}
+# Assign user IDs (1 for playlist1, 2 for playlist2)
+df1['user_id'] = 'Dannah Shanalee'
+df2['user_id'] = 'Hannah Ashlee'
+```
+
+Now we can see the data has specific user names (here only the first five rows).
+
+```{python}
+df1.head()
+```
+
+We can combine the two dataframes into one here:
+
+```{python}
+combined_df = pd.concat([df1, df2], ignore_index=True)
+combined_df['user_id'].value_counts()
+```
+
+Here we see (using the `value_counts` function in `pandas`), that there are 100 songs in Hannah Ashlee's list, and 30 in mine. Not ideal, but we will try to see where it takes us.
+
+Now we will load the data into the surprise toolkkit, using the `Reader` function. The rating_scale option gives it a range of ratings. Here it's just 0 or 1, as it's if it's present in a playlist or not, but it could also be from 1 to 5 (if it's reviews) or something like that. 
+
+```{python}
+reader = Reader(rating_scale=(0, 1))
+```
+
+The `load_from_df` function in `surprise` is meant to accept three things: the user id, the item id, and a rating. Here, we don't really have a rating, which again isn't ideal. So here I'm just adding in a third thing (acousticness).
+
+```{python}
+data = Dataset.load_from_df(combined_df[['user_id', 'track_id', 'acousticness']], reader)
+```
+
+## Building an Item-Item Recommender System
+
+Here I'm going to look at the `sim_options` argument for surprise, which is short for "similarity options". 
+
+There are a few options to try for the name argument:
+
+1. `cosine` give us [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity)
+2. `msd` gives use the [mean squared difference similarity](https://en.wikipedia.org/wiki/Mean_squared_error)
+3. `pearson` gives us the [pearson correlation coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient)
+4. `pearson_baseline` gives us the pearson correlation coefficient with a baseline estimate for ratings, which is meant to account for the overall average rating, and any user or item bias. 
+
+For now, we can just use `pearson`, but it's worth comparing:
+
+```{python}
+## I'm going to give options for the model here, including specific model, and whether it's item based or user based.
+sim_options = {
+    'name': 'msd',
+    'user_based': False  # Item-based similarity
+}
+```
+
+Here is my code for implementing a K-nearest neighbor:
+
+```{python}
+dans_algorithm = KNNBasic(sim_options=sim_options)
+trainset = data.build_full_trainset()
+dans_algorithm.fit(trainset)
+sim_matrix = dans_algorithm.compute_similarities()
+```
+
+This gives us a similarity matrix between items. Here I'll convert it to a pandas dataframe:
+
+```{python}
+sim_matrix
+# Convert to a pandas DataFrame
+df_sim = pd.DataFrame(sim_matrix)
+df_sim
+```
+
+This is telling me pairwise similarities using msd between the songs in the columns and the songs in the rows.
+
+Now that we have similarities, and compare between lists.
+
+
+## Using Data from One List to Recommend to Another
+
+Let's start with a function to grab the track info based on the URI. This isn't necessary, but if we want to be able to interpret anything past the URI, we should do this. 
+
+NOTE: I kept getting errors because of Unknown IDs, it would choke the Spotify API up here. the `try` and `except` are meant to get around that.
+
+```{python}
+def get_track_info(track_id):
+    try:
+        track_info = sp.track(track_id)
+        return {
+            'name': track_info['name'],
+            'artist': track_info['artists'][0]['name'],
+            'id': track_id
+        }
+    except:
+        return {'name': 'Unknown', 'artist': 'Unknown', 'id': track_id}
+```
+
+
+Now we can take those original track URIs and write a function to get the recommendations. Here, we get the "inner id", which is basically an internal representation used by `surprise`. Then we get the neighbors. 
+
+A couple of other things:
+
+- k is referring to the amount of neighbors; here I've set it to 10.
+
+```{python}
+def get_recommendations(track_id, model, n=10):
+    inner_id = model.trainset.to_inner_iid(track_id)
+    neighbors = model.get_neighbors(inner_id, k=n)
+    raw_neighbors = [model.trainset.to_raw_iid(inner_id) for inner_id in neighbors]
+    return [get_track_info(track_id) for track_id in raw_neighbors]
+```
+
+Here is code to get the recommendations *for myself* based on this other playlist:
+
+```{python}
+
+# Get recommendations for the user from playlist 2
+user_id = 'Dannah Shanalee'
+playlist2_tracks = df2['track_id'].tolist()
+recommendations = []
+for track_id in playlist2_tracks:
+    recs = get_recommendations(track_id, dans_algorithm, n=10)
+    recommendations.extend(recs)
+
+```
+
+Here are the top 10 recommendations in a pandas dataframe:
+
+```{python}
+pd.DataFrame(recommendations).head(10)
+```
+
+Now it might be worth using the `cross_validate` function to see how well this did.
+
+In the code below, I use a 5-fold cross validation. Just as a reminder, this does the following steps:
+
+1. Partitions the data into 5 "folds"
+2. It then trains the data on 4 folds, and tests it on the other.
+
+Then, I look at both "RMSE" (Root Mean Square Error) and "MAE" (Mean Absolute Error). 
+```{python}
+results = cross_validate(dans_algorithm, data, measures=['RMSE', 'MAE'], cv=5, verbose=True)
+
+```
+
+And as a pandas dataframe:
+
+```{python}
+pd.DataFrame(results)
+```
+
+I had to look up what "good" RMSE numbers might be for this, and it seems that with a binary rating (as we have here) or lower is considered "good", so I think we've done a decent job here.
+
+# Some Future Steps
+
+1. Here we don't have ratings, which would have actually made this much easier. How might you get ratings?
+2. Here we are just using audio data, but metadata would really help. We could look at things like genre or artist between playlists, and pre-process the data with a one-hot encoding or something like that.
+
+This unworkable code might be one way to do it?:
+
+```{python, eval=False}
+# import pandas as pd
+# from sklearn.preprocessing import MultiLabelBinarizer
+# 
+# # Example DataFrame
+# data = {
+#     'user_id': [1, 1, 2, 2, 3, 3],
+#     'track_id': [101, 102, 101, 103, 102, 104],
+#     'genres': [['rock', 'pop'], ['pop'], ['rock'], ['jazz'], ['pop', 'jazz'], ['rock', 'jazz']]
+# }
+# df = pd.DataFrame(data)
+# 
+# # One-hot encode the genres
+# mlb = MultiLabelBinarizer()
+# genre_encoded = mlb.fit_transform(df['genres'])
+# genre_df = pd.DataFrame(genre_encoded, columns=mlb.classes_)
+# 
+# # Combine with user_id and track_id
+# combined_df = pd.concat([df[['user_id', 'track_id']], genre_df], axis=1)
+# 
+# # Display the combined DataFrame
+# print(combined_df)
+
 ```
